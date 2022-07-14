@@ -58,6 +58,7 @@
 		5E1656D5287CE901002577D3 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIssue.swift; sourceTree = "<group>"; };
 		5E1656D9287E207E002577D3 /* YOLOv3Tiny.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Tiny.mlmodel; sourceTree = "<group>"; };
+		5E1656DB2880AEFC002577D3 /* rubrics.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = rubrics.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +120,7 @@
 				5E1656AD287CD8A4002577D3 /* LaunchScreen.storyboard */,
 				5E1656D5287CE901002577D3 /* Filters.swift */,
 				5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */,
+				5E1656DB2880AEFC002577D3 /* rubrics.md */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";
