@@ -12,26 +12,34 @@ class Filter
     //TODO: create 2 json files
     let rubricFile="Rubrics"
     let suggestionFile=""
-    var rubrics:=nil
-    public init() {
-        if let path = Bundle.main.path(forResource: rubricFile, ofType: "json") {
-            do {
-                  let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                  let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-                  if let jsonResult = jsonResult as? Dictionary<String, AnyObject>, let person = jsonResult["person"] as? [Any] {
-                            // do stuff
-                  }
-              } catch {
-                   // handle error
-              }
+    var rubrics:Data?
+    var replicator:RoomObjectReplicator
+    public init(replicator:RoomObjectReplicator) {
+        self.replicator=replicator
+        rubrics=readLocalJSONFile(forName: rubricFile)
+        if(rubrics==nil){
+            fatalError("Failed to read json rubrics")
         }
     }
     public func filter()->AccessibilityIssue?{
         //Go through the entire accessbility issue table to find potential issues
+        
         fatalError("Unimplemented function")
     }
-    public func retrieve()->AccessibilityIssue?{
-        //Gp through the entire accessbility issue table to 
+    public func retrieve(keyword:String)->AccessibilityIssue?{
+        //Find specific issues with keyword
         fatalError("Unimplemented function")
+    }
+    func readLocalJSONFile(forName name: String) -> Data? {
+        do {
+            if let filePath = Bundle.main.path(forResource: name, ofType: "json") {
+                let fileUrl = URL(fileURLWithPath: filePath)
+                let data = try Data(contentsOf: fileUrl)
+                return data
+            }
+        } catch {
+            print("error: \(error)")
+        }
+        return nil
     }
 }

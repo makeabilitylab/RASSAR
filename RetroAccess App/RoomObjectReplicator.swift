@@ -156,7 +156,9 @@ public class RoomObjectReplicator {
     private var trackedSurfaceAnchors: Set<RoomSurfaceAnchor>
     private var trackedSurfaceAnchorsByIdentifier: [UUID: RoomSurfaceAnchor]
     private var inflightSurfaceAnchors: Set<RoomSurfaceAnchor>
-
+    
+    private var detectedIssues:[AccessibilityIssue]
+    private var filter:Filter
     public init() {
         trackedObjectAnchors = Set<RoomObjectAnchor>()
         trackedObjectAnchorsByIdentifier = [UUID: RoomObjectAnchor]()
@@ -165,6 +167,9 @@ public class RoomObjectReplicator {
         trackedSurfaceAnchors = Set<RoomSurfaceAnchor>()
         trackedSurfaceAnchorsByIdentifier = [UUID: RoomSurfaceAnchor]()
         inflightSurfaceAnchors = Set<RoomSurfaceAnchor>()
+        
+        detectedIssues=[]
+        filter=Filter(replicator: self)
     }
 
     public func anchor(objects: [CapturedRoom.Object],surfaces:[CapturedRoom.Surface] ,in session: RoomCaptureSession) {
