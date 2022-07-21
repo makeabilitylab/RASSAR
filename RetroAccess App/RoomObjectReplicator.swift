@@ -158,7 +158,7 @@ public class RoomObjectReplicator {
     private var inflightSurfaceAnchors: Set<RoomSurfaceAnchor>
     
     private var detectedIssues:[AccessibilityIssue]
-    private var filter:Filter
+    private var filter:Filter?
     public init() {
         trackedObjectAnchors = Set<RoomObjectAnchor>()
         trackedObjectAnchorsByIdentifier = [UUID: RoomObjectAnchor]()
@@ -169,6 +169,7 @@ public class RoomObjectReplicator {
         inflightSurfaceAnchors = Set<RoomSurfaceAnchor>()
         
         detectedIssues=[]
+        filter=nil
         filter=Filter(replicator: self)
     }
 

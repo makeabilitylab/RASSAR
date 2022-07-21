@@ -7,28 +7,53 @@
 
 import Foundation
 import ARKit
+
 class Filter
 {
     //TODO: create 2 json files
     let rubricFile="Rubrics"
     let suggestionFile=""
-    var rubrics:Data?
+    //var rubrics:Data?
     var replicator:RoomObjectReplicator
+    var situations:[Situation]
     public init(replicator:RoomObjectReplicator) {
         self.replicator=replicator
-        rubrics=readLocalJSONFile(forName: rubricFile)
+        self.situations=[]
+        //Read all situations and store them as struct
+        let rubrics=readLocalJSONFile(forName: rubricFile)
         if(rubrics==nil){
             fatalError("Failed to read json rubrics")
         }
+        let json = try? JSONSerialization.jsonObject(with: rubrics!, options: [])
+        if let dictionary = json as? [String: Any]{
+            if let situs = dictionary["situations"] as? [Any]{
+                for situation in situs {
+                    self.situations.append(Situation(json:situation))
+                }
+            }
+        }
     }
-    public func filter()->AccessibilityIssue?{
+    public func filter(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
         //Go through the entire accessbility issue table to find potential issues
-        
-        fatalError("Unimplemented function")
+        var issuesFound:[AccessibilityIssue]=[]
+        for situ in self.situations{
+            //Use this situ to find if any issue exist in replicator
+            let result=situ.search(replicator: replicator)
+            issuesFound+=result
+        }
+        return issuesFound
     }
-    public func retrieve(keyword:String)->AccessibilityIssue?{
+    public func filterWithKeyword(keyword:String)->[AccessibilityIssue]{
         //Find specific issues with keyword
-        fatalError("Unimplemented function")
+        var issuesFound:[AccessibilityIssue]=[]
+        for situ in self.situations{
+            if(situ.keyword.contains(keyword)){
+                //Use this situ to find if any issue exist in replicator
+                let result=situ.search(replicator: replicator)
+                issuesFound+=result
+                }
+        }
+        return issuesFound
     }
     func readLocalJSONFile(forName name: String) -> Data? {
         do {

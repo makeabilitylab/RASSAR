@@ -7,26 +7,26 @@
       "Dimension":{
         "Measurement":"PositionHeight",
         "Comparison":"LessEqual",
-        "Value":1000
+        "Value":[1000]
       },
       "RelativePosition":null,
       "Existence":true
     },
     {
       "Index":2,
-      "Keyword":"Passing",
+      "Keyword":["Passing"],
       "Community":["Wheelchair"],
       "Dimension":{
         "Measurement":"Width",
         "Comparison":"LessEqual",
-        "Value":1000
+        "Value":[1000]
       },
       "RelativePosition":null,
       "Existence":null
     },
     {
       "Index":3,
-      "Keyword":"Maneuvering",
+      "Keyword":["Maneuvering"],
       "Community":["Wheelchair"],
       "Dimension":{
         "Measurement":"Square",
@@ -38,23 +38,23 @@
     },
     {
       "Index":4,
-      "Keyword":"Sofa",
+      "Keyword":["Sofa"],
       "Community":["Wheelchair","Elder"],
       "Dimension":{
         "Measurement":"Height",
         "Comparison":"LessEqual",
-        "Value":500
+        "Value":[500]
       },
       "RelativePosition":null,
       "Existence":null
     },
     {
       "Index":5,
-      "Keyword":"Telephone",
+      "Keyword":["Telephone"],
       "Community":["Wheelchair","Elder"],
       "Dimension":null,
       "RelativePosition":{
-        "ObjectCategory":"Bed",
+        "ObjectCategory":["Bed"],
         "Relaton":"Near"
       },
       "Existence":false
