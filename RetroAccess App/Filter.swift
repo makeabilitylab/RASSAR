@@ -1,5 +1,5 @@
 //
-//  DimensionFilter.swift
+//  Filter.swift
 //  RetroAccess App
 //
 //  Created by Xia Su on 7/11/22.
@@ -16,6 +16,7 @@ class Filter
     //var rubrics:Data?
     var replicator:RoomObjectReplicator
     var situations:[Situation]
+    //var community:String
     public init(replicator:RoomObjectReplicator) {
         self.replicator=replicator
         self.situations=[]
@@ -25,11 +26,9 @@ class Filter
             fatalError("Failed to read json rubrics")
         }
         let json = try? JSONSerialization.jsonObject(with: rubrics!, options: [])
-        if let dictionary = json as? [String: Any]{
-            if let situs = dictionary["situations"] as? [Any]{
-                for situation in situs {
-                    self.situations.append(Situation(json:situation))
-                }
+        if let situs = json as? [Any]{
+            for situation in situs {
+                self.situations.append(Situation(json:situation))
             }
         }
     }
@@ -47,7 +46,7 @@ class Filter
         //Find specific issues with keyword
         var issuesFound:[AccessibilityIssue]=[]
         for situ in self.situations{
-            if(situ.keyword.contains(keyword)){
+            if(situ.keywords.contains(keyword)){
                 //Use this situ to find if any issue exist in replicator
                 let result=situ.search(replicator: replicator)
                 issuesFound+=result

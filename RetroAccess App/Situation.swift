@@ -10,7 +10,7 @@ import Foundation
 class Situation{
     public var index=0
     public var community:[String]
-    public var keyword:[String]
+    public var keywords:[String]
     public var dimension:ObjectDimension?
     public var relativePosition:RelativePosition?
     public var existence:Bool?
@@ -20,7 +20,7 @@ class Situation{
         if let dic=json as? [String:Any]{
             index=dic["Index"] as! Int
             community = dic["Community"] as! [String]
-            keyword = dic["Keyword"] as! [String]
+            keywords = dic["Keyword"] as! [String]
             if let dim=dic["Dimension"] as? [String:Any]{
                 dimension=ObjectDimension(json:dim)
             }
@@ -46,8 +46,12 @@ class Situation{
     }
     public func search(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
         //TODO: Search for this situation within this replicator
-        
-        fatalError("Unimplemented function")
+        var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
+        //When there's multiple keywords, iterate throught them and search one by one
+        for keyword in keywords{
+            //if(keyword in ["Maneuvering","Passing"])
+        }
+        return issuesFound
     }
 }
 
@@ -82,9 +86,9 @@ enum Keyword{
     case Passing,Maneuvering
 }
 
-enum Measurement{
-    case Height,Width,PositionHeight
-}
+//enum Measurement{
+    //case Height,Width,PositionHeight
+//}
 
 enum Comparison{
     case GreaterEqual,LessEqual,Between

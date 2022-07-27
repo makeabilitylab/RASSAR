@@ -157,6 +157,10 @@ public class RoomObjectReplicator {
     private var trackedSurfaceAnchorsByIdentifier: [UUID: RoomSurfaceAnchor]
     private var inflightSurfaceAnchors: Set<RoomSurfaceAnchor>
     
+    private var trackedObjects:[DetectedObject]
+    private var trackedObjectsByIdentifier:[UUID:DetectedObject]
+    private var inflightObjects:[DetectedObject]
+    
     private var detectedIssues:[AccessibilityIssue]
     private var filter:Filter?
     public init() {
@@ -168,12 +172,17 @@ public class RoomObjectReplicator {
         trackedSurfaceAnchorsByIdentifier = [UUID: RoomSurfaceAnchor]()
         inflightSurfaceAnchors = Set<RoomSurfaceAnchor>()
         
+        trackedObjects=[DetectedObject]()
+        trackedObjectsByIdentifier=[UUID:DetectedObject]()
+        inflightObjects=[DetectedObject]()
+        
         detectedIssues=[]
         filter=nil
         filter=Filter(replicator: self)
     }
 
     public func anchor(objects: [CapturedRoom.Object],surfaces:[CapturedRoom.Surface] ,in session: RoomCaptureSession) {
+        //TODO: still need to add OD objects in this flow. Also, remember to call this function when getting OD results.
         for object in objects {
             if let existingAnchor = trackedObjectAnchorsByIdentifier[object.identifier] {
                 existingAnchor.update(object)

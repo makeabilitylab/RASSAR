@@ -140,7 +140,7 @@ public class RoomObjectSystem: System {
         case .toilet: return SimpleMaterial(color: .systemTeal, roughness: roughness, isMetallic: false)
         case .bathtub: return SimpleMaterial(color: .systemIndigo, roughness: roughness, isMetallic: false)
         case .oven: return SimpleMaterial(color: .systemBrown, roughness: roughness, isMetallic: false)
-        case .dishwasher: return SimpleMaterial(color: .systemRed, roughness: roughness, isMetallic: false)
+        case .dishwasher: return SimpleMaterial(color: .systemYellow, roughness: roughness, isMetallic: false)
         case .table: return SimpleMaterial(color: .systemMint, roughness: roughness, isMetallic: false)
         case .sofa: return SimpleMaterial(color: .systemCyan, roughness: roughness, isMetallic: false)
         case .chair: return SimpleMaterial(color: .systemGray, roughness: roughness, isMetallic: false)
@@ -148,7 +148,8 @@ public class RoomObjectSystem: System {
 //        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
         case .stairs: return SimpleMaterial(color: .systemGray4, roughness: roughness, isMetallic: false)
         @unknown default:
-            fatalError()
+            return SimpleMaterial(color: .systemRed, roughness: roughness, isMetallic: false)
+            //fatalError()
         }
     }
 

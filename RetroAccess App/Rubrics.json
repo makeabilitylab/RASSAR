@@ -1,5 +1,5 @@
 {
-  "situations": [
+   [
     {
       "Index":1,
       "Keyword":["Knife","Scissors","Medication"],
@@ -58,6 +58,19 @@
         "Relaton":"Near"
       },
       "Existence":false
-    }
+    },
+    {
+      "Index":6,
+      "Keyword":["Table"],
+      "Community":["Wheelchair","Elder","BVI","Children"],
+      "Dimension":{
+        "Measurement":"Height",
+        "Comparison":"GreaterEqual",
+        "Value":[500]
+      },
+      "RelativePosition":null,
+      "Existence":null,
+      "Note":"This one is used as test case for our code"
+    },
   ]
 }

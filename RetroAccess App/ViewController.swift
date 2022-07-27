@@ -23,7 +23,9 @@ class ViewController: UIViewController {
     var rootLayer: CALayer! = nil
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        print(Settings.instance.community)
         captureSession = RoomCaptureSession()
         captureSession?.delegate = self
         captureSession?.run(configuration: .init())

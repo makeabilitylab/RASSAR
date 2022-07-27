@@ -23,6 +23,8 @@
 		5E1656DA287E207F002577D3 /* YOLOv3Tiny.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656D9287E207E002577D3 /* YOLOv3Tiny.mlmodel */; };
 		5E1656DD28877AD1002577D3 /* Rubrics.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E1656DC28877AD1002577D3 /* Rubrics.json */; };
 		5E1656DF2888D514002577D3 /* Situation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656DE2888D514002577D3 /* Situation.swift */; };
+		5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E42890A306002577D3 /* OnboardViewController.swift */; };
+		5E1656E72891F8E8002577D3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E62891F8E8002577D3 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		5E1656D9287E207E002577D3 /* YOLOv3Tiny.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3Tiny.mlmodel; sourceTree = "<group>"; };
 		5E1656DC28877AD1002577D3 /* Rubrics.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Rubrics.json; sourceTree = "<group>"; };
 		5E1656DE2888D514002577D3 /* Situation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Situation.swift; sourceTree = "<group>"; };
+		5E1656E42890A306002577D3 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
+		5E1656E62891F8E8002577D3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,8 @@
 				5E1656D5287CE901002577D3 /* Filter.swift */,
 				5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */,
 				5E1656DE2888D514002577D3 /* Situation.swift */,
+				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
+				5E1656E62891F8E8002577D3 /* Settings.swift */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";
@@ -278,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
 				5E1656DA287E207F002577D3 /* YOLOv3Tiny.mlmodel in Sources */,
@@ -286,6 +293,7 @@
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,
 				5E1656D4287CE6AA002577D3 /* RoomObjectSystem.swift in Sources */,
 				5E1656D8287CE916002577D3 /* AccessibilityIssue.swift in Sources */,
+				5E1656E72891F8E8002577D3 /* Settings.swift in Sources */,
 				5E1656A7287CD8A2002577D3 /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
