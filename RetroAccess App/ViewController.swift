@@ -28,14 +28,19 @@ class ViewController: UIViewController {
         print(Settings.instance.community)
         captureSession = RoomCaptureSession()
         captureSession?.delegate = self
+        //arView.session=captureSession!.arSession
         captureSession?.run(configuration: .init())
+        
         bufferSize=arView.frame.size
         rootLayer=arView.layer
         setupLayers()
-        self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
-            self.updateOD()
-            self.drawVisionRequestResults(self.ODResults)
-            self.updateObjectLabelWithODResult(self.ODResults)
+        //self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
+            //self.updateOD()
+            //self.drawVisionRequestResults(self.ODResults)
+            //self.updateObjectLabelWithODResult(self.ODResults)
+        //})
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+            self.replicator.updateAccessibilityIssue(in:self.captureSession!)
         })
         // Load the "Box" scene from the "Experience" Reality File
         //let boxAnchor = try! Experience.loadBox()

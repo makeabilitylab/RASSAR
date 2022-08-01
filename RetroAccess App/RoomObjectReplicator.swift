@@ -1,8 +1,26 @@
 import ARKit
 import RoomPlan
 
-public enum DetectedCategory{
-    case ElectricCords;
+enum AllObjectCategory{
+    //Cases from object detection
+    case ElectricCords,Medication,Rug,GrabBar,NightLight,Handrail,ChildSafetyGate,TubMat,SmokeAlarm,ElectricSocket,Telephone,Switch,Doorhandle,Vase,Knife,Scissors,WindowGuard
+    //Cases from Roomplan API
+    case bathtub,bed,chair,dishwasher,fireplace,oven,refrigerator,screen,sink,sofa,stairs,storage,stove,table,toilet,unknown,washer
+}
+
+public enum ODCategory:String, CaseIterable{
+    case ElectricCords="electriccords",Medication="medication",Rug="rug",GrabBar="grabbar"
+    case NightLight="nightlight",Handrail="handrail",ChildSafetyGate="childsafetygate",TubMat="tubMat"
+    case SmokeAlarm="smokealarm",ElectricSocket="electricsocket",Telephone="telephone",Switch="switch"
+    case Doorhandle="doorhandle",Vase="vase",Knife="knife",Scissors="scissors",WindowGuard="windowguard"
+}
+public enum RPObjectCategory:String, CaseIterable{
+    case bathtub="bathtub",bed="bed",chair="chair",dishwasher="dishwasher",fireplace="fireplace",oven="oven"
+    case refrigerator="refrigerator",screen="screen",sink="sink",sofa="sofa",stairs="stairs",storage="storage"
+    case stove="stove",table="table",toilet="toilet",unknown="unknown",washer="washer"
+}
+public enum RPSurfaceCategory:String, CaseIterable{
+    case wall="wall",door="door",window="window",opening="opening"
 }
 public class DetectedObject{
     public var identifier: UUID {
@@ -13,11 +31,11 @@ public class DetectedObject{
         getCenterPosition()
     }
     public private(set) var dimensions: simd_float3
-    public private(set) var detectedObjectCategory: DetectedCategory
+    public private(set) var detectedObjectCategory: ODCategory
     private let detectedObjectIdentifier: UUID
     private var detectedObjectTransform: [simd_float4x4]
     
-    public init(category:DetectedCategory,transform:simd_float4x4)
+    public init(category:ODCategory,transform:simd_float4x4)
     {
         detectedObjectIdentifier=UUID.init()
         detectedObjectTransform=[transform]
@@ -40,6 +58,14 @@ public class DetectedObject{
     private func getCenterPosition()->simd_float4x4{
         //TODO: calculate middle position and return it
         return detectedObjectTransform[0]
+    }
+    public func getDimension(measurement:String)->Double{
+        if measurement=="Height"{
+            return Double(dimensions.y)
+        }
+        else{
+            fatalError("Unexpected diension name")
+        }
     }
 }
 
@@ -91,7 +117,14 @@ public class RoomObjectAnchor: ARAnchor {
         dimensions = object.dimensions
         category = object.category
     }
-
+    public func getDimension(measurement:String)->Double{
+        if measurement=="Height"{
+            return Double(dimensions.y)
+        }
+        else{
+            fatalError("Unexpected diension name")
+        }
+    }
 }
 
 //This class is used to replicate surfaces in RoomPlan results.
@@ -142,7 +175,14 @@ public class RoomSurfaceAnchor: ARAnchor {
         dimensions = object.dimensions
         category = object.category
     }
-
+    public func getDimension(measurement:String)->Double{
+        if measurement=="Height"{
+            return Double(dimensions.y)
+        }
+        else{
+            fatalError("Unexpected diension name")
+        }
+    }
 }
 
 //This class replicates the detected room. All items, including Roomplan objects, surfaces, and Object Detection objects, will be stored here.
@@ -161,7 +201,7 @@ public class RoomObjectReplicator {
     private var trackedObjectsByIdentifier:[UUID:DetectedObject]
     private var inflightObjects:[DetectedObject]
     
-    private var detectedIssues:[AccessibilityIssue]
+    private var detectedIssues:[UUID:AccessibilityIssue]
     private var filter:Filter?
     public init() {
         trackedObjectAnchors = Set<RoomObjectAnchor>()
@@ -176,7 +216,7 @@ public class RoomObjectReplicator {
         trackedObjectsByIdentifier=[UUID:DetectedObject]()
         inflightObjects=[DetectedObject]()
         
-        detectedIssues=[]
+        detectedIssues=[UUID:AccessibilityIssue]()
         filter=nil
         filter=Filter(replicator: self)
     }
@@ -228,6 +268,132 @@ public class RoomObjectReplicator {
 
         for trackedAnchor in trackedSurfaceAnchors {
             trackedSurfaceAnchorsByIdentifier[trackedAnchor.identifier] = trackedAnchor
+        }
+    }
+    public func retrieveObjectWithKeyword(keyword:String)->(foundDetectedObjects:[DetectedObject],foundRoomplanObjects:[RoomObjectAnchor],foundRoomplanSurfaces:[RoomSurfaceAnchor]){
+        let lowerkeyword=keyword.lowercased()
+        var foundDetectedObjects=[DetectedObject]()
+        var foundRoomplanObjects=[RoomObjectAnchor]()
+        var foundRoomplanSurfaces=[RoomSurfaceAnchor]()
+        for cat in ODCategory.allCases.map({ $0.rawValue }){
+            if cat==lowerkeyword{
+                //retrieve all ODObjects with same category
+                for obj in trackedObjects{
+                    if obj.detectedObjectCategory.rawValue==keyword{
+                        foundDetectedObjects.append(obj)
+                    }
+                }
+                return (foundDetectedObjects,foundRoomplanObjects,foundRoomplanSurfaces)
+            }
+        }
+        for cat in RPObjectCategory.allCases.map({ $0.rawValue }){
+            if cat==lowerkeyword{
+                //retrieve all RPObjects with same category
+                for obj in trackedObjectAnchors{
+                    if obj.category==transformIntoRPObjectEnum(category:keyword){
+                        foundRoomplanObjects.append(obj)
+                    }
+                }
+                return (foundDetectedObjects,foundRoomplanObjects,foundRoomplanSurfaces)
+            }
+        }
+        for cat in RPSurfaceCategory.allCases.map({ $0.rawValue }){
+            if cat==lowerkeyword{
+                //retrieve all RPSurfaces with same category
+                for srf in trackedSurfaceAnchors{
+                    if srf.category==transformIntoRPSurfaceEnum(category: keyword){
+                        foundRoomplanSurfaces.append(srf)
+                    }
+                }
+                return (foundDetectedObjects,foundRoomplanObjects,foundRoomplanSurfaces)
+            }
+        }
+        fatalError("Unknown keyword given")
+    }
+    public func updateAccessibilityIssue(in session: RoomCaptureSession){
+        //First search with current frame information
+        let currentIssues=self.filter!.filter()
+        //Then set all existing issue's updated attribute to false. This helps removing disappearing issues
+        for (_,issue) in detectedIssues{
+            issue.updated=false
+        }
+        //Try to compare and merge these current issues with existing ones. Notice that all incoming accessibility issues are new instances even thought content might be exactly same
+        for issue in currentIssues{
+            issue.updated=true
+            if detectedIssues[issue.identifier] != nil{
+                //Update anchor
+                session.arSession.remove(anchor: detectedIssues[issue.identifier]!.getAnchor())
+                session.arSession.add(anchor: issue.getAnchor())
+                detectedIssues[issue.identifier]=issue
+            }
+            else{
+                detectedIssues[issue.identifier]=issue
+                //Add anchor
+                session.arSession.add(anchor: issue.getAnchor())
+            }
+        }
+        for (id,issue) in detectedIssues{
+            //Remove issues not updated. Those are disappearing issues
+            if issue.updated==false{
+                detectedIssues[id]=nil
+                //Remove anchor
+                session.arSession.remove(anchor: issue.getAnchor())
+            }
+        }
+    }
+    func transformIntoRPObjectEnum(category:String)->CapturedRoom.Object.Category{
+        
+        switch category.lowercased(){
+        case "bathtub":
+            return CapturedRoom.Object.Category.bathtub
+        case "bed":
+            return CapturedRoom.Object.Category.bed
+        case "chair":
+            return CapturedRoom.Object.Category.chair
+        case "dishwasher":
+            return CapturedRoom.Object.Category.dishwasher
+        case "fireplace":
+            return CapturedRoom.Object.Category.fireplace
+        case "oven":
+            return CapturedRoom.Object.Category.oven
+        case "refrigerator":
+            return CapturedRoom.Object.Category.refrigerator
+        //case "screen":
+            //return CapturedRoom.Object.Category.screen
+        case "sink":
+            return CapturedRoom.Object.Category.sink
+        case "sofa":
+            return CapturedRoom.Object.Category.sofa
+        case "stairs":
+            return CapturedRoom.Object.Category.stairs
+        case "storage":
+            return CapturedRoom.Object.Category.storage
+        case "stove":
+            return CapturedRoom.Object.Category.stove
+        case "table":
+            return CapturedRoom.Object.Category.table
+        case "toilet":
+            return CapturedRoom.Object.Category.toilet
+        //case "washer":
+            //return CapturedRoom.Object.Category.washer
+        default:
+            fatalError("Unknown RP object received")
+        }
+    }
+    func transformIntoRPSurfaceEnum(category:String)->CapturedRoom.Surface.Category{
+        
+        switch category.lowercased(){
+        case "wall":
+            return CapturedRoom.Surface.Category.wall
+        case "door":
+            return CapturedRoom.Surface.Category.door(isOpen: false)//TODO: check if this isOpen feature matters
+        case "window":
+            return CapturedRoom.Surface.Category.window
+        case "opening":
+            return CapturedRoom.Surface.Category.opening
+       
+        default:
+            fatalError("Unknown RP object received")
         }
     }
 

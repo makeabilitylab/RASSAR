@@ -66,6 +66,7 @@
 		5E1656DE2888D514002577D3 /* Situation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Situation.swift; sourceTree = "<group>"; };
 		5E1656E42890A306002577D3 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
 		5E1656E62891F8E8002577D3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		5E1656E82892010D002577D3 /* Old_Rubrics.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Old_Rubrics.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +132,7 @@
 				5E1656DE2888D514002577D3 /* Situation.swift */,
 				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
 				5E1656E62891F8E8002577D3 /* Settings.swift */,
+				5E1656E82892010D002577D3 /* Old_Rubrics.md */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";

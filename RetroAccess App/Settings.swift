@@ -7,6 +7,7 @@
 
 import Foundation
 
+//This class stores all golbal settings, like all user selections done in thee onboarding view.
 class Settings{
     static let instance = Settings()
         

@@ -26,13 +26,13 @@ class Filter
             fatalError("Failed to read json rubrics")
         }
         let json = try? JSONSerialization.jsonObject(with: rubrics!, options: [])
-        if let situs = json as? [Any]{
-            for situation in situs {
-                self.situations.append(Situation(json:situation))
+        if let situs = json as? [String:Any]{
+            for (key, value)  in situs {
+                self.situations.append(Situation(name:key,json:value))
             }
         }
     }
-    public func filter(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
+    public func filter()->[AccessibilityIssue]{
         //Go through the entire accessbility issue table to find potential issues
         var issuesFound:[AccessibilityIssue]=[]
         for situ in self.situations{

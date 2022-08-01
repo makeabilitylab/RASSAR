@@ -74,6 +74,7 @@ extension OnboardViewController:UIPickerViewDelegate{
         }
         else
         {selected=communities[row]}
+        //TODO: add some extra input UI here to get children height information, if Children selected
     }
 }
 

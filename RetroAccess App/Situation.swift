@@ -8,17 +8,18 @@
 import Foundation
 
 class Situation{
-    public var index=0
-    public var community:[String]
-    public var keywords:[String]
-    public var dimension:ObjectDimension?
-    public var relativePosition:RelativePosition?
-    public var existence:Bool?
+    var name:String
+    var community:[String]
+    var keywords:[String]
+    var dimension:ObjectDimension?
+    var relativePosition:RelativePosition?
+    var existence:Bool?
+    var type:Int
     
-    public init(json:Any!){
+    public init(name:String,json:Any!){
         //Here json is at the situation list item level
         if let dic=json as? [String:Any]{
-            index=dic["Index"] as! Int
+            self.name=name
             community = dic["Community"] as! [String]
             keywords = dic["Keyword"] as! [String]
             if let dim=dic["Dimension"] as? [String:Any]{
@@ -43,15 +44,93 @@ class Situation{
         else{
             fatalError("Error occurred in reading json situations")
         }
+        //Use the read info to classify this situation. TODO: more to be added
+        if dimension != nil && existence == nil && relativePosition == nil{
+            type=1
+        }
+        else{
+            type=0
+        }
     }
     public func search(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
         //TODO: Search for this situation within this replicator
         var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
+        //Currently only the furniture dimension issues are retrieved.
         //When there's multiple keywords, iterate throught them and search one by one
+        switch type{
+        case 1:
+            issuesFound+=retrieveDimensionalIssue(replicator: replicator)
+        
+        default:
+            print("Non-implemented situation")
+        
+        }
+        
+        return issuesFound
+    }
+    public func retrieveDimensionalIssue(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
+        //This func only search for objects not fulfilling required dimension
+        var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
         for keyword in keywords{
             //if(keyword in ["Maneuvering","Passing"])
+            let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keyword)
+            if retrieveResults.foundDetectedObjects.count>0{
+                for obj in retrieveResults.foundDetectedObjects{
+                    if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
+                        //False means against the rubric, need to be reported
+                        let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                                     type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                        issue.setSourceObject(source: obj)
+                        issuesFound.append(issue)
+                    }
+                }
+            }
+            else if retrieveResults.foundRoomplanObjects.count>0{
+                for obj in retrieveResults.foundRoomplanObjects{
+                    if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
+                        let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                                     type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                        issue.setSourceObject(source: obj)
+                        issuesFound.append(issue)
+                    }
+                }
+            }
+            else if retrieveResults.foundRoomplanSurfaces.count>0{
+                for obj in retrieveResults.foundRoomplanSurfaces{
+                    if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
+                        let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                                     type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                        issue.setSourceObject(source: obj)
+                        issuesFound.append(issue)
+                    }
+                }
+            }
+            else{
+                print("Failed to find any object with this keyword: "+keyword)
+            }
         }
         return issuesFound
+    }
+    public func compareValues(target:Double,comparison:String,values:[Int])->Bool{
+        switch comparison{
+        case "GreaterEqual":
+            if target>=Double(values[0]){
+                return true
+            }
+            return false
+        case "LessEqual":
+            if target<=Double(values[0]){
+                return true
+            }
+            return false
+        case "Between":
+            if target>=Double(values[0]) && target<=Double(values[1]){
+                return true
+            }
+            return false
+        default:
+            fatalError("Unexpected comparisoon type")
+        }
     }
 }
 
@@ -61,7 +140,7 @@ struct ObjectDimension{
     public var value:[Int]
     init(json:Any){
         let dic=json as! [String:Any]
-        measurement=dic["measurement"] as! String
+        measurement=dic["Measurement"] as! String
         comparison=dic["Comparison"] as! String
         value=dic["Value"] as! [Int] //TODO: check if this transform is valid
     }
@@ -70,10 +149,18 @@ struct ObjectDimension{
 struct RelativePosition{
     public var objectCategory:[String]
     public var relation:String
+    public var dimension:[Int]
     init(json:Any){
         let dic=json as! [String:Any]
         objectCategory=dic["ObjectCategory"] as! [String]
         relation=dic["Relation"] as! String
+        if let dim=dic["Dimension"] as? [Int] //TODO: check if this transform is valid
+        {
+            dimension=dim
+        }
+        else{
+            dimension=[Int]()
+        }
     }
 }
 
@@ -94,12 +181,6 @@ enum Comparison{
     case GreaterEqual,LessEqual,Between
 }
 
-enum ObjectCategory{
-    //Cases from object detection
-    case ElectricCords,Medication,Rug,GrabBar,NightLight,Handrail,ChildSafetyGate,TubMat,SmokeAlarm,ElectricSocket,Telephone,Switch,Doorhandle,Vase,Knife,Scissors,WindowGuard
-    //Cases from Roomplan API
-    case bathtub,bed,chair,dishwasher,fireplace,oven,refrigerator,screen,sink,sofa,stairs,storage,stove,table,toilet,unknown,washer
-}
 
 enum Relation{
     //TODO: make sure these are all relations needed
