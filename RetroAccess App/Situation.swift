@@ -72,7 +72,6 @@ class Situation{
         //This func only search for objects not fulfilling required dimension
         var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
         for keyword in keywords{
-            //if(keyword in ["Maneuvering","Passing"])
             let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keyword)
             if retrieveResults.foundDetectedObjects.count>0{
                 for obj in retrieveResults.foundDetectedObjects{
@@ -80,7 +79,7 @@ class Situation{
                         //False means against the rubric, need to be reported
                         let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                                      type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
-                        issue.setSourceObject(source: obj)
+                        issue.setSourceODObject(source: obj)
                         issuesFound.append(issue)
                     }
                 }
@@ -90,7 +89,7 @@ class Situation{
                     if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
                         let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                                      type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
-                        issue.setSourceObject(source: obj)
+                        issue.setSourceRPObject(source: obj)
                         issuesFound.append(issue)
                     }
                 }
@@ -100,7 +99,7 @@ class Situation{
                     if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
                         let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                                      type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
-                        issue.setSourceObject(source: obj)
+                        issue.setSourceRPSurface(source: obj)
                         issuesFound.append(issue)
                     }
                 }

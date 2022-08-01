@@ -227,22 +227,22 @@ public class RoomObjectReplicator {
             if let existingAnchor = trackedObjectAnchorsByIdentifier[object.identifier] {
                 existingAnchor.update(object)
                 inflightObjectAnchors.insert(existingAnchor)
-                session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
+                //session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
             } else {
                 let anchor = RoomObjectAnchor(object)
                 inflightObjectAnchors.insert(anchor)
-                session.arSession.add(anchor: anchor)
+                //session.arSession.add(anchor: anchor)
             }
         }
         for surface in surfaces {
             if let existingAnchor = trackedSurfaceAnchorsByIdentifier[surface.identifier] {
                 existingAnchor.update(surface)
                 inflightSurfaceAnchors.insert(existingAnchor)
-                session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
+                //session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
             } else {
                 let anchor = RoomSurfaceAnchor(surface)
                 inflightSurfaceAnchors.insert(anchor)
-                session.arSession.add(anchor: anchor)
+                //session.arSession.add(anchor: anchor)
             }
         }
 
@@ -322,14 +322,18 @@ public class RoomObjectReplicator {
             issue.updated=true
             if detectedIssues[issue.identifier] != nil{
                 //Update anchor
-                session.arSession.remove(anchor: detectedIssues[issue.identifier]!.getAnchor())
-                session.arSession.add(anchor: issue.getAnchor())
+                //session.arSession.remove(anchor: detectedIssues[issue.identifier]!.getAnchor())
+                //session.arSession.add(anchor: issue.getAnchor())
+                let updatedAnchor=issue.getAnchor()
+                session.arSession.delegate?.session?(session.arSession, didUpdate: [updatedAnchor])
                 detectedIssues[issue.identifier]=issue
+                print("Issue with type "+issue.category.rawValue+" is updated")
             }
             else{
                 detectedIssues[issue.identifier]=issue
                 //Add anchor
                 session.arSession.add(anchor: issue.getAnchor())
+                print("Issue with type "+issue.category.rawValue+" is added")
             }
         }
         for (id,issue) in detectedIssues{
@@ -337,7 +341,8 @@ public class RoomObjectReplicator {
             if issue.updated==false{
                 detectedIssues[id]=nil
                 //Remove anchor
-                session.arSession.remove(anchor: issue.getAnchor())
+                //session.arSession.remove(anchor: issue.getAnchor())
+                print("Issue with type "+issue.category.rawValue+" is deleted")
             }
         }
     }

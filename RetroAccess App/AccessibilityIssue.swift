@@ -8,9 +8,11 @@
 import Foundation
 import ARKit
 
-public enum AccessibilityIssueType{
+public enum AccessibilityIssueType:String{
     //TODO: add all existing issues
-    case DangerousItem,ObjectDimension,LackingAssistingDevice
+    case DangerousItem="DangerousItem"
+    case ObjectDimension="ObjectDimension"
+    case LackingAssistingDevice="LackingAssistingDevice"
 }
 
 class AccessibilityIssue
@@ -56,17 +58,17 @@ class AccessibilityIssue
         
         fatalError("Empty Accessibility Issue")
     }
-    public func setSourceObject(source:RoomObjectAnchor){
+    public func setSourceRPObject(source:RoomObjectAnchor){
         sourceRPObject=source
         sourceRPSurface=nil
         sourceObject=nil
     }
-    public func setSourceObject(source:RoomSurfaceAnchor){
+    public func setSourceRPSurface(source:RoomSurfaceAnchor){
         sourceRPSurface=source
         sourceRPObject=nil
         sourceObject=nil
     }
-    public func setSourceObject(source:DetectedObject){
+    public func setSourceODObject(source:DetectedObject){
         sourceObject=source
         sourceRPObject=nil
         sourceRPSurface=nil

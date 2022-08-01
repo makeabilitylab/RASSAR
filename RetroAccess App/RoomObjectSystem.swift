@@ -115,10 +115,10 @@ public class RoomObjectSystem: System {
             var width = Measurement(value:Double(roomObject.dimensions.x),unit:UnitLength.meters)
             var height = Measurement(value:Double(roomObject.dimensions.y),unit:UnitLength.meters)
             var length = Measurement(value:Double(roomObject.dimensions.z),unit:UnitLength.meters)
-            print("The entity's category is ", entity.roomObject)
-            print("The width is ", width)
-            print("The height is ", height)
-            print("The length is ", length)
+            //print("The entity's category is ", entity.roomObject)
+            //print("The width is ", width)
+            //print("The height is ", height)
+            //print("The length is ", length)
             entity.model?.materials = [material(for: roomObject.category)]
             
         }
