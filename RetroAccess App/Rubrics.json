@@ -1,59 +1,4 @@
 {
-    "IDX_1": {
-          "Keyword":["Stairs"],
-          "Community":["BVI","Elder"],
-          "Dimension":{
-            "Measurement":"Height",
-            "Comparison":"Between",
-            "Value":[4,7]
-          },
-          "RelativePosition":null,
-          "Existence":null
-        },
-        "IDX_2": {
-          "Keyword":["Stairs"],
-          "Community":["BVI","Elder"],
-          "Dimension":{
-            "Measurement":"Depth",
-            "Comparison":"GreaterThan",
-            "Value":[11]
-          },
-          "RelativePosition":null,
-          "Existence":null
-        },
-        "IDX_3": {
-          "Keyword":["Handrails"],
-          "Community":["BVI","Elder"],
-          "Dimension":null,
-          "RelativePosition":{
-            "ObjectCategory":["WalkingSurface"],
-            "Relation":"GreaterThan",
-            "Dimension":[34,38]
-          },
-          "Existence":true
-        },
-        "IDX_4": {
-          "Keyword":["Handrails"],
-          "Community":["BVI","Elder"],
-          "Dimension":null,
-          "RelativePosition":{
-            "ObjectCategory":["Stairs"],
-            "Relation":"Consistent",
-            "Dimension":null
-          },
-          "Existence":true
-        },
-        "IDX_5": {
-          "Keyword":["Handrails"],
-          "Community":["BVI","Elder"],
-          "Dimension":null,
-          "RelativePosition":{
-            "ObjectCategory":["Wall"],
-            "Relation":"Equal",
-            "Dimension":[1.5]
-          },
-          "Existence":true
-        },
         "IDX_6": {
           "Keyword":["Table"],
           "Community":["Wheelchair","Elder","BVI","Children"],
@@ -66,4 +11,4 @@
           "Existence":null,
           "Note":"This one is used as test case for our code"
         }
-   }
+}

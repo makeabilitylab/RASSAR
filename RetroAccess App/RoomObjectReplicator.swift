@@ -1,5 +1,6 @@
 import ARKit
 import RoomPlan
+import RealityKit
 
 enum AllObjectCategory{
     //Cases from object detection
@@ -236,7 +237,7 @@ public class RoomObjectReplicator {
         }
         for surface in surfaces {
             if let existingAnchor = trackedSurfaceAnchorsByIdentifier[surface.identifier] {
-                existingAnchor.update(surface)
+                //existingAnchor.update(surface)
                 inflightSurfaceAnchors.insert(existingAnchor)
                 //session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
             } else {
@@ -259,7 +260,7 @@ public class RoomObjectReplicator {
         for trackedAnchor in trackedObjectAnchors {
             trackedObjectAnchorsByIdentifier[trackedAnchor.identifier] = trackedAnchor
         }
-        
+
         trackedSurfaceAnchors.subtracting(inflightSurfaceAnchors).forEach(session.arSession.remove)
         trackedSurfaceAnchors.removeAll(keepingCapacity: true)
         trackedSurfaceAnchors.formUnion(inflightSurfaceAnchors)
@@ -324,27 +325,39 @@ public class RoomObjectReplicator {
                 //Update anchor
                 //session.arSession.remove(anchor: detectedIssues[issue.identifier]!.getAnchor())
                 //session.arSession.add(anchor: issue.getAnchor())
+                //issue.update()
                 let updatedAnchor=issue.getAnchor()
-                session.arSession.delegate?.session?(session.arSession, didUpdate: [updatedAnchor])
-                detectedIssues[issue.identifier]=issue
+                
+                //session.arSession.delegate?.session?(session.arSession, didUpdate: [updatedAnchor])
+                //detectedIssues[issue.identifier]=issue
                 print("Issue with type "+issue.category.rawValue+" is updated")
+                let anchors=session.arSession.currentFrame?.anchors
+                print(session.arSession.currentFrame?.anchors)
             }
             else{
                 detectedIssues[issue.identifier]=issue
                 //Add anchor
-                session.arSession.add(anchor: issue.getAnchor())
+                let anchor=issue.getAnchor()
+                print("Before adding")
+                print(anchor)
+                print(session.arSession.currentFrame?.anchors)
+                //session.arSession.add(anchor:ARAnchor(anchor: anchor))
+                session.arSession.add(anchor: anchor)
                 print("Issue with type "+issue.category.rawValue+" is added")
+                print("After adding")
+                let anchors=session.arSession.currentFrame?.anchors
+                print(session.arSession.currentFrame?.anchors)
             }
         }
-        for (id,issue) in detectedIssues{
-            //Remove issues not updated. Those are disappearing issues
-            if issue.updated==false{
-                detectedIssues[id]=nil
-                //Remove anchor
-                //session.arSession.remove(anchor: issue.getAnchor())
-                print("Issue with type "+issue.category.rawValue+" is deleted")
-            }
-        }
+//        for (id,issue) in detectedIssues{
+//            //Remove issues not updated. Those are disappearing issues
+//            if issue.updated==false{
+//                detectedIssues[id]=nil
+//                //Remove anchor
+//                //session.arSession.remove(anchor: issue.getAnchor())
+//                print("Issue with type "+issue.category.rawValue+" is deleted")
+//            }
+//        }
     }
     func transformIntoRPObjectEnum(category:String)->CapturedRoom.Object.Category{
         

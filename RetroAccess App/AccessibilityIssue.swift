@@ -39,7 +39,7 @@ class AccessibilityIssue
         //TODO: retrirve suggestion from document
         fatalError("Unimplemented function")
     }
-    public func getAnchor()->ARAnchor{
+    public func getAnchor()->RoomObjectAnchor{
         if sourceObject != nil{
             //TODO: Get an ARAcnhor from detected object
             fatalError("Uninplemented situation")
@@ -53,7 +53,23 @@ class AccessibilityIssue
         else if sourceRPSurface != nil{
             let anchor=sourceRPSurface!
             //TODO: Set style to red
-            return anchor
+            fatalError("Uninplemented situation")
+        }
+        
+        fatalError("Empty Accessibility Issue")
+    }
+    public func update(){
+        if sourceObject != nil{
+            //TODO: Get an ARAcnhor from detected object
+            fatalError("Uninplemented situation")
+        }
+        else if sourceRPObject != nil{
+            let anchor=sourceRPObject!
+            //TODO: Set style to red
+        }
+        else if sourceRPSurface != nil{
+            let anchor=sourceRPSurface!
+            //TODO: Set style to red
         }
         
         fatalError("Empty Accessibility Issue")

@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             //self.drawVisionRequestResults(self.ODResults)
             //self.updateObjectLabelWithODResult(self.ODResults)
         //})
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
             self.replicator.updateAccessibilityIssue(in:self.captureSession!)
         })
         // Load the "Box" scene from the "Experience" Reality File
