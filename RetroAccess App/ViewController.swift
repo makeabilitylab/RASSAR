@@ -28,7 +28,6 @@ class ViewController: UIViewController {
         print(Settings.instance.community)
         captureSession = RoomCaptureSession()
         captureSession?.delegate = self
-        //arView.session=captureSession!.arSession
         captureSession?.run(configuration: .init())
         
         bufferSize=arView.frame.size
@@ -40,7 +39,13 @@ class ViewController: UIViewController {
             //self.updateObjectLabelWithODResult(self.ODResults)
         //})
         self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
-            self.replicator.updateAccessibilityIssue(in:self.captureSession!)
+            let entities=self.replicator.updateAccessibilityIssue(in:self.captureSession!)
+            for entity in entities{
+                self.arView.scene.addAnchor(entity)
+            }
+            //self.arView.scene.addAnchor(NotifyingEntity(dimensions: simd_float3.init(x: 0.2, y: 0.2, z: 0.2)))
+            print("Anchors after adding")
+            print(self.arView.session.currentFrame?.anchors)
         })
         // Load the "Box" scene from the "Experience" Reality File
         //let boxAnchor = try! Experience.loadBox()
@@ -266,6 +271,8 @@ extension ViewController: RoomCaptureSessionDelegate {
         arView.session.pause()
         arView.session = session.arSession
         arView.session.delegate = self
+        
+        //arView.scene.addAnchor(NotifyingEntity(dimensions: simd_float3.init(x: 0.3, y: 0.3, z: 0.3)))
     }
 
 }
@@ -273,11 +280,23 @@ extension ViewController: RoomCaptureSessionDelegate {
 extension ViewController: ARSessionDelegate {
 
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+//        for a in anchors{
+//            //session.add(anchor: a)
+//            //arView.scene.addAnchor(NotifyingEntity(anchor:a))
+//
+//            let mesh = MeshResource.generateSphere(radius: 0.3)
+//            let material = SimpleMaterial(color: .systemRed, roughness: 0.27, isMetallic: false)
+//            let model = ModelEntity(mesh: mesh, materials: [material])
+//            let anchorEntity = AnchorEntity(anchor: a)
+//            anchorEntity.anchor?.addChild(model)
+//            arView.scene.addAnchor(anchorEntity)
+        //}
         arView.scene.addRoomObjectEntities(for: anchors)
     }
 
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-        arView.scene.updateRoomObjectEntities(for: anchors)
+        //arView.scene.updateRoomObjectEntities(for: anchors)
+        
     }
 
 }

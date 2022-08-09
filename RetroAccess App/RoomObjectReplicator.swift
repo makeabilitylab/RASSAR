@@ -311,7 +311,8 @@ public class RoomObjectReplicator {
         }
         fatalError("Unknown keyword given")
     }
-    public func updateAccessibilityIssue(in session: RoomCaptureSession){
+    public func updateAccessibilityIssue(in session: RoomCaptureSession)->[NotifyingEntity]{
+        var entityToAdd=[NotifyingEntity]()
         //First search with current frame information
         let currentIssues=self.filter!.filter()
         //Then set all existing issue's updated attribute to false. This helps removing disappearing issues
@@ -330,23 +331,27 @@ public class RoomObjectReplicator {
                 
                 //session.arSession.delegate?.session?(session.arSession, didUpdate: [updatedAnchor])
                 //detectedIssues[issue.identifier]=issue
-                print("Issue with type "+issue.category.rawValue+" is updated")
-                let anchors=session.arSession.currentFrame?.anchors
-                print(session.arSession.currentFrame?.anchors)
+                //print("Issue with type "+issue.category.rawValue+" is updated")
+                //let anchors=session.arSession.currentFrame?.anchors
+                //print(session.arSession.currentFrame?.anchors)
             }
             else{
                 detectedIssues[issue.identifier]=issue
                 //Add anchor
                 let anchor=issue.getAnchor()
-                print("Before adding")
-                print(anchor)
-                print(session.arSession.currentFrame?.anchors)
+                //print("Before adding")
+                //print(anchor)
+                //print(session.arSession.currentFrame?.anchors)
                 //session.arSession.add(anchor:ARAnchor(anchor: anchor))
-                session.arSession.add(anchor: anchor)
-                print("Issue with type "+issue.category.rawValue+" is added")
-                print("After adding")
-                let anchors=session.arSession.currentFrame?.anchors
-                print(session.arSession.currentFrame?.anchors)
+                //session.arSession.add(anchor: anchor)
+                //let entity=NotifyingEntity(anchor:anchor)
+                //entity.setTransformMatrix(anchor.transform,relativeTo: nil)
+                let entity=NotifyingEntity(roomObjectAnchor:anchor)
+                entityToAdd.append(entity)
+                //print("Issue with type "+issue.category.rawValue+" is added")
+                //print("After adding")
+                //let anchors=session.arSession.currentFrame?.anchors
+                //print(session.arSession.currentFrame?.anchors)
             }
         }
 //        for (id,issue) in detectedIssues{
@@ -358,6 +363,7 @@ public class RoomObjectReplicator {
 //                print("Issue with type "+issue.category.rawValue+" is deleted")
 //            }
 //        }
+        return entityToAdd
     }
     func transformIntoRPObjectEnum(category:String)->CapturedRoom.Object.Category{
         

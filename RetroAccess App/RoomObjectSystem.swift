@@ -46,7 +46,8 @@ public class RoomObjectEntity: Entity, HasAnchoring, HasModel, HasRoomObjectComp
     public init(dimensions: simd_float3, category: CapturedRoom.Object.Category? = nil) {
         super.init()
 
-        let mesh = MeshResource.generateBox(size: .one, cornerRadius: .zero)
+        //let mesh = MeshResource.generateBox(size: .one, cornerRadius: .zero)
+        let mesh = MeshResource.generateSphere(radius: 0.3)
         let material = SimpleMaterial(color: .systemYellow, roughness: 0.27, isMetallic: false)
         let model = ModelComponent(mesh: mesh, materials: [material])
         let roomObject = RoomObjectComponent(dimensions: dimensions, category: category)

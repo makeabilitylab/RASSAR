@@ -25,6 +25,7 @@
 		5E1656DF2888D514002577D3 /* Situation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656DE2888D514002577D3 /* Situation.swift */; };
 		5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E42890A306002577D3 /* OnboardViewController.swift */; };
 		5E1656E72891F8E8002577D3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E62891F8E8002577D3 /* Settings.swift */; };
+		5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		5E1656E42890A306002577D3 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
 		5E1656E62891F8E8002577D3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		5E1656E82892010D002577D3 /* Old_Rubrics.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Old_Rubrics.md; sourceTree = "<group>"; };
+		5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
 				5E1656E62891F8E8002577D3 /* Settings.swift */,
 				5E1656E82892010D002577D3 /* Old_Rubrics.md */,
+				5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,

@@ -47,7 +47,8 @@ class AccessibilityIssue
         else if sourceRPObject != nil{
             let anchor=sourceRPObject!
             //TODO: Set style to red
-            
+            //let anchor=ARAnchor(sourceRPObject!)
+            //ARAnchor.
             return anchor
         }
         else if sourceRPSurface != nil{
