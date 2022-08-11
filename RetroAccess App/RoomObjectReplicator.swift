@@ -126,6 +126,29 @@ public class RoomObjectAnchor: ARAnchor {
             fatalError("Unexpected diension name")
         }
     }
+    public func getCategoryName()->String{
+        switch category {
+        case .storage: return "storage"
+        case .refrigerator: return "refrigerator"
+        case .stove: return "stove"
+        case .bed: return "bed"
+        case .sink:  return "sink"
+//        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
+        case .toilet: return "toilet"
+        case .bathtub: return "bathtub"
+        case .oven: return "oven"
+        case .dishwasher: return "dishwasher"
+        case .table: return "table"
+        case .sofa: return "sofa"
+        case .chair: return "chair"
+        case .fireplace: return "fireplace"
+//        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
+        case .stairs: return "stairs"
+        @unknown default:
+            return "unknown"
+            //fatalError()
+        }
+    }
 }
 
 //This class is used to replicate surfaces in RoomPlan results.
@@ -364,6 +387,13 @@ public class RoomObjectReplicator {
 //            }
 //        }
         return entityToAdd
+    }
+    public func getAllAnchorsToBePresented()->[RoomObjectAnchor]{
+        var anchor2show=[RoomObjectAnchor]()
+        for (_,issue) in detectedIssues{
+            anchor2show.append(issue.getAnchor())
+        }
+        return anchor2show
     }
     func transformIntoRPObjectEnum(category:String)->CapturedRoom.Object.Category{
         

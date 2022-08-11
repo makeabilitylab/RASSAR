@@ -9,10 +9,12 @@ import UIKit
 import RealityKit
 import RoomPlan
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,RoomCaptureViewDelegate {
     
-    @IBOutlet var arView: ARView!
-    var captureSession: RoomCaptureSession?
+    private var roomCaptureView: RoomCaptureView!
+    private var roomCaptureSessionConfig: RoomCaptureSession.Configuration = RoomCaptureSession.Configuration()
+    private var isScanning: Bool = false
+    private var finalResults: CapturedRoom?
     var replicator = RoomObjectReplicator()
     var timer = Timer()
     private var AnchorList=[ARAnchor]()
@@ -26,47 +28,67 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         print(Settings.instance.community)
-        captureSession = RoomCaptureSession()
-        captureSession?.delegate = self
-        captureSession?.run(configuration: .init())
-        
-        bufferSize=arView.frame.size
-        rootLayer=arView.layer
+//        captureSession = RoomCaptureSession()
+//        captureSession?.delegate = self
+//        captureSession?.run(configuration: .init())
+        setupRoomCaptureView()
         setupLayers()
         //self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
             //self.updateOD()
             //self.drawVisionRequestResults(self.ODResults)
             //self.updateObjectLabelWithODResult(self.ODResults)
         //})
-        self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
-            let entities=self.replicator.updateAccessibilityIssue(in:self.captureSession!)
-            for entity in entities{
-                self.arView.scene.addAnchor(entity)
-            }
-            //self.arView.scene.addAnchor(NotifyingEntity(dimensions: simd_float3.init(x: 0.2, y: 0.2, z: 0.2)))
-            print("Anchors after adding")
-            print(self.arView.session.currentFrame?.anchors)
-        })
-        // Load the "Box" scene from the "Experience" Reality File
-        //let boxAnchor = try! Experience.loadBox()
         
-        // Add the box anchor to the scene
-        //arView.scene.anchors.append(boxAnchor)
+    }
+    private func setupRoomCaptureView() {
+        roomCaptureView = RoomCaptureView(frame: view.bounds)
+        roomCaptureView.captureSession.delegate = self
+        roomCaptureView.delegate = self
+        roomCaptureView.captureSession.arSession.delegate=self
+        
+        view.insertSubview(roomCaptureView, at: 0)
+        rootLayer=view.layer
+        bufferSize=CGSize(width: rootLayer.bounds.width, height: rootLayer.bounds.height)
+        
+        self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
+            self.replicator.updateAccessibilityIssue(in:self.roomCaptureView.captureSession)
+        })
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startSession()
+    }
+    
+    override func viewWillDisappear(_ flag: Bool) {
+        super.viewWillDisappear(flag)
+        stopSession()
+    }
+    
+    private func startSession() {
+        isScanning = true
+        roomCaptureView?.captureSession.run(configuration: roomCaptureSessionConfig)
+    
+    }
+    
+    private func stopSession() {
+        isScanning = false
+        roomCaptureView?.captureSession.stop()
+        
     }
     func setupLayers() {
         detectionOverlay = CALayer() // container layer that has all the renderings of the observations
         detectionOverlay.name = "DetectionOverlay"
         detectionOverlay.bounds = CGRect(x: 0.0,
                                          y: 0.0,
-                                         width: bufferSize.width,
-                                         height: bufferSize.height)
+                                         width: 0,
+                                         height: 0)
         var bounds=rootLayer.bounds
         detectionOverlay.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
         rootLayer.addSublayer(detectionOverlay)
     }
     func updateOD(){
         //try to add od here
-        guard let currentFrame = arView.session.currentFrame else {
+        guard let currentFrame = roomCaptureView.captureSession.arSession.currentFrame else {
             return
         }
         let buffer = currentFrame.capturedImage
@@ -199,7 +221,34 @@ class ViewController: UIViewController {
         shapeLayer.cornerRadius = 7
         return shapeLayer
     }
-
+    func createPreviewLayerWithPosition(_ pos: CGPoint,_ category:String) -> CALayer {
+        var x=pos.x*926/1440-403.333-214
+        var y=pos.y*926/1440-463
+        //var x=214
+        //var y=463
+        let shapeLayer = CALayer()
+        shapeLayer.bounds = CGRect(x: x, y: y, width:200, height: 100)
+        shapeLayer.position = CGPoint(x: x, y: y)
+        shapeLayer.name = "Issue Preview"
+        shapeLayer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 0.2, 0.4])
+        shapeLayer.cornerRadius = 7
+        
+        let textLayer = CATextLayer()
+        textLayer.name = "Object Label"
+        let formattedString = NSMutableAttributedString(string: category)
+        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
+        formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
+        textLayer.string = category
+        textLayer.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
+        textLayer.position = CGPoint(x:x+100, y: y+50)
+        textLayer.shadowOpacity = 0.7
+        textLayer.shadowOffset = CGSize(width: 2, height: 2)
+        textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
+        textLayer.contentsScale = 2.0 // retina rendering
+        
+        shapeLayer.addSublayer(textLayer)
+        return shapeLayer
+    }
 
     func updateObjectLabelWithODResult(_ results: [Any]) {
         //detectionOverlay.sublayers = nil // remove all the old recognized objects
@@ -225,18 +274,17 @@ class ViewController: UIViewController {
             //let objectBounds = VNImageRectForNormalizedRect(objectObservation.boundingBox, Int(bufferSize.width), Int(bufferSize.height))
             let centerPosition=CGPoint(x:objectBounds.midX*896/1170-112,y: objectBounds.midY*896/1170 )
             //cast ray
-            if let cast = arView.raycast(from: centerPosition, allowing: .estimatedPlane, alignment: .any).first {
-                let resultAnchor = AnchorEntity(world: cast.worldTransform)
-                resultAnchor.addChild(sphere(radius: 0.01, color: .lightGray))
-                self.arView.scene.addAnchor(resultAnchor)
-                var castedAnchor=cast.anchor
-                if(!(castedAnchor==nil)){
-                    if(!AnchorList.contains(castedAnchor!)){
-                        AnchorList.append(castedAnchor!)
-                    }
-                }
-                
-            }
+//            if let cast = arView.raycast(from: centerPosition, allowing: .estimatedPlane, alignment: .any).first {
+//                let resultAnchor = AnchorEntity(world: cast.worldTransform)
+//                resultAnchor.addChild(sphere(radius: 0.01, color: .lightGray))
+//                self.arView.scene.addAnchor(resultAnchor)
+//                var castedAnchor=cast.anchor
+//                if(!(castedAnchor==nil)){
+//                    if(!AnchorList.contains(castedAnchor!)){
+//                        AnchorList.append(castedAnchor!)
+//                    }
+//                }
+//            }
         }
         //self.updateLayerGeometry()
     }
@@ -267,14 +315,6 @@ extension ViewController: RoomCaptureSessionDelegate {
         replicator.anchor(objects: room.objects,surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
     }
 
-    func captureSession(_ session: RoomCaptureSession, didStartWith configuration: RoomCaptureSession.Configuration) {
-        arView.session.pause()
-        arView.session = session.arSession
-        arView.session.delegate = self
-        
-        //arView.scene.addAnchor(NotifyingEntity(dimensions: simd_float3.init(x: 0.3, y: 0.3, z: 0.3)))
-    }
-
 }
 
 extension ViewController: ARSessionDelegate {
@@ -291,12 +331,32 @@ extension ViewController: ARSessionDelegate {
 //            anchorEntity.anchor?.addChild(model)
 //            arView.scene.addAnchor(anchorEntity)
         //}
-        arView.scene.addRoomObjectEntities(for: anchors)
+        //arView.scene.addRoomObjectEntities(for: anchors)
     }
 
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
         //arView.scene.updateRoomObjectEntities(for: anchors)
         
     }
-
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        // Do something with the new transform
+        detectionOverlay.sublayers=nil
+        for a in replicator.getAllAnchorsToBePresented(){
+            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)
+            let rotation=simd_float3x3(columns: (SIMD3(x: a.transform.columns.0.x, y: a.transform.columns.0.y, z: a.transform.columns.0.z),
+                                                 SIMD3(x: a.transform.columns.1.x, y: a.transform.columns.1.y, z: a.transform.columns.1.z),
+                                                 SIMD3(x: a.transform.columns.2.x, y: a.transform.columns.2.y, z: a.transform.columns.2.z)))
+            //position+=simd_mul(rotation,a.dimensions/2)
+            let bounds=view.bounds.size.width
+            let boundsh=view.bounds.size.height
+            let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+            //Add an icon onto UI layer
+            print(a.getCategoryName())
+            print(pos)
+            if pos != nil{
+                let shapeLayer=createPreviewLayerWithPosition(pos!,a.getCategoryName())
+                detectionOverlay.addSublayer(shapeLayer)
+            }
+        }
+    }
 }
