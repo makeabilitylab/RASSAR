@@ -76,3 +76,19 @@
   ]
 }
 
+Previous 1-issue version for testing:
+{
+        "IDX_6": {
+          "Keyword":["Table"],
+          "Community":["Wheelchair","Elder","BVI","Children"],
+          "Dimension":{
+            "Measurement":"Height",
+            "Comparison":"GreaterEqual",
+            "Value":[1200]
+          },
+          "RelativePosition":null,
+          "Existence":null,
+          "Note":"This one is used as test case for our code"
+        }
+}
+

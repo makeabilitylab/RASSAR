@@ -26,9 +26,15 @@ class Filter
             fatalError("Failed to read json rubrics")
         }
         let json = try? JSONSerialization.jsonObject(with: rubrics!, options: [])
+        var counter=0
         if let situs = json as? [String:Any]{
             for (key, value)  in situs {
-                self.situations.append(Situation(name:key,json:value))
+                let cases=value as! [String:Any]
+                for (requirement,content) in cases{
+                    self.situations.append(Situation(index:counter,keyword:key,requirement:requirement,json:content))
+                    counter+=1
+                }
+                
             }
         }
     }
@@ -46,7 +52,7 @@ class Filter
         //Find specific issues with keyword
         var issuesFound:[AccessibilityIssue]=[]
         for situ in self.situations{
-            if(situ.keywords.contains(keyword)){
+            if(situ.keyword==keyword){
                 //Use this situ to find if any issue exist in replicator
                 let result=situ.search(replicator: replicator)
                 issuesFound+=result

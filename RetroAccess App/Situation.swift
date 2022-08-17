@@ -7,21 +7,40 @@
 
 import Foundation
 
-class Situation{
-    var name:String
+public class Situation{
+    var index:Int
     var community:[String]
-    var keywords:[String]
+    var dependency:[String]?
+    var keyword:String
+    var keywordMainPart:String
+    var keywordFollowingPart:String?
+    var requirement:String
     var dimension:ObjectDimension?
     var relativePosition:RelativePosition?
     var existence:Bool?
-    var type:Int
     
-    public init(name:String,json:Any!){
+    public init(index:Int,keyword:String,requirement:String,json:Any!){
         //Here json is at the situation list item level
         if let dic=json as? [String:Any]{
-            self.name=name
-            community = dic["Community"] as! [String]
-            keywords = dic["Keyword"] as! [String]
+            self.index=index
+            self.requirement=requirement
+            self.community = dic["Community"] as! [String]
+            self.keyword = keyword //TODO: parse keyword by separating with - and _. A - separation means there are parts of item being addressed. A _ separation is used to avoid same keywords so content after _ can be ignored
+            if keyword.contains("-"){
+                let comps=self.keyword.split(separator: "-")
+                keywordMainPart=String(comps[0])
+                keywordFollowingPart=String(comps[1])
+            }
+            else{
+                keywordMainPart=keyword
+                keywordFollowingPart=nil
+            }
+            if let dependency=dic["Dependency"] as? [String]{
+                self.dependency=dependency
+            }
+            else{
+                self.dependency=nil
+            }
             if let dim=dic["Dimension"] as? [String:Any]{
                 dimension=ObjectDimension(json:dim)
             }
@@ -44,23 +63,28 @@ class Situation{
         else{
             fatalError("Error occurred in reading json situations")
         }
-        //Use the read info to classify this situation. TODO: more to be added
-        if dimension != nil && existence == nil && relativePosition == nil{
-            type=1
-        }
-        else{
-            type=0
-        }
     }
     public func search(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
         //TODO: Search for this situation within this replicator
         var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
         //Currently only the furniture dimension issues are retrieved.
         //When there's multiple keywords, iterate throught them and search one by one
-        switch type{
-        case 1:
-            issuesFound+=retrieveDimensionalIssue(replicator: replicator)
-        
+        switch requirement{
+        case "Height":
+            issuesFound+=retrieveDimensionalIssue(replicator: replicator,measurement: "Height")
+        case "Width":
+            issuesFound+=retrieveDimensionalIssue(replicator: replicator,measurement: "Width")
+        case "Depth":
+            issuesFound+=retrieveDimensionalIssue(replicator: replicator,measurement: "Depth")
+        case "Radius":
+            issuesFound+=retrieveDimensionalIssue(replicator: replicator,measurement: "Radius")
+        case "Existence":
+            issuesFound+=retrieveExistenceIssue(replicator: replicator)
+        case "DangerousItemDetection":
+            issuesFound+=retrieveDangerousItemIssue(replicator: replicator)
+        case "SharpEdges":
+            //TODO: Implement sharp edges
+            print("Haven't implemented sharp edge detection yet")
         default:
             print("Non-implemented situation")
         
@@ -68,62 +92,118 @@ class Situation{
         
         return issuesFound
     }
-    public func retrieveDimensionalIssue(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
+    public func retrieveDimensionalIssue(replicator:RoomObjectReplicator,measurement:String)->[AccessibilityIssue]{
         //This func only search for objects not fulfilling required dimension
         var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
-        for keyword in keywords{
-            let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keyword)
-            if retrieveResults.foundDetectedObjects.count>0{
-                for obj in retrieveResults.foundDetectedObjects{
-                    if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
-                        //False means against the rubric, need to be reported
-                        let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                                     type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
-                        issue.setSourceODObject(source: obj)
-                        issuesFound.append(issue)
-                    }
+        let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keyword)
+        if retrieveResults.foundDetectedObjects.count>0{
+            for obj in retrieveResults.foundDetectedObjects{
+                if compareValues(target: obj.getDimension(measurement:measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)==false{
+                    //False means against the rubric, need to be reported
+                    let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                    issue.setSourceODObject(source: obj)
+                    issuesFound.append(issue)
                 }
             }
-            else if retrieveResults.foundRoomplanObjects.count>0{
-                for obj in retrieveResults.foundRoomplanObjects{
-                    if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
-                        let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                                     type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
-                        issue.setSourceRPObject(source: obj)
-                        issuesFound.append(issue)
-                    }
+        }
+        else if retrieveResults.foundRoomplanObjects.count>0{
+            for obj in retrieveResults.foundRoomplanObjects{
+                if compareValues(target: obj.getDimension(measurement:measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)==false{
+                    let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                    issue.setSourceRPObject(source: obj)
+                    issuesFound.append(issue)
                 }
             }
-            else if retrieveResults.foundRoomplanSurfaces.count>0{
-                for obj in retrieveResults.foundRoomplanSurfaces{
-                    if compareValues(target: obj.getDimension(measurement:self.dimension!.measurement), comparison: self.dimension!.comparison, values: self.dimension!.value)==false{
-                        let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                                     type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
-                        issue.setSourceRPSurface(source: obj)
-                        issuesFound.append(issue)
-                    }
+        }
+        else if retrieveResults.foundRoomplanSurfaces.count>0{
+            for obj in retrieveResults.foundRoomplanSurfaces{
+                if compareValues(target: obj.getDimension(measurement:measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)==false{
+                    let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                    issue.setSourceRPSurface(source: obj)
+                    issuesFound.append(issue)
                 }
             }
-            else{
-                print("Failed to find any object with this keyword: "+keyword)
+        }
+        else{
+            print("Failed to find any object with this keyword: "+keyword)
+        }
+        
+        return issuesFound
+    }
+    public func retrieveExistenceIssue(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
+        var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
+        //Use the requrements to find required cases in replicator.
+        //First find all dependency items
+        if dependency != nil{
+            for depend in dependency!{
+                let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: depend)
             }
+        }
+        else{
+            //No dependency, so all keyword items are issues
+            
         }
         return issuesFound
     }
+    public func retrieveDangerousItemIssue(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
+        //Directly find all keyword items
+        let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keywordMainPart)
+        var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
+        if retrieveResults.foundDetectedObjects.count>0{
+            for obj in retrieveResults.foundDetectedObjects{
+                let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                             type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                issue.setSourceODObject(source: obj)
+                issuesFound.append(issue)
+                
+            }
+        }
+        else if retrieveResults.foundRoomplanObjects.count>0{
+            for obj in retrieveResults.foundRoomplanObjects{
+                let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                             type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                issue.setSourceRPObject(source: obj)
+                issuesFound.append(issue)
+                
+            }
+        }
+        else if retrieveResults.foundRoomplanSurfaces.count>0{
+            for obj in retrieveResults.foundRoomplanSurfaces{
+                let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
+                                             type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                issue.setSourceRPSurface(source: obj)
+                issuesFound.append(issue)
+            }
+        }
+        else{
+            print("Failed to find any object with this keyword: "+keyword)
+        }
+        
+        return issuesFound
+    }
     public func compareValues(target:Double,comparison:String,values:[Int])->Bool{
+        //TODO: conduct unit transform. From meter to inch
         switch comparison{
-        case "GreaterEqual":
+        case "NoLessThan":
             if target>=Double(values[0]){
                 return true
             }
             return false
-        case "LessEqual":
+        case "LessThan":
             if target<=Double(values[0]){
                 return true
             }
             return false
         case "Between":
             if target>=Double(values[0]) && target<=Double(values[1]){
+                return true
+            }
+            return false
+        case "Equal":
+            if target<=Double(values[0])+Double(Settings.instance.dimension_tolerance) && target>=Double(values[0])-Double(Settings.instance.dimension_tolerance){
                 return true
             }
             return false
@@ -134,14 +214,25 @@ class Situation{
 }
 
 struct ObjectDimension{
-    public var measurement:String
-    public var comparison:String
-    public var value:[Int]
+    //public var measurement:String
+    public var comparison:String?
+    public var value:[Int]?
     init(json:Any){
         let dic=json as! [String:Any]
-        measurement=dic["Measurement"] as! String
-        comparison=dic["Comparison"] as! String
-        value=dic["Value"] as! [Int] //TODO: check if this transform is valid
+        //measurement=dic["Measurement"] as! String
+        if let comp=dic["Comparison"] as? String{
+            comparison=comp
+        }
+        else
+        {
+            comparison=nil
+        }
+        if let v=dic["Value"] as? [Int]{
+            value=v
+        }
+        else{
+            value=nil
+        }
     }
 }
 

@@ -83,7 +83,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                                          width: 0,
                                          height: 0)
         var bounds=rootLayer.bounds
-        detectionOverlay.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
+        detectionOverlay.position = CGPoint(x: 0, y: 0)
         rootLayer.addSublayer(detectionOverlay)
     }
     func updateOD(){
@@ -294,6 +294,61 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         sphere.position.y = radius
         return sphere
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        super.touchesBegan(touches, with: event)
+
+//        if let touch = touches.first, let touchedLayer = self.layerFor(touch)
+//        {
+//            //Here you will have the layer as "touchedLayer"
+//            if touchedLayer is IssueLayer{
+//                let issueLayer=touchedLayer as! IssueLayer
+//                issueLayer.getExtendedLayer()
+//            }
+//        }
+        if let touch = touches.first{
+            let view = self.view!
+            let touchLocation = touch.location(in: view)
+            let locationInView = view.convert(touchLocation, to: nil)
+            //let transformedLocation=CGPoint(x: locationInView.x-214, y: locationInView.y-463)
+            if let sublayers = detectionOverlay.sublayers{
+                for layer in sublayers{
+//                    let click=layer.hitTest(locationInView)
+//                    if click == nil{
+//                        print("Null click result")
+//                    }
+//                    if click == layer{
+//                        if click is IssueLayer{
+//                            let issueLayer=click as! IssueLayer
+//                            issueLayer.getExtendedLayer()
+//                        }
+//                    }
+                    //print(layer.bounds)
+                    //print(locationInView)
+                    if layer.contains(locationInView){
+                        if layer is IssueLayer{
+                            let issueLayer = layer as! IssueLayer
+                            rootLayer.addSublayer( issueLayer.getExtendedLayer())
+                            print("Trying to add another layer")
+                        }
+                    }
+                    else{
+                        print("Layer doesn't contain click")
+                    }
+                }
+            }
+        }
+    }
+
+    private func layerFor(_ touch: UITouch) -> CALayer?
+    {
+        let view = self.view!
+        let touchLocation = touch.location(in: view)
+        let locationInView = view.convert(touchLocation, to: nil)
+
+        let hitPresentationLayer = detectionOverlay.presentation()?.hitTest(locationInView)
+        return hitPresentationLayer?.model()
+    }
 }
 
 extension ViewController: RoomCaptureSessionDelegate {
@@ -341,22 +396,49 @@ extension ViewController: ARSessionDelegate {
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         // Do something with the new transform
         detectionOverlay.sublayers=nil
-        for a in replicator.getAllAnchorsToBePresented(){
-            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)
-            let rotation=simd_float3x3(columns: (SIMD3(x: a.transform.columns.0.x, y: a.transform.columns.0.y, z: a.transform.columns.0.z),
-                                                 SIMD3(x: a.transform.columns.1.x, y: a.transform.columns.1.y, z: a.transform.columns.1.z),
-                                                 SIMD3(x: a.transform.columns.2.x, y: a.transform.columns.2.y, z: a.transform.columns.2.z)))
-            //position+=simd_mul(rotation,a.dimensions/2)
-            let bounds=view.bounds.size.width
-            let boundsh=view.bounds.size.height
-            let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
-            //Add an icon onto UI layer
-            print(a.getCategoryName())
-            print(pos)
-            if pos != nil{
-                let shapeLayer=createPreviewLayerWithPosition(pos!,a.getCategoryName())
-                detectionOverlay.addSublayer(shapeLayer)
+        let allIssues=replicator.getAllIssuesToBePresented()
+        for issue in allIssues{
+            let source=issue.getSource()
+            //let anchor=issue.getAnchor()
+            var trans:simd_float4x4?
+            if source.SourceDetectedObject != nil{
+                //TODO: get the transformation of od objects
+                trans=nil
             }
+            else if source.SourceRoomplanObject != nil{
+                trans=source.SourceRoomplanObject?.transform
+            }
+            else{
+                trans=source.SourceRoomplanSurface?.transform
+            }
+            if trans != nil{
+                let position = SIMD3(x: trans!.columns.3.x, y: trans!.columns.3.y, z: trans!.columns.3.z)
+                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+                if pos != nil{
+                    //TODO: create a new class for the preview layer
+                    let shapeLayer=IssueLayer(issue: issue, position: pos!)
+                    detectionOverlay.addSublayer(shapeLayer)
+                }
+            }
+            
         }
+//        for a in replicator.getAllIssuesToBePresented(){
+//            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)
+//            let rotation=simd_float3x3(columns: (SIMD3(x: a.transform.columns.0.x, y: a.transform.columns.0.y, z: a.transform.columns.0.z),
+//                                                 SIMD3(x: a.transform.columns.1.x, y: a.transform.columns.1.y, z: a.transform.columns.1.z),
+//                                                 SIMD3(x: a.transform.columns.2.x, y: a.transform.columns.2.y, z: a.transform.columns.2.z)))
+//            //position+=simd_mul(rotation,a.dimensions/2)
+//            let bounds=view.bounds.size.width
+//            let boundsh=view.bounds.size.height
+//            let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+//            //Add an icon onto UI layer
+//            print(a.getCategoryName())
+//            print(pos)
+//            if pos != nil{
+//                //TODO: create a new class for the preview layer
+//                let shapeLayer=createPreviewLayerWithPosition(pos!,a.getCategoryName())
+//                detectionOverlay.addSublayer(shapeLayer)
+//            }
+//        }
     }
 }

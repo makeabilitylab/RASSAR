@@ -15,7 +15,7 @@ public enum AccessibilityIssueType:String{
     case LackingAssistingDevice="LackingAssistingDevice"
 }
 
-class AccessibilityIssue
+public class AccessibilityIssue
 {
     var time:Date
     var identifier:UUID
@@ -39,6 +39,10 @@ class AccessibilityIssue
         //TODO: retrirve suggestion from document
         fatalError("Unimplemented function")
     }
+    public func getDetails()->String{
+        //TODO: get detailed info for this issue
+        return "Detailed information of this accessibility issue"
+    }
     public func getAnchor()->RoomObjectAnchor{
         if sourceObject != nil{
             //TODO: Get an ARAcnhor from detected object
@@ -58,6 +62,9 @@ class AccessibilityIssue
         }
         
         fatalError("Empty Accessibility Issue")
+    }
+    public func getSource()->(SourceDetectedObject:DetectedObject?,SourceRoomplanObject:RoomObjectAnchor?,SourceRoomplanSurface:RoomSurfaceAnchor?){
+        return (sourceObject,sourceRPObject,sourceRPSurface)
     }
     public func update(){
         if sourceObject != nil{

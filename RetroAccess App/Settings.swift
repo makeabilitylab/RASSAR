@@ -17,4 +17,7 @@ class Settings{
     //creates the global variable
     var community:String="null"
     var height:Int=0
+    
+    //Hyper parameters
+    var dimension_tolerance=1
 }
