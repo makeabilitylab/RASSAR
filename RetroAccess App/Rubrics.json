@@ -9,7 +9,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "Depth":{
       "Community":["BVI","Elder"],
@@ -20,7 +22,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Stair-Landing":{
@@ -33,7 +37,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Handrail":{
@@ -46,7 +52,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "Contour":{
       "Community":["BVI","Elder"],
@@ -57,7 +65,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"This might be hard to detect."
+      "Note":"This might be hard to detect.",
+      "Message":"",
+      "ADA_description":""
     },
     "Distance2Wall":{
       "Community":["BVI","Elder"],
@@ -68,7 +78,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Should be able to detect the distance between handrail and wall?"
+      "Note":"Should be able to detect the distance between handrail and wall?",
+      "Message":"",
+      "ADA_description":""
     },
     "Distance2FirstStairNosing":{
       "Community":["BVI","Elder"],
@@ -79,7 +91,9 @@
       },
       "RelativePosition":"Extend",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "Distance2BottomStairs":{
       "Community":["BVI","Elder"],
@@ -90,7 +104,9 @@
       },
       "RelativePosition":"Extend",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Table":{
@@ -103,7 +119,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "KneeClearanceHeight":{
       "Community":["Wheelchair"],
@@ -114,7 +132,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "ClearFloorArea":{
       "Community":["Wheelchair"],
@@ -125,7 +145,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "KnessClearanceDepth":{
       "Community":["Wheelchair"],
@@ -136,7 +158,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "SharpEdges":{
       "Community":["Children"],
@@ -147,7 +171,9 @@
       },
       "RelativePosition":"Edges",
       "Existence":false,
-      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify."
+      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify.",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Counter":{
@@ -160,7 +186,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "KneeClearanceHeight":{
       "Community":["Wheelchair"],
@@ -171,7 +199,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "ClearFloorArea":{
       "Community":["Wheelchair"],
@@ -182,7 +212,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "KnessClearanceDepth":{
       "Community":["Wheelchair"],
@@ -193,7 +225,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "SharpEdges":{
       "Community":["Children"],
@@ -204,7 +238,9 @@
       },
       "RelativePosition":"Edges",
       "Existence":false,
-      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify."
+      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify.",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Toilet-Seat":{
@@ -217,7 +253,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Bathtub-Seat":{
@@ -230,7 +268,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "InTubSeat":{
@@ -243,7 +283,9 @@
       },
       "RelativePosition":"In",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "PermanentSeat":{
@@ -256,7 +298,9 @@
       },
       "RelativePosition":"In",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Sofa":{
@@ -269,7 +313,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "Depth":{
       "Community":["Elder"],
@@ -280,7 +326,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Chair":{
@@ -293,7 +341,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "Depth":{
       "Community":["Elder"],
@@ -304,7 +354,10 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null}
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
+    }
   },
   "Cabinet":{
     "Height":{
@@ -316,7 +369,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Door-Opening":{
@@ -329,7 +384,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Sink":{
@@ -341,7 +398,10 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null}
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
+    }
   },
   "Doorway":{
     "Width":{
@@ -353,7 +413,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "DrawerHandle":{
@@ -366,7 +428,9 @@
       },
       "RelativePosition":"Under",
       "Existence":null,
-      "Note":"It might be difficult to detect the top of drawer"
+      "Note":"It might be difficult to detect the top of drawer",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Knob":{
@@ -379,7 +443,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "DoorHandle":{
@@ -392,7 +458,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "LightingSwitch":{
@@ -405,7 +473,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "ClearRoute":{
@@ -418,7 +488,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "WallLight":{
@@ -431,7 +503,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     },
     "Height":{
       "Community":["Wheelchair"],
@@ -442,7 +516,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "TurningSpace-C":{
@@ -455,7 +531,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "TurningSpace-T":{
@@ -468,7 +546,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":"This might be hard to implement and detect."
+      "Note":"This might be hard to implement and detect.",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "BathTub-GrabBar_Adult":{
@@ -481,7 +561,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Calculate from the bottom of the bathtub."
+      "Note":"Calculate from the bottom of the bathtub.",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "BathTub-GrabBar_Children":{
@@ -494,7 +576,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Calculate from the bottom of the bathtub."
+      "Note":"Calculate from the bottom of the bathtub.",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "SafetyGuard":{
@@ -507,7 +591,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "WindowGuard":{
@@ -520,7 +606,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Cords":{
@@ -533,7 +621,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Outlets":{
@@ -546,7 +636,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Carpet":{
@@ -559,7 +651,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Pathway":{
@@ -572,7 +666,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Scissors":{
@@ -585,7 +681,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Knives":{
@@ -598,7 +696,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Medication":{
@@ -611,7 +711,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Telephone":{
@@ -624,7 +726,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":true,
-      "Note":"There is no specific value for how close it should be. We might need to define it."
+      "Note":"There is no specific value for how close it should be. We might need to define it.",
+      "Message":"",
+      "ADA_description":""
     }
   },
   "Tubmat":{
@@ -637,7 +741,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   },
   "FireAlarms":{
@@ -650,7 +756,9 @@
       },
       "RelativePosition":"Ceiling",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"",
+      "ADA_description":""
     }
   }
 }
