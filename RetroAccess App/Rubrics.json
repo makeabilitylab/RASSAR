@@ -589,9 +589,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Calculate from the bottom of the bathtub.",
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
+      "Message":"Warning: The grab bar is too XXX above the finished floor!",
+      "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position 18 inches minimum and 27 inches maximum above the finish floor measured to the top of the gripping surface."
     }
   },
   "SafetyGuard":{
@@ -605,8 +605,8 @@
       "RelativePosition":null,
       "Existence":true,
       "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Message":"Warning: No safety gate detected!",
+      "ADA_description":"For the safety of children, use approved safety gates at the top and bottom of stairs, and attach them to the wall, if possible."
     }
   },
   "WindowGuard":{
@@ -620,8 +620,8 @@
       "RelativePosition":null,
       "Existence":true,
       "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Message":"Warning: No window guard detected!",
+      "ADA_description":"For the safety of children, properly install window guards or stops to help prevent falls from windows."
     }
   },
   "Cords":{
@@ -634,9 +634,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"replace XXX to either 'floor' or 'stairs'.",
+      "Message":"Warning: Cords detected on the XXX!",
+      "ADA_description":"For safety, no cord should be present on the floor or stairs."
     }
   },
   "Outlets":{
@@ -649,9 +649,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"replace XXX to either 'floor' or 'stairs'.",
+      "Message":"Warning: Outlets detected on the XXX!",
+      "ADA_description":"For safety, no outlet should be present on the floor or stairs."
     }
   },
   "Carpet":{
@@ -664,9 +664,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"replace XXX to either 'floor' or 'stairs'.",
+      "Message":"Warning: Carpets detected on the XXX!",
+      "ADA_description":"For safety, no carpet should be present on the floor or stairs."
     }
   },
   "Pathway":{
@@ -680,8 +680,8 @@
       "RelativePosition":"Upon",
       "Existence":false,
       "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Message":"Warning: Objects detected on the floor in pathways!",
+      "ADA_description":"For safety, no objects should be present on floor in pathways."
     }
   },
   "Scissors":{
@@ -694,9 +694,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"replace XXX to one of the dependent objects above.",
+      "Message":"Warning: Scissors have been detected in a dangerous place!",
+      "ADA_description":"For safety, no scissors should be present on the XXX."
     }
   },
   "Knives":{
@@ -709,9 +709,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"replace XXX to one of the dependent objects above.",
+      "Message":"Warning: Knives have been detected in a dangerous place!",
+      "ADA_description":"For safety, no knives should be present on the XXX."
     }
   },
   "Medication":{
@@ -724,9 +724,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Note":"replace XXX to one of the dependent objects above.",
+      "Message":"Warning: Medicines have been detected in a dangerous place!",
+      "ADA_description":"For safety, keep all medicine and vitamins out of children's reach and sight, even medicine you take every day. Write clear instructions for other caregivers about what medicine to give children, when to give it and how much to give."
     }
   },
   "Telephone":{
@@ -740,8 +740,8 @@
       "RelativePosition":"Adjacent",
       "Existence":true,
       "Note":"There is no specific value for how close it should be. We might need to define it.",
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Message":"Warning: No telephone detected near the bed!",
+      "ADA_description":"To facilitate emergency contact, a telephone should be placed by the bedside."
     }
   },
   "Tubmat":{
@@ -755,8 +755,8 @@
       "RelativePosition":"Adjacent",
       "Existence":true,
       "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Message":"Warning: No tubmat detected!",
+      "ADA_description":"For safety, a bath mat should be placed next to the bathtub."
     }
   },
   "FireAlarms":{
@@ -770,8 +770,8 @@
       "RelativePosition":"Ceiling",
       "Existence":true,
       "Note":null,
-      "Message":"Warning: ",
-      "ADA_description":"According to ADA compliance, "
+      "Message":"Warning: No fire alarm detected!",
+      "ADA_description":"For safety, fire alarms should be placed on the ceiling in the kitchen and bedroom."
     }
   }
 }
