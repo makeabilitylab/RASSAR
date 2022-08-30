@@ -47,7 +47,6 @@ public class IssueLayer:CALayer{
         textLayer.contentsScale = 2.0 // retina rendering
         
         self.addSublayer(textLayer)
-        //TODO: make this layer clickable
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -1,0 +1,18 @@
+{
+    "fileFormatVersion": "1.0.0",
+    "itemInfoEntries": {
+        "4B7932BD-15C7-4C0A-ADC1-23338514EAC6": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Specification",
+            "name": "yolov4.mlmodel",
+            "path": "com.apple.CoreML/yolov4.mlmodel"
+        },
+        "A1EDDFD7-FF94-43F5-B617-5BE1A5039234": {
+            "author": "com.apple.CoreML",
+            "description": "CoreML Model Weights",
+            "name": "weights",
+            "path": "com.apple.CoreML/weights"
+        }
+    },
+    "rootModelIdentifier": "4B7932BD-15C7-4C0A-ADC1-23338514EAC6"
+}

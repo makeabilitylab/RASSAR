@@ -24,20 +24,33 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     var bufferSize: CGSize = .zero
     var rootLayer: CALayer! = nil
     
+    var yolo = YOLO4My()
+    var boundingBoxes = [BoundingBox]()
+    var colors: [UIColor] = []
+    let maxBoundingBoxes = 10
+    let ciContext = CIContext()
+    var resizedPixelBuffer: CVPixelBuffer?
+    var showBbox:Bool=false
+    private var bboxOverlay: CALayer! = nil
     override func viewDidLoad() {
-        
+        showBbox=true
         super.viewDidLoad()
         print(Settings.instance.community)
-//        captureSession = RoomCaptureSession()
-//        captureSession?.delegate = self
-//        captureSession?.run(configuration: .init())
         setupRoomCaptureView()
         setupLayers()
-        //self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
-            //self.updateOD()
+        
+        //Load new OD framework
+        Task { [weak self] in
+            try! await self!.yolo.load(width: 416, height: 416, confidence: 0.4, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
+            print("YOLO successfully loaded")
+        }
+        setUpBoundingBoxes()
+        setUpCoreImage()
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
+            self.updateOD()
             //self.drawVisionRequestResults(self.ODResults)
             //self.updateObjectLabelWithODResult(self.ODResults)
-        //})
+        })
         
     }
     private func setupRoomCaptureView() {
@@ -67,13 +80,42 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     private func startSession() {
         isScanning = true
         roomCaptureView?.captureSession.run(configuration: roomCaptureSessionConfig)
-    
     }
     
     private func stopSession() {
         isScanning = false
         roomCaptureView?.captureSession.stop()
+    }
+    func setUpBoundingBoxes() {
+        for _ in 0 ..< maxBoundingBoxes {
+            boundingBoxes.append(BoundingBox())
+        }
         
+        // Make colors for the bounding boxes. There is one color for each class,
+        // 20 classes in total.
+        for r: CGFloat in [0.1,0.2, 0.3,0.4,0.5, 0.6,0.7, 0.8,0.9, 1.0] {
+            for g: CGFloat in [0.3,0.5, 0.7,0.9] {
+                for b: CGFloat in [0.4,0.6 ,0.8] {
+                    let color = UIColor(red: r, green: g, blue: b, alpha: 1)
+                    colors.append(color)
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            guard let  boxes = self.boundingBoxes,let videoLayer  = self.bboxOverlay else {return}
+            for box in boxes {
+                box.addToLayer(videoLayer)
+            }
+        }
+    }
+    
+    func setUpCoreImage() {
+        let status = CVPixelBufferCreate(nil, 416, 416,
+                                         kCVPixelFormatType_32BGRA, nil,
+                                         &resizedPixelBuffer)
+        if status != kCVReturnSuccess {
+            print("Error: could not create resized pixel buffer", status)
+        }
     }
     func setupLayers() {
         detectionOverlay = CALayer() // container layer that has all the renderings of the observations
@@ -85,6 +127,15 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         var bounds=rootLayer.bounds
         detectionOverlay.position = CGPoint(x: 0, y: 0)
         rootLayer.addSublayer(detectionOverlay)
+        
+        bboxOverlay = CALayer() // container layer that has all the renderings of the observations
+        bboxOverlay.name = "BoundingBoxOverlay"
+        bboxOverlay.bounds = CGRect(x: 0.0,
+                                         y: 0.0,
+                                         width: 0,
+                                         height: 0)
+        bboxOverlay.position = CGPoint(x: 0, y: 0)
+        rootLayer.addSublayer(bboxOverlay)
     }
     func updateOD(){
         //try to add od here
@@ -92,51 +143,96 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             return
         }
         let buffer = currentFrame.capturedImage
-        visionRequest(buffer)
+        //visionRequest(buffer)
+        predict(pixelBuffer: buffer)
     }
-    private func visionRequest( _ buffer : CVPixelBuffer) {
-        let modelURL = Bundle.main.url(forResource: "YOLOv3Tiny", withExtension: "mlmodelc")
-        let visionModel = try! VNCoreMLModel(for: MLModel(contentsOf: modelURL!))
-        let request = VNCoreMLRequest(model: visionModel) { request, error in
-            if error != nil{
-                print("Error happend in OD request")
-                return
-            }
-            guard let observations = request.results ,
-                  let observation = observations.first as? VNClassificationObservation else {
-                //print("No results")
-                return
-            }
-            print("Object Name: \(observation.identifier) , \(observation.confidence * 100)")
-            DispatchQueue.main.async {
-                //self.createText("\(String(describing: observation.identifier))\n%\(observation.confidence * 100)")
-                print("\(String(describing: observation.identifier))\n%\(observation.confidence * 100)");
-            }
-            
-        }
-        request.imageCropAndScaleOption = .centerCrop
-        requests = [request]
-        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: buffer,
-                                                        orientation: .right,
-                                                        options: [:])
+    func predict(pixelBuffer: CVPixelBuffer) {
         
-        DispatchQueue.global().async {
-            try! imageRequestHandler.perform(self.requests)
-            guard let observations = request.results ,
-                  let observation = observations.first as? VNRecognizedObjectObservation else {
-                print("No results")
-                return
-            }
-            let topLabelObservation = observation.labels[0]
-            //let objectBounds = VNImageRectForNormalizedRect(observation.boundingBox, bufferSize.width,bufferSize.height)
-            print("Detected ",topLabelObservation.identifier," with confidence of ",topLabelObservation.confidence)
-            if let results = request.results {
-                //self.drawVisionRequestResults(results)
-                self.ODResults=results
-                //Get bbox center point and cast ray
-                //self.updateObjectLabelWithODResult(results)
-            }
+        // Measure how long it takes to predict a single video frame.
+        let startTime = CACurrentMediaTime()
+        
+        // Resize the input with Core Image.
+        guard let resizedPixelBuffer = resizedPixelBuffer else { return }
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let sx = CGFloat(416) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+        let sy = CGFloat(416) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+        let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
+        //let rotateTransform=CGAffineTransform(rotationAngle: CGFloat.pi/2*3)
+        let scaledImage = ciImage.transformed(by: scaleTransform)
+        //let finalImage=scaledImage.transformed(by: rotateTransform)
+        ciContext.render(scaledImage, to: resizedPixelBuffer)
+        
+        
+        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
+            let elapsed = CACurrentMediaTime() - startTime
+            showOnMainThread(boundingBoxes, elapsed)
+        }
+    }
+    
+    
+    func showOnMainThread(_ boundingBoxes: [Prediction], _ elapsed: CFTimeInterval) {
+        DispatchQueue.main.async { [weak self] in
+            // For debugging, to make sure the resized CVPixelBuffer is correct.
+            //var debugImage: CGImage?
+            //VTCreateCGImageFromCVPixelBuffer(resizedPixelBuffer, nil, &debugImage)
+            //self.debugImageView.image = UIImage(cgImage: debugImage!)
             
+            self?.show(predictions: boundingBoxes)
+        }
+    }
+    
+    func show(predictions: [Prediction]){
+        //var centers:[CGPoint]=[CGPoint]()
+        for i in 0..<boundingBoxes.count {
+            if i < predictions.count {
+                let prediction = predictions[i]
+                
+                let width = view.bounds.height/1920*1440
+                let height = view.bounds.height
+                let scaleX = width
+                let scaleY = height
+                let left = (width - view.bounds.width) / 2
+                
+                // Translate and scale the rectangle to our own coordinate system.
+                var rect = prediction.rect
+                let temp1=rect.origin.x
+                rect.origin.x=1-rect.origin.y-rect.size.height
+                rect.origin.y=temp1
+                
+                rect.origin.x *= scaleX
+                rect.origin.y *= scaleY
+                rect.origin.x -= left
+                
+                let temp2=rect.size.width
+                rect.size.width=rect.size.height
+                rect.size.height=temp2
+                
+                rect.size.width *= scaleX
+                rect.size.height *= scaleY
+                
+                // Show the bounding box.
+                let label = String(format: "%@ %.1f", yolo.names[prediction.classIndex] ?? "<unknown>", prediction.score)
+                let color = colors[prediction.classIndex]
+                if showBbox{
+                    boundingBoxes[i].show(frame: rect, label: label, color: color)
+                }
+                //Conduct raycast to find 3D pos of item
+//                let center=CGPoint(x: rect.origin.x, y: rect.origin.y)
+//                let session=roomCaptureView.captureSession.arSession
+//                //let cameraTransform=roomCaptureView.captureSession.arSession.currentFrame?.camera.transform
+//                //let cameraPosition = SIMD3(x: cameraTransform!.columns.3.x, y: cameraTransform!.columns.3.y, z: cameraTransform!.columns.3.z)
+//                let query=session.currentFrame?.raycastQuery(from: center, allowing: .estimatedPlane, alignment:.any)
+//                if let cast=roomCaptureView.captureSession.arSession.raycast(query!).first{
+//                    let resultAnchor = AnchorEntity(world: cast.worldTransform)
+//                    resultAnchor.addChild(sphere(radius: 0.01, color: .lightGray))
+//                    session.addAnchor(resultAnchor)
+//
+//                }
+                //centers.append(CGPoint(x: rect.origin.x, y: rect.origin.y))
+                
+            } else {
+                boundingBoxes[i].hide()
+            }
         }
     }
     func drawVisionRequestResults(_ results: [Any])
@@ -162,93 +258,17 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             let objectBounds = VNImageRectForNormalizedRect(bbox_flipped, w,h)
             let objectBoundsOffset=CGRect(x: objectBounds.minX, y: objectBounds.minY, width: objectBounds.width, height: objectBounds.height)
             //let objectBoundsOffset=CGRect(x: 410, y: 580, width: 60, height: 30)
-            let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
+            //let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
             
-            let textLayer = self.createTextSubLayerInBounds(objectBounds,identifier: topLabelObservation.identifier,confidence: topLabelObservation.confidence)
-            shapeLayer.addSublayer(textLayer)
-            detectionOverlay.addSublayer(shapeLayer)
+            //let textLayer = self.createTextSubLayerInBounds(objectBounds,identifier: topLabelObservation.identifier,confidence: topLabelObservation.confidence)
+            //shapeLayer.addSublayer(textLayer)
+            //detectionOverlay.addSublayer(shapeLayer)
             
         }
-        self.updateLayerGeometry()
+        //self.updateLayerGeometry()
         CATransaction.commit()
-    }
-    func updateLayerGeometry() {
-        let bounds = rootLayer.bounds
-        var scale: CGFloat
-        
-        let xScale: CGFloat = bounds.size.width / bufferSize.height
-        let yScale: CGFloat = bounds.size.height / bufferSize.width
-        
-        scale = fmax(xScale, yScale)
-        if scale.isInfinite {
-            scale = 1.0
-        }
-        CATransaction.begin()
-        CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-        
-        // rotate the layer into screen orientation and scale and mirror
-        //detectionOverlay.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 2.0)).scaledBy(x: scale, y: -scale))
-        // center the layer
-        detectionOverlay.position = CGPoint(x: bounds.midX, y: bounds.midY)
-        
-        CATransaction.commit()
-        
-    }
-    func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: VNConfidence) -> CATextLayer {
-        let textLayer = CATextLayer()
-        textLayer.name = "Object Label"
-        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence:  %.2f", confidence))
-        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
-        formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count))
-        textLayer.string = formattedString
-        textLayer.bounds = CGRect(x: 0, y: 0, width: bounds.size.height - 10, height: bounds.size.width - 10)
-        textLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
-        textLayer.shadowOpacity = 0.7
-        textLayer.shadowOffset = CGSize(width: 2, height: 2)
-        textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
-        textLayer.contentsScale = 2.0 // retina rendering
-        // rotate the layer into screen orientation and scale and mirror
-        //textLayer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 2.0)).scaledBy(x: 1.0, y: -1.0))
-        return textLayer
     }
     
-    func createRoundedRectLayerWithBounds(_ bounds: CGRect) -> CALayer {
-        let shapeLayer = CALayer()
-        shapeLayer.bounds = bounds
-        shapeLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
-        shapeLayer.name = "Found Object"
-        shapeLayer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 0.2, 0.4])
-        shapeLayer.cornerRadius = 7
-        return shapeLayer
-    }
-    func createPreviewLayerWithPosition(_ pos: CGPoint,_ category:String) -> CALayer {
-        var x=pos.x*926/1440-403.333-214
-        var y=pos.y*926/1440-463
-        //var x=214
-        //var y=463
-        let shapeLayer = CALayer()
-        shapeLayer.bounds = CGRect(x: x, y: y, width:200, height: 100)
-        shapeLayer.position = CGPoint(x: x, y: y)
-        shapeLayer.name = "Issue Preview"
-        shapeLayer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 0.2, 0.4])
-        shapeLayer.cornerRadius = 7
-        
-        let textLayer = CATextLayer()
-        textLayer.name = "Object Label"
-        let formattedString = NSMutableAttributedString(string: category)
-        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
-        formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
-        textLayer.string = category
-        textLayer.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
-        textLayer.position = CGPoint(x:x+100, y: y+50)
-        textLayer.shadowOpacity = 0.7
-        textLayer.shadowOffset = CGSize(width: 2, height: 2)
-        textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
-        textLayer.contentsScale = 2.0 // retina rendering
-        
-        shapeLayer.addSublayer(textLayer)
-        return shapeLayer
-    }
 
     func updateObjectLabelWithODResult(_ results: [Any]) {
         //detectionOverlay.sublayers = nil // remove all the old recognized objects
@@ -298,14 +318,6 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     {
         super.touchesBegan(touches, with: event)
 
-//        if let touch = touches.first, let touchedLayer = self.layerFor(touch)
-//        {
-//            //Here you will have the layer as "touchedLayer"
-//            if touchedLayer is IssueLayer{
-//                let issueLayer=touchedLayer as! IssueLayer
-//                issueLayer.getExtendedLayer()
-//            }
-//        }
         if let touch = touches.first{
             let view = self.view!
             let touchLocation = touch.location(in: view)
@@ -313,18 +325,6 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             //let transformedLocation=CGPoint(x: locationInView.x-214, y: locationInView.y-463)
             if let sublayers = detectionOverlay.sublayers{
                 for layer in sublayers{
-//                    let click=layer.hitTest(locationInView)
-//                    if click == nil{
-//                        print("Null click result")
-//                    }
-//                    if click == layer{
-//                        if click is IssueLayer{
-//                            let issueLayer=click as! IssueLayer
-//                            issueLayer.getExtendedLayer()
-//                        }
-//                    }
-                    //print(layer.bounds)
-                    //print(locationInView)
                     if layer.contains(locationInView){
                         if layer is IssueLayer{
                             let issueLayer = layer as! IssueLayer
@@ -394,8 +394,14 @@ extension ViewController: ARSessionDelegate {
         
     }
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        // Do something with the new transform
         detectionOverlay.sublayers=nil
+        //Draw od results if needed
+        if showBbox{
+            
+            
+        }
+        
+        // Do something with the new transform
         let allIssues=replicator.getAllIssuesToBePresented()
         for issue in allIssues{
             let source=issue.getSource()
