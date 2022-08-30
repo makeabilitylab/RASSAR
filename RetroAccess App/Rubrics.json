@@ -9,7 +9,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":"For those placeholders (i.e., NUM), please fill in with the actual value.",
+      "Message":"Warning: The height of stairs is NOT compliant with ADA guidelines!",
+      "ADA_description":"According to ADA compliance, the vertical sections of stairs, must be between 4 and 7 inches tall. The detected stairs is NUM inches tall."
     },
     "Depth":{
       "Community":["BVI","Elder"],
@@ -20,7 +22,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The depth of stair tread is NOT compliant with ADA guidelines!",
+      "ADA_description":"According to ADA compliance, the stair tread must be at least 11 inches in depth, when being measured from one riser to another. The detected stair tread is only NUM inches in depth."
     }
   },
   "Stair-Landing":{
@@ -33,7 +37,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":"Need to discuss w/ Xia and others, is it possible that a stair landing is detected, but the vertical riser is greater than 12 feet? This is to decide if we want to modify the message below.",
+      "Message":"Warning: No stair landing detected!",
+      "ADA_description":"According to ADA compliance, there should be a landing for every 12 feet (144 inches) of vertical riser on a staircase. "
     }
   },
   "Handrail":{
@@ -46,7 +52,22 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The height of handrail is NOT compliant with ADA guidelines!",
+      "ADA_description":"According to ADA compliance, the handrail must be between 34 and 48 inches above the walking surface. The height of detected handrail is NUM inches."
+    },
+    "ExistenceOrNot":{
+      "Community":["BVI","Elder"],
+      "Dependency":["Stairs"],
+      "Dimension":{
+        "Comparison":null,
+        "Value":null
+      },
+      "RelativePosition":null,
+      "Existence":true,
+      "Note":null,
+      "Message":"Warning: No handrail detected!",
+      "ADA_description":"According to ADA compliance, stairs must have handrails on both sides of all stairs."
     },
     "Contour":{
       "Community":["BVI","Elder"],
@@ -57,7 +78,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"This might be hard to detect."
+      "Note":"This might be hard to detect.",
+      "Message":"Warning: Uneven handrail detected!",
+      "ADA_description":"According to ADA compliance, the handrail must be a consistent height along a set of stairs."
     },
     "Distance2Wall":{
       "Community":["BVI","Elder"],
@@ -68,7 +91,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Should be able to detect the distance between handrail and wall?"
+      "Note":"Should be able to detect the distance between handrail and wall? Also, replace XXX to either 'close to' or 'far away from'.",
+      "Message":"Warning: Handrail is too XXX the wall!",
+      "ADA_description":"According to ADA compliance, there should be a 1.5 inch clearance between the handrail and the wall. The detected handrail is NUM inches to the wall."
     },
     "Distance2FirstStairNosing":{
       "Community":["BVI","Elder"],
@@ -79,7 +104,9 @@
       },
       "RelativePosition":"Extend",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: the handrail is too close to the first stair nosing!",
+      "ADA_description":"According to ADA compliance, the handrail must extend horizontally at least 12 inches from the first stair nosing (at the top of the stairs). The detected handrail extend horizontally NUM inches from the first stair nosing."
     },
     "Distance2BottomStairs":{
       "Community":["BVI","Elder"],
@@ -90,7 +117,9 @@
       },
       "RelativePosition":"Extend",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"The handrail is does not extend to the stair treads at the bottom of the stairs!",
+      "ADA_description":"According to ADA compliance, the handrail must at least the length of the stair treat at the bottom of the stairs."
     }
   },
   "Table":{
@@ -103,7 +132,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The height of table is not compliant with the ADA guidelines!",
+      "ADA_description":"According to ADA compliance, the surface height of an accessible table will have a height of no more than 34 inches and no less than 28 inches above the floor. The detected table is NUM inches above the floor."
     },
     "KneeClearanceHeight":{
       "Community":["Wheelchair"],
@@ -114,7 +145,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The detected knee clearance is too narrow!",
+      "ADA_description":"According to ADA compliance, at least 27 inches of knee clearance must be provided between the floor and the underside of the table. The detected knee clearance is NUM between the floor and the underside of the table."
     },
     "ClearFloorArea":{
       "Community":["Wheelchair"],
@@ -125,7 +158,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":"replace 'NUM_1' and 'NUM_2' to width and length of the clear floor areas.",
+      "Message":"Warning: Not enought clear floor area!",
+      "ADA_description":"According to ADA compliance, there should be a clear floor area of 30 inches by 48 inches provided at each accessible seating location. The detected clear floor area is NUM_1 inches by NUM_2 inches."
     },
     "KnessClearanceDepth":{
       "Community":["Wheelchair"],
@@ -136,7 +171,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: Not enought knee clearance!",
+      "ADA_description":"According to ADA compliance, the clear floor area extends 19 inches under the table to provide leg and knee clearance. The depth of detected knee clearance is NUM inches."
     },
     "SharpEdges":{
       "Community":["Children"],
@@ -147,7 +184,9 @@
       },
       "RelativePosition":"Edges",
       "Existence":false,
-      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify."
+      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify.",
+      "Message":"Warning: Sharp edges detected!",
+      "ADA_description":"No sharp edges should be existed."
     }
   },
   "Counter":{
@@ -160,7 +199,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the counter.",
+      "Message":"Warning: Counter is too XXX.",
+      "ADA_description":"According to ADA compliance, counters must be at the proper height (this often is 28-34 inches from the floor). The detected counter is NUM inches from the floor."
     },
     "KneeClearanceHeight":{
       "Community":["Wheelchair"],
@@ -171,7 +212,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The detected knee clearance is too narrow!",
+      "ADA_description":"According to ADA compliance, at least 27 inches of knee clearance must be provided between the floor and the underside of the table. The detected knee clearance is NUM between the floor and the underside of the table."
     },
     "ClearFloorArea":{
       "Community":["Wheelchair"],
@@ -182,7 +225,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":null,
-      "Note":null
+      "Note":"replace 'NUM_1' and 'NUM_2' to width and length of the clear floor areas.",
+      "Message":"Warning: Not enought clear floor area!",
+      "ADA_description":"According to ADA compliance, there should be a clear floor area of 30 inches by 48 inches provided at each accessible seating location. The detected clear floor area is NUM_1 inches by NUM_2 inches."
     },
     "KnessClearanceDepth":{
       "Community":["Wheelchair"],
@@ -193,7 +238,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: Not enought knee clearance!",
+      "ADA_description":"According to ADA compliance, the clear floor area extends 19 inches under the table to provide leg and knee clearance. The depth of detected knee clearance is NUM inches."
     },
     "SharpEdges":{
       "Community":["Children"],
@@ -204,7 +251,9 @@
       },
       "RelativePosition":"Edges",
       "Existence":false,
-      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify."
+      "Note":"We would like to detect the edges of tables, but not sure if this config can provide such info. Might need to modify.",
+      "Message":"Warning: Sharp edges detected!",
+      "ADA_description":"No sharp edges should be existed."
     }
   },
   "Toilet-Seat":{
@@ -217,7 +266,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the toilet seat.",
+      "Message":"Warning: The toilet seat is too XXX!",
+      "ADA_description":"According to ADA compliance, the height of toilet seat should between 17 inches to 19 inches above the floor. The height of the detected toilet seat is NUM inches from the floor."
     }
   },
   "Bathtub-Seat":{
@@ -230,7 +281,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the bathtub seat.",
+      "Message":"Warning: The bathtub seat is too XXX!",
+      "ADA_description":"According to ADA compliance, the top of bathtub seats shall be 17 inches minimum and 19 inches maximum above the bathroom finish floor. The height of the detected bathtub seat is NUM inches from the bathroom finish floor."
     }
   },
   "InTubSeat":{
@@ -243,7 +296,9 @@
       },
       "RelativePosition":"In",
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'shallow' or 'deep' depends ont he actual depth of the in-tub seat.",
+      "Message":"Warning: The in-tub seat is too XXX.",
+      "ADA_description":"According to ADA compliance, the depth of a removable in-tub seat shall be 15 inches minimum and 16 inches maximum. The depth of the detected in-tub seat is NUM inches."
     }
   },
   "PermanentSeat":{
@@ -256,7 +311,9 @@
       },
       "RelativePosition":"In",
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'shallow' or 'deep' depends ont he actual depth of the permanent seat.",
+      "Message":"Warning: The permanent seat is too XXX!",
+      "ADA_description":"According to ADA compliance, permanent seats at the head end of the bathtub shall be 15 inches deep minimum and shall extend from the back wall to or beyond the outer edge of the bathtub. The depth of the detected permanent seat is NUM inches."
     }
   },
   "Sofa":{
@@ -269,7 +326,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'tall' or 'short'.",
+      "Message":"Warning: The sofa is too XXX!",
+      "ADA_description":"According to ADA compliance, the height of the sofa shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches."
     },
     "Depth":{
       "Community":["Elder"],
@@ -280,7 +339,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'shallow' or 'deep'.",
+      "Message":"Warning: The sofa is too XXX!",
+      "ADA_description":"According to ADA compliance, the depth of the sofa shall be 20 inches. The depth of the detected sofa is NUM inches."
     }
   },
   "Chair":{
@@ -293,7 +354,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":"replace XXX to either 'tall' or 'short'.",
+      "Message":"Warning: The chair is too XXX!",
+      "ADA_description":"According to ADA compliance, the height of the chair shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches."
     },
     "Depth":{
       "Community":["Elder"],
@@ -304,7 +367,10 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null}
+      "Note":"replace XXX to either 'shallow' or 'deep'.",
+      "Message":"Warning: The chair is too XXX!",
+      "ADA_description":"According to ADA compliance, the depth of the chair shall be 20 inches. The depth of the detected sofa is NUM inches."
+    }
   },
   "Cabinet":{
     "Height":{
@@ -316,7 +382,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The cabinet is too tall!",
+      "ADA_description":"According to ADA compliance, the height of cabinets should e no more than 27 inches from the floor. The height of the detected cabinet is NUM inches from the floor."
     }
   },
   "Door-Opening":{
@@ -329,7 +397,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: Too narrow door opening is detected!",
+      "ADA_description":"According to ADA compliance, door openings shall provide a clear width of 32 inches minimum."
     }
   },
   "Sink":{
@@ -341,7 +411,10 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null}
+      "Note":null,
+      "Message":"Warning: The sink is too tall!",
+      "ADA_description":"According to ADA compliance, the height of the sink is no more than 17 inches from the floor. The height of detected sink is NUM inches from the floor."
+    }
   },
   "Doorway":{
     "Width":{
@@ -353,7 +426,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: Too narrow doorway is detected!",
+      "ADA_description":"According to ADA compliance, the minimum width for a doorway is 32 inches. The width of detected doorway is NUM inches."
     }
   },
   "DrawerHandle":{
@@ -366,7 +441,9 @@
       },
       "RelativePosition":"Under",
       "Existence":null,
-      "Note":"It might be difficult to detect the top of drawer"
+      "Note":"It might be difficult to detect the top of drawer",
+      "Message":"Warning: The drawer handle is too far from the top of the drawer!",
+      "ADA_description":"According to ADA compliance, the drawer handles must be no higher than 15 inches from the top of the drawer. The detected drawer handle is NUM inches from the top of the drawer."
     }
   },
   "Knob":{
@@ -379,7 +456,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":"replace XXX to either 'close to' or 'far away from'.",
+      "Message":"Warning: The knob is too XXX the floor!",
+      "ADA_description":"According to ADA compliance, a knob shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
     }
   },
   "DoorHandle":{
@@ -392,7 +471,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":"replace XXX to either 'close to' or 'far away from'.",
+      "Message":"Warning: The door handle is too XXX the floor!",
+      "ADA_description":"According to ADA compliance, a door handle shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
     }
   },
   "LightingSwitch":{
@@ -405,7 +486,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":"replace XXX to either 'close to' or 'far away from'.",
+      "Message":"Warning: The lighting switch is too XXX the floor!",
+      "ADA_description":"According to ADA compliance, lighting switches and outlets shall be mounted in a range from 15 to 48 inches above the floor. The height of the detected lighting switch is NUM inches above the floor."
     }
   },
   "ClearRoute":{
@@ -418,7 +501,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: Not enough clear route from lighting switch to the wall!",
+      "ADA_description":"According to ADA compliance, there must be a more than 36 inches wide accessible route from lighting switch to the wall. The width from the detected lighting switch to the wall is NUM inches."
     }
   },
   "WallLight":{
@@ -431,7 +516,9 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The wall light is too close to the wall!",
+      "ADA_description":"According to ADA compliance, a wall light should no more than 4 inches from the wall. The detected wall light is NUM inches from the wall."
     },
     "Height":{
       "Community":["Wheelchair"],
@@ -442,7 +529,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":null
+      "Note":"replace XXX to either 'high' or 'low'.",
+      "Message":"Warning: The height of the wall light is too XXX above the floor!",
+      "ADA_description":"According to ADA compliance, a wall light should be mounted between 28 to 80 inches above the finished floor. The height of the detected wall light is NUM inches above the finished floor."
     }
   },
   "TurningSpace-C":{
@@ -455,7 +544,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: The turning space is too narrow!",
+      "ADA_description":"According to ADA compliance, the turning space shall be a space of 60 inches diameter minimum. The diameter of detected turning space is NUM inches."
     }
   },
   "TurningSpace-T":{
@@ -468,7 +559,9 @@
       },
       "RelativePosition":null,
       "Existence":null,
-      "Note":"This might be hard to implement and detect."
+      "Note":"This might be hard to implement and detect.",
+      "Message":"Warning: The turning space is not compliant with the ADA guidelines!",
+      "ADA_description":"According to ADA compliance, the turning space shall be a T-shaped space within a 60 inches square minimum with arms and base 36 inches wide minimum."
     }
   },
   "BathTub-GrabBar_Adult":{
@@ -481,7 +574,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Calculate from the bottom of the bathtub."
+      "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
+      "Message":"Warning: The grab bar is too XXX above the finished floor!",
+      "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position, 33 inches minimum and 36 inches maximum above the finish floor measured to the top of the gripping surface."
     }
   },
   "BathTub-GrabBar_Children":{
@@ -494,7 +589,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":true,
-      "Note":"Calculate from the bottom of the bathtub."
+      "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
+      "Message":"Warning: The grab bar is too XXX above the finished floor!",
+      "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position 18 inches minimum and 27 inches maximum above the finish floor measured to the top of the gripping surface."
     }
   },
   "SafetyGuard":{
@@ -507,7 +604,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: No safety gate detected!",
+      "ADA_description":"For the safety of children, use approved safety gates at the top and bottom of stairs, and attach them to the wall, if possible."
     }
   },
   "WindowGuard":{
@@ -520,7 +619,9 @@
       },
       "RelativePosition":null,
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: No window guard detected!",
+      "ADA_description":"For the safety of children, properly install window guards or stops to help prevent falls from windows."
     }
   },
   "Cords":{
@@ -533,7 +634,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":"replace XXX to either 'floor' or 'stairs'.",
+      "Message":"Warning: Cords detected on the XXX!",
+      "ADA_description":"For safety, no cord should be present on the floor or stairs."
     }
   },
   "Outlets":{
@@ -546,7 +649,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":"replace XXX to either 'floor' or 'stairs'.",
+      "Message":"Warning: Outlets detected on the XXX!",
+      "ADA_description":"For safety, no outlet should be present on the floor or stairs."
     }
   },
   "Carpet":{
@@ -559,7 +664,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":"replace XXX to either 'floor' or 'stairs'.",
+      "Message":"Warning: Carpets detected on the XXX!",
+      "ADA_description":"For safety, no carpet should be present on the floor or stairs."
     }
   },
   "Pathway":{
@@ -572,7 +679,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: Objects detected on the floor in pathways!",
+      "ADA_description":"For safety, no objects should be present on floor in pathways."
     }
   },
   "Scissors":{
@@ -585,7 +694,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":"replace XXX to one of the dependent objects above.",
+      "Message":"Warning: Scissors have been detected in a dangerous place!",
+      "ADA_description":"For safety, no scissors should be present on the XXX."
     }
   },
   "Knives":{
@@ -598,7 +709,9 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":"replace XXX to one of the dependent objects above.",
+      "Message":"Warning: Knives have been detected in a dangerous place!",
+      "ADA_description":"For safety, no knives should be present on the XXX."
     }
   },
   "Medication":{
@@ -611,11 +724,13 @@
       },
       "RelativePosition":"Upon",
       "Existence":false,
-      "Note":null
+      "Note":"replace XXX to one of the dependent objects above.",
+      "Message":"Warning: Medicines have been detected in a dangerous place!",
+      "ADA_description":"For safety, keep all medicine and vitamins out of children's reach and sight, even medicine you take every day. Write clear instructions for other caregivers about what medicine to give children, when to give it and how much to give."
     }
   },
   "Telephone":{
-    "Existance":{
+    "ExistenceOrNot":{
       "Community":["Wheelchair","Elder"],
       "Dependency":["Bed"],
       "Dimension":{
@@ -624,11 +739,13 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":true,
-      "Note":"There is no specific value for how close it should be. We might need to define it."
+      "Note":"There is no specific value for how close it should be. We might need to define it.",
+      "Message":"Warning: No telephone detected near the bed!",
+      "ADA_description":"To facilitate emergency contact, a telephone should be placed by the bedside."
     }
   },
   "Tubmat":{
-    "Existance":{
+    "ExistenceOrNot":{
       "Community":["Wheelchair","Elder","BVI","Children"],
       "Dependency":["Tub"],
       "Dimension":{
@@ -637,11 +754,13 @@
       },
       "RelativePosition":"Adjacent",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: No tubmat detected!",
+      "ADA_description":"For safety, a bath mat should be placed next to the bathtub."
     }
   },
   "FireAlarms":{
-    "Existance":{
+    "ExistenceOrNot":{
       "Community":["Wheelchair","Elder","BVI","Children"],
       "Dependency":["Kitchen","Bedroom"],
       "Dimension":{
@@ -650,7 +769,9 @@
       },
       "RelativePosition":"Ceiling",
       "Existence":true,
-      "Note":null
+      "Note":null,
+      "Message":"Warning: No fire alarm detected!",
+      "ADA_description":"For safety, fire alarms should be placed on the ceiling in the kitchen and bedroom."
     }
   }
 }
