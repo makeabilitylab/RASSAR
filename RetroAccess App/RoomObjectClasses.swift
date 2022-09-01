@@ -79,7 +79,42 @@ public class DetectedObject{
         return self.detectedObjectCategory.rawValue
     }
 }
+public class DetectedObjectAnchor:ARAnchor{
+//    public override var identifier: UUID {
+//        detectedObjectIdentifier!
+//    }
 
+//    public override var transform: simd_float4x4 {
+//        detectedObjectTransform!
+//    }
+
+    //public private(set) var dimensions: simd_float3
+    public private(set) var category: ODCategory?
+
+    public var detectedObjectIdentifier: UUID?
+    //private var detectedObjectTransform: simd_float4x4?
+
+    public init(anchor: ARAnchor,cat:String,identifier:UUID) {
+
+        detectedObjectIdentifier = identifier
+        //detectedObjectTransform = anchor.transform
+        //dimensions = anchor.dimensions
+        
+        category = ODCategory(rawValue: cat)
+
+        super.init(anchor: anchor)
+    }
+    public required init(anchor: ARAnchor) {
+//        fatalError("This constructor is not supposed to be used")
+//        detectedObjectIdentifier = nil
+//        detectedObjectTransform = nil
+        super.init(anchor: anchor)
+    }
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        fatalError("Unavailable")
+    }
+}
 //This class is used to replicate objects in RoomPlan results.
 public class RoomObjectAnchor: ARAnchor {
 

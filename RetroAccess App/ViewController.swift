@@ -11,8 +11,10 @@ import RoomPlan
 
 class ViewController: UIViewController,RoomCaptureViewDelegate {
     
-    private var roomCaptureView: RoomCaptureView!
-    private var roomCaptureSessionConfig: RoomCaptureSession.Configuration = RoomCaptureSession.Configuration()
+    @IBOutlet var arView: ARView!
+    private var roomCaptureSession:RoomCaptureSession?
+    //private var roomCaptureView: RoomCaptureView!
+    //private var roomCaptureSessionConfig: RoomCaptureSession.Configuration = RoomCaptureSession.Configuration()
     private var isScanning: Bool = false
     private var finalResults: CapturedRoom?
     var replicator = RoomObjectReplicator()
@@ -36,12 +38,12 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         showBbox=true
         super.viewDidLoad()
         print(Settings.instance.community)
-        setupRoomCaptureView()
+        setupRoomCapture()
         setupLayers()
         
         //Load new OD framework
         Task { [weak self] in
-            try! await self!.yolo.load(width: 416, height: 416, confidence: 0.4, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
+            try! await self!.yolo.load(width: 416, height: 416, confidence: 0.5, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
             print("YOLO successfully loaded")
         }
         setUpBoundingBoxes()
@@ -53,18 +55,21 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         })
         
     }
-    private func setupRoomCaptureView() {
-        roomCaptureView = RoomCaptureView(frame: view.bounds)
-        roomCaptureView.captureSession.delegate = self
-        roomCaptureView.delegate = self
-        roomCaptureView.captureSession.arSession.delegate=self
+    private func setupRoomCapture() {
+        //roomCaptureView = RoomCaptureView(frame: view.bounds)
+        //roomCaptureView.captureSession.delegate = self
+        //roomCaptureView.delegate = self
+        //roomCaptureView.captureSession.arSession.delegate=self
         
-        view.insertSubview(roomCaptureView, at: 0)
+        //view.insertSubview(roomCaptureView, at: 0)
+        roomCaptureSession = RoomCaptureSession()
+        roomCaptureSession?.delegate = self
+        roomCaptureSession?.run(configuration: .init())
         rootLayer=view.layer
         bufferSize=CGSize(width: rootLayer.bounds.width, height: rootLayer.bounds.height)
         
         self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
-            self.replicator.updateAccessibilityIssue(in:self.roomCaptureView.captureSession)
+            self.replicator.updateAccessibilityIssue(in:self.roomCaptureSession!)
         })
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -79,12 +84,12 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     
     private func startSession() {
         isScanning = true
-        roomCaptureView?.captureSession.run(configuration: roomCaptureSessionConfig)
+        roomCaptureSession?.run(configuration:  .init())
     }
     
     private func stopSession() {
         isScanning = false
-        roomCaptureView?.captureSession.stop()
+        roomCaptureSession?.stop()
     }
     func setUpBoundingBoxes() {
         for _ in 0 ..< maxBoundingBoxes {
@@ -139,7 +144,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     }
     func updateOD(){
         //try to add od here
-        guard let currentFrame = roomCaptureView.captureSession.arSession.currentFrame else {
+        guard let currentFrame = roomCaptureSession?.arSession.currentFrame else {
             return
         }
         let buffer = currentFrame.capturedImage
@@ -217,17 +222,32 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                     boundingBoxes[i].show(frame: rect, label: label, color: color)
                 }
                 //Conduct raycast to find 3D pos of item
-//                let center=CGPoint(x: rect.origin.x, y: rect.origin.y)
-//                let session=roomCaptureView.captureSession.arSession
-//                //let cameraTransform=roomCaptureView.captureSession.arSession.currentFrame?.camera.transform
-//                //let cameraPosition = SIMD3(x: cameraTransform!.columns.3.x, y: cameraTransform!.columns.3.y, z: cameraTransform!.columns.3.z)
+                //let center=CGPoint(x: rect.origin.x/view.bounds.width, y: rect.origin.y/view.bounds.height)
+                let center=CGPoint(x: rect.origin.x+rect.size.width/2, y: rect.origin.y+rect.size.height/2)
+                //let session=roomCaptureSession!.arSession
+//                let cameraTransform=roomCaptureView.captureSession.arSession.currentFrame?.camera.transform
+//                let cameraPosition = SIMD3(x: cameraTransform!.columns.3.x, y: cameraTransform!.columns.3.y, z: cameraTransform!.columns.3.z)
 //                let query=session.currentFrame?.raycastQuery(from: center, allowing: .estimatedPlane, alignment:.any)
-//                if let cast=roomCaptureView.captureSession.arSession.raycast(query!).first{
-//                    let resultAnchor = AnchorEntity(world: cast.worldTransform)
-//                    resultAnchor.addChild(sphere(radius: 0.01, color: .lightGray))
-//                    session.addAnchor(resultAnchor)
-//
-//                }
+//                print(query?.origin)
+//                print(cameraPosition)
+                if let cast=arView.raycast(from: center, allowing: .estimatedPlane, alignment: .any).first{
+                    print("A successful cast")
+//                    let resultAnchor = ARAnchor(transform:  cast.worldTransform)
+//                    let resultTransform=cast.worldTransform
+//                    let cameraPosition = SIMD3(x: resultTransform.columns.3.x, y: resultTransform.columns.3.y, z: resultTransform.columns.3.z)
+//                    print(cameraPosition)
+//                    //let resultAnchor=cast.anchor!
+//                    let name=yolo.names[prediction.classIndex]
+//                    let prob=prediction.score
+//                    let odAnchor=DetectedObjectAnchor(anchor: resultAnchor, cat: name!, identifier: UUID.init())
+//                    session.add(anchor: odAnchor)
+                    let resultAnchor = AnchorEntity(world: cast.worldTransform)
+                    resultAnchor.addChild(sphere(radius: 0.05, color: .lightGray))
+                    arView.scene.addAnchor(resultAnchor)
+                }
+                else{
+                    print("No cast result returned")
+                }
                 //centers.append(CGPoint(x: rect.origin.x, y: rect.origin.y))
                 
             } else {
@@ -235,79 +255,9 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             }
         }
     }
-    func drawVisionRequestResults(_ results: [Any])
-    {
-        CATransaction.begin()
-        CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-        detectionOverlay.sublayers = nil // remove all the old recognized objects
-        for observation in results where observation is VNRecognizedObjectObservation {
-            guard let objectObservation = observation as? VNRecognizedObjectObservation else {
-                continue
-            }
-            // Select only the label with the highest confidence.
-            let topLabelObservation = objectObservation.labels[0]
-            var bbox=objectObservation.boundingBox
-            var bbox_rotated=CGRect(x: 1-bbox.minY, y: bbox.maxX, width: bbox.height, height: bbox.width)
-            var xscale:CGFloat=1440*1170/(1920*834)//1.0522
-            var yscale:CGFloat=1/1.3333
-            var bbox_flipped=CGRect(x: bbox.minX*xscale-(1-1/xscale)/2, y: (1-bbox.maxY)*yscale+0.125, width: bbox.width*xscale, height: bbox.height*yscale)
-            var w:Int=Int(bufferSize.width)
-            var h:Int=Int(bufferSize.height)
-            //let objectBounds = VNImageRectForNormalizedRect(bbox_rotated, 600, 600)
-            //let objectBoundsOffset=CGRect(x: objectBounds.minX-100, y: objectBounds.minY+100, width: objectBounds.width, height: objectBounds.height)
-            let objectBounds = VNImageRectForNormalizedRect(bbox_flipped, w,h)
-            let objectBoundsOffset=CGRect(x: objectBounds.minX, y: objectBounds.minY, width: objectBounds.width, height: objectBounds.height)
-            //let objectBoundsOffset=CGRect(x: 410, y: 580, width: 60, height: 30)
-            //let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
-            
-            //let textLayer = self.createTextSubLayerInBounds(objectBounds,identifier: topLabelObservation.identifier,confidence: topLabelObservation.confidence)
-            //shapeLayer.addSublayer(textLayer)
-            //detectionOverlay.addSublayer(shapeLayer)
-            
-        }
-        //self.updateLayerGeometry()
-        CATransaction.commit()
-    }
     
 
-    func updateObjectLabelWithODResult(_ results: [Any]) {
-        //detectionOverlay.sublayers = nil // remove all the old recognized objects
-        NSLog("Detected ",results.count,"objects");
-        for observation in results where observation is VNRecognizedObjectObservation {
-            guard let objectObservation = observation as? VNRecognizedObjectObservation else {
-                continue
-            }
-            // Select only the label with the highest confidence.
-            let topLabelObservation = objectObservation.labels[0]
-            NSLog(topLabelObservation.identifier);
-            //Do some necessary transformation
-            var bbox=objectObservation.boundingBox
-            var bbox_rotated=CGRect(x: 1-bbox.minY, y: bbox.maxX, width: bbox.height, height: bbox.width)
-            var xscale:CGFloat=1440*1170/(1920*834)//1.0522
-            var yscale:CGFloat=1/1.3333
-            var bbox_flipped=CGRect(x: bbox.minX*xscale-(1-1/xscale)/2, y: (1-bbox.maxY)*yscale+0.125, width: bbox.width*xscale, height: bbox.height*yscale)
-            var w:Int=Int(bufferSize.width)
-            var h:Int=Int(bufferSize.height)
-            //let objectBounds = VNImageRectForNormalizedRect(bbox_rotated, 600, 600)
-            //let objectBoundsOffset=CGRect(x: objectBounds.minX-100, y: objectBounds.minY+100, width: objectBounds.width, height: objectBounds.height)
-            let objectBounds = VNImageRectForNormalizedRect(bbox_flipped, w,h)
-            //let objectBounds = VNImageRectForNormalizedRect(objectObservation.boundingBox, Int(bufferSize.width), Int(bufferSize.height))
-            let centerPosition=CGPoint(x:objectBounds.midX*896/1170-112,y: objectBounds.midY*896/1170 )
-            //cast ray
-//            if let cast = arView.raycast(from: centerPosition, allowing: .estimatedPlane, alignment: .any).first {
-//                let resultAnchor = AnchorEntity(world: cast.worldTransform)
-//                resultAnchor.addChild(sphere(radius: 0.01, color: .lightGray))
-//                self.arView.scene.addAnchor(resultAnchor)
-//                var castedAnchor=cast.anchor
-//                if(!(castedAnchor==nil)){
-//                    if(!AnchorList.contains(castedAnchor!)){
-//                        AnchorList.append(castedAnchor!)
-//                    }
-//                }
-//            }
-        }
-        //self.updateLayerGeometry()
-    }
+    
     func sphere(radius: Float, color: UIColor) -> ModelEntity {
         let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: radius), materials: [SimpleMaterial(color: color, isMetallic: false)])
         // Move sphere up by half its diameter so that it does not intersect with the mesh
@@ -329,25 +279,15 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                         if layer is IssueLayer{
                             let issueLayer = layer as! IssueLayer
                             rootLayer.addSublayer( issueLayer.getExtendedLayer())
-                            print("Trying to add another layer")
+                            //print("Trying to add another layer")
                         }
                     }
                     else{
-                        print("Layer doesn't contain click")
+                        //print("Layer doesn't contain click")
                     }
                 }
             }
         }
-    }
-
-    private func layerFor(_ touch: UITouch) -> CALayer?
-    {
-        let view = self.view!
-        let touchLocation = touch.location(in: view)
-        let locationInView = view.convert(touchLocation, to: nil)
-
-        let hitPresentationLayer = detectionOverlay.presentation()?.hitTest(locationInView)
-        return hitPresentationLayer?.model()
     }
 }
 
@@ -369,7 +309,11 @@ extension ViewController: RoomCaptureSessionDelegate {
         
         replicator.anchor(objects: room.objects,surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
     }
-
+    func captureSession(_ session: RoomCaptureSession, didStartWith configuration: RoomCaptureSession.Configuration) {
+        arView.session.pause()
+        arView.session = session.arSession
+        arView.session.delegate = self
+    }
 }
 
 extension ViewController: ARSessionDelegate {
@@ -387,6 +331,7 @@ extension ViewController: ARSessionDelegate {
 //            arView.scene.addAnchor(anchorEntity)
         //}
         //arView.scene.addRoomObjectEntities(for: anchors)
+        
     }
 
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
@@ -395,11 +340,6 @@ extension ViewController: ARSessionDelegate {
     }
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         detectionOverlay.sublayers=nil
-        //Draw od results if needed
-        if showBbox{
-            
-            
-        }
         
         // Do something with the new transform
         let allIssues=replicator.getAllIssuesToBePresented()
@@ -419,7 +359,8 @@ extension ViewController: ARSessionDelegate {
             }
             if trans != nil{
                 let position = SIMD3(x: trans!.columns.3.x, y: trans!.columns.3.y, z: trans!.columns.3.z)
-                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+                //let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 428, height: 926))
                 if pos != nil{
                     //TODO: create a new class for the preview layer
                     let shapeLayer=IssueLayer(issue: issue, position: pos!)
@@ -427,6 +368,24 @@ extension ViewController: ARSessionDelegate {
                 }
             }
             
+        }
+//        print(session.currentFrame?.anchors)
+        for a in session.currentFrame!.anchors{
+            if a is DetectedObjectAnchor{
+                let trans=a.transform
+                let position = SIMD3(x: trans.columns.3.x, y: trans.columns.3.y, z: trans.columns.3.z)
+                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+                if pos != nil{
+                    //TODO: create a new class for the preview layer
+                    let layer=CALayer()
+                    layer.position = CGPoint(x: pos!.x, y: pos!.y)
+                    layer.bounds = CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
+                    layer.frame=CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
+                    layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.1, 0.1, 1.0, 0.4])
+                    layer.cornerRadius = 7
+                    detectionOverlay.addSublayer(layer)
+                }
+            }
         }
 //        for a in replicator.getAllIssuesToBePresented(){
 //            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)

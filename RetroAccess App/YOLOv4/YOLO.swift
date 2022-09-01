@@ -151,11 +151,11 @@ class YOLO : NSObject {
 		
 		if let output = try? model?.prediction(from: input) {
 			
-			print("Inference time: \(Date.now.timeIntervalSince(startTime))")
+			//print("Inference time: \(Date.now.timeIntervalSince(startTime))")
 			
 			let comp = computeBoundingBoxes(features: output)
 			
-			print("Prediction time: \(Date.now.timeIntervalSince(startTime))")
+			//print("Prediction time: \(Date.now.timeIntervalSince(startTime))")
 			return comp
 		} else {
 			return []

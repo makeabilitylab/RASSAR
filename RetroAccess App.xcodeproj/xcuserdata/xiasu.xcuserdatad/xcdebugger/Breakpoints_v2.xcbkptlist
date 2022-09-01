@@ -30,8 +30,8 @@
             filePath = "RetroAccess App/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "RetroAccess App/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
             landmarkName = "captureSession(_:didAdd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "RetroAccess App/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
             landmarkName = "touchesBegan(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "RetroAccess App/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "touchesBegan(_:with:)"
             landmarkType = "7">
             <Locations>
@@ -302,9 +302,9 @@
             filePath = "RetroAccess App/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "predict(pixelBuffer:)"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "showOnMainThread(_:_:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -350,9 +350,89 @@
             filePath = "RetroAccess App/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "show(predictions:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C19308BF-9FAA-4135-88E8-6000E0E3748F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RetroAccess App/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
+            landmarkName = "session(_:didUpdate:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1663AECB-C27A-41D3-B36F-25F67BBB0A9E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RetroAccess App/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "show(predictions:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1663AECB-C27A-41D3-B36F-25F67BBB0A9E - fc9f583e0be206cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RetroAccess_App.ViewController.show(predictions: Swift.Array&lt;RetroAccess_App.Prediction&gt;) -&gt; ()"
+                  moduleName = "RetroAccess App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xiasu/Desktop/RetroAccess/RetroAccess%20App/RetroAccess%20App/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "224"
+                  endingLineNumber = "224"
+                  offsetFromSymbolStart = "3092">
+               </Location>
+               <Location
+                  uuid = "1663AECB-C27A-41D3-B36F-25F67BBB0A9E - fc9f583e0be206cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RetroAccess_App.ViewController.show(predictions: Swift.Array&lt;RetroAccess_App.Prediction&gt;) -&gt; ()"
+                  moduleName = "RetroAccess App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xiasu/Desktop/RetroAccess/RetroAccess%20App/RetroAccess%20App/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "224"
+                  endingLineNumber = "224"
+                  offsetFromSymbolStart = "3152">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2DC3A4F1-7E7F-4AB5-8F46-172F428C48D5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RetroAccess App/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
+            landmarkName = "session(_:didUpdate:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

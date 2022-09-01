@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import RoomPlan
 public class IssueLayer:CALayer{
     private var issue:AccessibilityIssue
     public var pos:CGPoint
@@ -19,10 +19,10 @@ public class IssueLayer:CALayer{
     }
     private func generateLayer(){
         //TODO: generate a layer that include short information and icon.
-        var x=pos.x*926/1440-403.333
-        var y=pos.y*926/1440
-        //var x=pos.x
-        //var y=pos.y
+        //var x=pos.x*926/1440-403.333
+        //var y=pos.y*926/1440
+        var x=pos.x
+        var y=pos.y
         //var x=214
         //var y=463
         self.bounds = CGRect(x: x, y: y, width:200, height: 100)
@@ -34,8 +34,9 @@ public class IssueLayer:CALayer{
         
         let textLayer = CATextLayer()
         textLayer.name = "Object Label"
-        let category=issue.category.rawValue
-        let formattedString = NSMutableAttributedString(string: category)
+        //let category=issue.category.rawValue
+        let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
+        let formattedString = NSMutableAttributedString(string:category )
         let largeFont = UIFont(name: "Helvetica", size: 20.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
         textLayer.string = formattedString
@@ -74,5 +75,28 @@ public class IssueLayer:CALayer{
             textLayer.removeFromSuperlayer()
         })
         return textLayer
+    }
+    public func getCategoryString(category:CapturedRoom.Object.Category)->String{
+        switch category {
+        case .storage: return "storage"
+        case .refrigerator: return "fridge"
+        case .stove: return "stove"
+        case .bed: return "bed"
+        case .sink:  return "sink"
+//        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
+        case .toilet: return "toilet"
+        case .bathtub: return "bathtub"
+        case .oven: return "oven"
+        case .dishwasher: return "dishwasher"
+        case .table: return "table"
+        case .sofa: return "sofa"
+        case .chair: return "chair"
+        case .fireplace: return "fireplace"
+//        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
+        case .stairs: return "stairs"
+        @unknown default:
+            return "unknown"
+            //fatalError()
+        }
     }
 }
