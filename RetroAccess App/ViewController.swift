@@ -69,13 +69,13 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     }
     @objc func stop(sender: UIButton!) {
         //Generate pdf report with scanned issues
-        let vc = self.storyboard?.instantiateViewController(
-            withIdentifier: "PreviewView") {
+//        if let vc = self.storyboard?.instantiateViewController(
+//            withIdentifier: "PreviewView") {
 //                let pdfCreator = PDFCreator(title: "Detection Result", body: "List of Accessibility issues",contact: "some author contact")
 //                vc.documentData = pdfCreator.createFlyer()
 //                vc.modalPresentationStyle = .fullScreen
 //                present(vc, animated: true)
-        }
+//        }
     }
     private func setupRoomCapture() {
         //roomCaptureView = RoomCaptureView(frame: view.bounds)
