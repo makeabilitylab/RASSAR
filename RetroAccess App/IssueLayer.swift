@@ -48,17 +48,29 @@ public class IssueLayer:CALayer{
         
         let iconLayer = CALayer()
         iconLayer.name = "Object Icon"
-        let iconCategory=getIconCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
-        iconLayer.contents = UIImage(named: "Furniture")?.cgImage
+        let iconCategory=getIconCategoryString()
+        switch iconCategory{
+        case "furniture":
+            iconLayer.contents = UIImage(named: "Furniture")?.cgImage
+        case "medication":
+            iconLayer.contents = UIImage(named: "Medicine")?.cgImage
+        case "notice":
+            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
+        case "sharp":
+            iconLayer.contents = UIImage(named: "Sharp")?.cgImage
+        default:
+            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
+        }
+        //iconLayer.contents = UIImage(named: "Furniture")?.cgImage
         iconLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
         iconLayer.position = CGPoint(x:x+35, y: y+35)
         self.addSublayer(iconLayer)
         
         let textLayer = CenterCATextLayer()
         textLayer.name = "Object Label"
-        //let category=issue.category.rawValue
+        let category=issue.category.rawValue
 
-        let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
+        //let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
         let formattedString = NSMutableAttributedString(string:category )
         let largeFont = UIFont(name: "Helvetica", size: 24.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
@@ -133,27 +145,47 @@ public class IssueLayer:CALayer{
             //fatalError()
         }
     }
-    public func getIconCategoryString(category:CapturedRoom.Object.Category)->String{
-        switch category {
-        case .storage: return "furniture"
-        case .refrigerator: return "furniture"
-        case .stove: return "furniture"
-        case .bed: return "furniture"
-        case .sink:  return "furniture"
-//        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
-        case .toilet: return "furniture"
-        case .bathtub: return "furniture"
-        case .oven: return "furniture"
-        case .dishwasher: return "furniture"
-        case .table: return "furniture"
-        case .sofa: return "furniture"
-        case .chair: return "furniture"
-        case .fireplace: return "furniture"
-//        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
-        case .stairs: return "furniture"
-        @unknown default:
-            return "unknown"
-            //fatalError()
+    public func getIconCategoryString()->String{
+        let source=issue.getSource()
+        if source.SourceDetectedObject != nil{
+            let category=source.SourceDetectedObject!.detectedObjectCategory
+            if category == .Medication{
+                return "medication"
+            }
+            else if category == .Knife || category == .Scissors{
+                return "sharp"
+            }
+            else{
+                return "notice"
+            }
         }
+        else if source.SourceRoomplanObject != nil{
+            return "furniture"
+        }
+        else if source.SourceRoomplanSurface != nil{
+            return "furniture"
+        }
+        return "null"
+//        switch category {
+//        case .storage: return "furniture"
+//        case .refrigerator: return "furniture"
+//        case .stove: return "furniture"
+//        case .bed: return "furniture"
+//        case .sink:  return "furniture"
+////        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
+//        case .toilet: return "furniture"
+//        case .bathtub: return "furniture"
+//        case .oven: return "furniture"
+//        case .dishwasher: return "furniture"
+//        case .table: return "furniture"
+//        case .sofa: return "furniture"
+//        case .chair: return "furniture"
+//        case .fireplace: return "furniture"
+////        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
+//        case .stairs: return "furniture"
+//        @unknown default:
+//            return "unknown"
+//            //fatalError()
+//        }
     }
 }

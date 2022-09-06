@@ -186,6 +186,7 @@ public class Situation{
         //TODO: conduct unit transform. From meter to inch
         //First transform the target value to inch!
         let targetTransformed=target*39.37
+        //let targetTransformed=target
         switch comparison{
         case "NoLessThan":
             if targetTransformed>=Float(values[0]){
