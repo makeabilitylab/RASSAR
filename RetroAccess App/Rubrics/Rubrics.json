@@ -384,7 +384,7 @@
       "Existence":null,
       "Note":null,
       "Message":"Warning: The cabinet is too tall!",
-      "ADA_description":"According to ADA compliance, the height of cabinets should e no more than 27 inches from the floor. The height of the detected cabinet is NUM inches from the floor."
+      "ADA_description":"According to ADA compliance, the height of cabinets should be no more than 27 inches from the floor. The height of the detected cabinet is NUM inches from the floor."
     }
   },
   "Door-Opening":{

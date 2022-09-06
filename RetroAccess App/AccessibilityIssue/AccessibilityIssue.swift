@@ -10,16 +10,16 @@ import ARKit
 
 public enum AccessibilityIssueType:String{
     //TODO: add all existing issues
-    case DangerousItem="DangerousItem"
+    case ExistenceOrNot="ExistenceOrNot"
     case ObjectDimension="ObjectDimension"
-    case LackingAssistingDevice="LackingAssistingDevice"
+    case ObjectPosition="ObjectPosition"
 }
 
 public class AccessibilityIssue
 {
     var time:Date
     var identifier:UUID
-    var transform:simd_float4x4
+    var transform:simd_float4x4?
     var category:AccessibilityIssueType
     var description:String
     var rubric:Situation
@@ -27,7 +27,7 @@ public class AccessibilityIssue
     var sourceRPObject:RoomObjectAnchor?
     var sourceRPSurface:RoomSurfaceAnchor?
     public var updated=false
-    public init(time: Date, identifier:UUID,transform: simd_float4x4,type:AccessibilityIssueType,description:String,rubric:Situation) {
+    public init(time: Date, identifier:UUID,transform: simd_float4x4?,type:AccessibilityIssueType,description:String,rubric:Situation) {
         self.time = time
         self.identifier=identifier
         self.transform = transform

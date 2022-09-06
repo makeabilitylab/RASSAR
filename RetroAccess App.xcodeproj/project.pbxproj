@@ -36,6 +36,9 @@
 		5EB83FB428BD687F00263575 /* CVPiexlBuffer+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FA928BD687F00263575 /* CVPiexlBuffer+Helpers.swift */; };
 		5EB83FB528BD687F00263575 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FAA28BD687F00263575 /* Helpers.swift */; };
 		5EB83FB628BD687F00263575 /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FAB28BD687F00263575 /* BoundingBox.swift */; };
+		5EB83FB828C3FB3500263575 /* Rubrics_mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EB83FB728C3FB3500263575 /* Rubrics_mini.json */; };
+		5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FBC28C72DD800263575 /* PDFCreator.swift */; };
+		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +92,9 @@
 		5EB83FA928BD687F00263575 /* CVPiexlBuffer+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPiexlBuffer+Helpers.swift"; sourceTree = "<group>"; };
 		5EB83FAA28BD687F00263575 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5EB83FAB28BD687F00263575 /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBox.swift; sourceTree = "<group>"; };
+		5EB83FB728C3FB3500263575 /* Rubrics_mini.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Rubrics_mini.json; sourceTree = "<group>"; };
+		5EB83FBC28C72DD800263575 /* PDFCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
+		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,25 +145,22 @@
 		5E1656A1287CD8A2002577D3 /* RetroAccess App */ = {
 			isa = PBXGroup;
 			children = (
+				5EB83FBB28C3FBE600263575 /* AccessibilityIssue */,
+				5EB83FBA28C3FB5E00263575 /* RoomObjectSystem */,
+				5EB83FB928C3FB4100263575 /* Rubrics */,
 				5EB83FA028BD685400263575 /* YOLOv4 */,
-				5E1656DC28877AD1002577D3 /* Rubrics.json */,
-				5E1656D1287CE6AA002577D3 /* RoomObjectReplicator.swift */,
-				5E1656D2287CE6AA002577D3 /* RoomObjectSystem.swift */,
 				5E1656A2287CD8A2002577D3 /* AppDelegate.swift */,
 				5E1656A4287CD8A2002577D3 /* ViewController.swift */,
 				5E1656A6287CD8A2002577D3 /* Experience.rcproject */,
 				5E1656A8287CD8A2002577D3 /* Main.storyboard */,
 				5E1656AB287CD8A4002577D3 /* Assets.xcassets */,
 				5E1656AD287CD8A4002577D3 /* LaunchScreen.storyboard */,
-				5E1656D5287CE901002577D3 /* Filter.swift */,
-				5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */,
-				5E1656DE2888D514002577D3 /* Situation.swift */,
 				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
 				5E1656E62891F8E8002577D3 /* Settings.swift */,
-				5E1656E82892010D002577D3 /* Old_Rubrics.md */,
 				5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */,
-				5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */,
 				5E16572A28ACBDD8002577D3 /* IssueLayer.swift */,
+				5EB83FBC28C72DD800263575 /* PDFCreator.swift */,
+				5EB83FC028C733C900263575 /* PDFPreviewController.swift */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";
@@ -193,6 +196,36 @@
 				5EB83FA528BD687E00263575 /* yolov4.mlpackage */,
 			);
 			path = YOLOv4;
+			sourceTree = "<group>";
+		};
+		5EB83FB928C3FB4100263575 /* Rubrics */ = {
+			isa = PBXGroup;
+			children = (
+				5E1656DC28877AD1002577D3 /* Rubrics.json */,
+				5E1656E82892010D002577D3 /* Old_Rubrics.md */,
+				5EB83FB728C3FB3500263575 /* Rubrics_mini.json */,
+			);
+			path = Rubrics;
+			sourceTree = "<group>";
+		};
+		5EB83FBA28C3FB5E00263575 /* RoomObjectSystem */ = {
+			isa = PBXGroup;
+			children = (
+				5E1656D2287CE6AA002577D3 /* RoomObjectSystem.swift */,
+				5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */,
+				5E1656D1287CE6AA002577D3 /* RoomObjectReplicator.swift */,
+			);
+			path = RoomObjectSystem;
+			sourceTree = "<group>";
+		};
+		5EB83FBB28C3FBE600263575 /* AccessibilityIssue */ = {
+			isa = PBXGroup;
+			children = (
+				5E1656DE2888D514002577D3 /* Situation.swift */,
+				5E1656D5287CE901002577D3 /* Filter.swift */,
+				5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */,
+			);
+			path = AccessibilityIssue;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E1656AF287CD8A4002577D3 /* LaunchScreen.storyboard in Resources */,
+				5EB83FB828C3FB3500263575 /* Rubrics_mini.json in Resources */,
 				5E1656AC287CD8A4002577D3 /* Assets.xcassets in Resources */,
 				5E1656DD28877AD1002577D3 /* Rubrics.json in Resources */,
 				5E1656AA287CD8A2002577D3 /* Main.storyboard in Resources */,
@@ -329,8 +363,10 @@
 			files = (
 				5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */,
 				5EB83FB328BD687F00263575 /* yolov4_final.mlpackage in Sources */,
+				5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */,
 				5E16572928AC62CE002577D3 /* RoomObjectClasses.swift in Sources */,
 				5EB83FB628BD687F00263575 /* BoundingBox.swift in Sources */,
+				5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */,
 				5EB83FB128BD687F00263575 /* YOLO4Tiny.swift in Sources */,
 				5EB83FB528BD687F00263575 /* Helpers.swift in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,

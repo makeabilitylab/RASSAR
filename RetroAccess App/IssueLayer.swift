@@ -34,8 +34,8 @@ public class IssueLayer:CALayer{
         
         let textLayer = CATextLayer()
         textLayer.name = "Object Label"
-        //let category=issue.category.rawValue
-        let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
+        let category=issue.category.rawValue
+        //let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
         let formattedString = NSMutableAttributedString(string:category )
         let largeFont = UIFont(name: "Helvetica", size: 20.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))

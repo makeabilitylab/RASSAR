@@ -1,0 +1,303 @@
+{
+    "Table":{
+        "Dim_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":["Floor"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[28,34]
+            },
+            "RelativePosition":"Upon",
+            "Existence":null,
+            "Note":null,
+            "Message":"Warning: The height of table is not compliant with the ADA guidelines!",
+            "ADA_description":"According to ADA compliance, the surface height of an accessible table will have a height of no more than 34 inches and no less than 28 inches above the floor. The detected table is NUM inches above the floor."
+        }
+    },
+    "Counter":{
+        "Dim_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":["Floor"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[28,34]
+            },
+            "RelativePosition":"Upon",
+            "Existence":null,
+            "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the counter.",
+            "Message":"Warning: Counter is too XXX.",
+            "ADA_description":"According to ADA compliance, counters must be at the proper height (this often is 28-34 inches from the floor). The detected counter is NUM inches from the floor."
+        }
+    },
+    "Toilet-Seat":{
+        "Dim_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":null,
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[17,19]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the toilet seat.",
+            "Message":"Warning: The toilet seat is too XXX!",
+            "ADA_description":"According to ADA compliance, the height of toilet seat should between 17 inches to 19 inches above the floor. The height of the detected toilet seat is NUM inches from the floor."
+        }
+    },
+    "Sofa":{
+        "Dim_Height":{
+            "Community":["Elder"],
+            "Dependency":null,
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[18,20]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":"replace XXX to either 'tall' or 'short'.",
+            "Message":"Warning: The sofa is too XXX!",
+            "ADA_description":"According to ADA compliance, the height of the sofa shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches."
+        },
+        "Depth":{
+            "Community":["Elder"],
+            "Dependency":null,
+            "Dimension":{
+                "Comparison":"Equal",
+                "Value":[20]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":"replace XXX to either 'shallow' or 'deep'.",
+            "Message":"Warning: The sofa is too XXX!",
+            "ADA_description":"According to ADA compliance, the depth of the sofa shall be 20 inches. The depth of the detected sofa is NUM inches."
+        }
+    },
+    "Chair":{
+        "Depth":{
+            "Community":["Elder"],
+            "Dependency":null,
+            "Dimension":{
+                "Comparison":"Equal",
+                "Value":[20]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":"replace XXX to either 'shallow' or 'deep'.",
+            "Message":"Warning: The chair is too XXX!",
+            "ADA_description":"According to ADA compliance, the depth of the chair shall be 20 inches. The depth of the detected sofa is NUM inches."
+        }
+    },
+    "Cabinet":{
+        "Pos_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":null,
+            "Dimension":{
+                "Comparison":"LessThan",
+                "Value":[27]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":null,
+            "Message":"Warning: The cabinet is too tall!",
+            "ADA_description":"According to ADA compliance, the height of cabinets should be no more than 27 inches from the floor. The height of the detected cabinet is NUM inches from the floor."
+        }
+    },
+    "Door-Opening":{
+        "Radius":{
+            "Community":["Wheelchair"],
+            "Dependency":["Door"],
+            "Dimension":{
+                "Comparison":"NoLessThan",
+                "Value":[32]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":null,
+            "Message":"Warning: Too narrow door opening is detected!",
+            "ADA_description":"According to ADA compliance, door openings shall provide a clear width of 32 inches minimum."
+        }
+    },
+    "Sink":{
+        "Dim_Height":{"Community":["Wheelchair"],
+            "Dependency":null,
+            "Dimension":{
+                "Comparison":"LessThan",
+                "Value":[17]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":null,
+            "Message":"Warning: The sink is too tall!",
+            "ADA_description":"According to ADA compliance, the height of the sink is no more than 17 inches from the floor. The height of detected sink is NUM inches from the floor."
+        }
+    },
+    "Knob":{
+        "Pos_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":["Door","Gate"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[34,48]
+            },
+            "RelativePosition":null,
+            "Existence":true,
+            "Note":"replace XXX to either 'close to' or 'far away from'.",
+            "Message":"Warning: The knob is too XXX the floor!",
+            "ADA_description":"According to ADA compliance, a knob shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
+        }
+    },
+    "DoorHandle":{
+        "Pos_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":["Door","Gate"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[34,48]
+            },
+            "RelativePosition":null,
+            "Existence":true,
+            "Note":"replace XXX to either 'close to' or 'far away from'.",
+            "Message":"Warning: The door handle is too XXX the floor!",
+            "ADA_description":"According to ADA compliance, a door handle shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
+        }
+    },
+    "LightingSwitch":{
+        "Pos_Height":{
+            "Community":["Wheelchair"],
+            "Dependency":["Floor"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[15,48]
+            },
+            "RelativePosition":"Upon",
+            "Existence":true,
+            "Note":"replace XXX to either 'close to' or 'far away from'.",
+            "Message":"Warning: The lighting switch is too XXX the floor!",
+            "ADA_description":"According to ADA compliance, lighting switches and outlets shall be mounted in a range from 15 to 48 inches above the floor. The height of the detected lighting switch is NUM inches above the floor."
+        }
+    },
+    
+    "GrabBar-BathTub_Adult":{
+        "Pos_Height":{
+            "Community":["BVI","Elder","Wheelchair"],
+            "Dependency":["Bathtub"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[33,36]
+            },
+            "RelativePosition":"Upon",
+            "Existence":true,
+            "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
+            "Message":"Warning: The grab bar is too XXX above the finished floor!",
+            "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position, 33 inches minimum and 36 inches maximum above the finish floor measured to the top of the gripping surface."
+        }
+    },
+    "GrabBar-BathTub_Children":{
+        "Pos_Height":{
+            "Community":["Children"],
+            "Dependency":["Bathtub"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[18,27]
+            },
+            "RelativePosition":"Upon",
+            "Existence":true,
+            "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
+            "Message":"Warning: The grab bar is too XXX above the finished floor!",
+            "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position 18 inches minimum and 27 inches maximum above the finish floor measured to the top of the gripping surface."
+        }
+    },
+    
+    "Outlets":{
+        "Pos_Height":{
+            "Community":["Children","BVI","Wheelchair","Elder"],
+            "Dependency":["Floor","Stairs"],
+            "Dimension":{
+                "Comparison":"Between",
+                "Value":[15,48]
+            },
+            "RelativePosition":"Upon",
+            "Existence":null,
+            "Note":"replace XXX to either 'floor' or 'stairs'.",
+            "Message":"Warning: Outlets detected on the XXX!",
+            "ADA_description":"For safety, no outlet should be present on the floor or stairs."
+        }
+    },
+    "Carpet":{
+        "ExistenceOrNot":{
+            "Community":["Children","BVI","Wheelchair","Elder"],
+            "Dependency":["Floor"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Upon",
+            "Existence":false,
+            "Note":"replace XXX to either 'floor' or 'stairs'.",
+            "Message":"Warning: Carpets detected on the XXX!",
+            "ADA_description":"For safety, no carpet should be present on the floor or stairs."
+        }
+    },
+    
+    "Scissors":{
+        "ExistenceOrNot":{
+            "Community":["Children"],
+            "Dependency":["Table","Sofa","Counter","Floor","Bed","Chair"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Upon",
+            "Existence":false,
+            "Note":"replace XXX to one of the dependent objects above.",
+            "Message":"Warning: Scissors have been detected in a dangerous place!",
+            "ADA_description":"For safety, no scissors should be present on the XXX."
+        }
+    },
+    "Knives":{
+        "ExistenceOrNot":{
+            "Community":["Children"],
+            "Dependency":["Table","Sofa","Counter","Floor","Bed","Chair"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Upon",
+            "Existence":false,
+            "Note":"replace XXX to one of the dependent objects above.",
+            "Message":"Warning: Knives have been detected in a dangerous place!",
+            "ADA_description":"For safety, no knives should be present on the XXX."
+        }
+    },
+    "Medication":{
+        "ExistenceOrNot":{
+            "Community":["Children"],
+            "Dependency":["Table","Sofa","Counter","Floor","Bed","Chair"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Upon",
+            "Existence":false,
+            "Note":"replace XXX to one of the dependent objects above.",
+            "Message":"Warning: Medicines have been detected in a dangerous place!",
+            "ADA_description":"For safety, keep all medicine and vitamins out of children's reach and sight, even medicine you take every day. Write clear instructions for other caregivers about what medicine to give children, when to give it and how much to give."
+        }
+    },
+    
+    "FireAlarms":{
+        "ExistenceOrNot":{
+            "Community":["Wheelchair","Elder","BVI","Children"],
+            "Dependency":["Kitchen","Bedroom"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Ceiling",
+            "Existence":true,
+            "Note":null,
+            "Message":"Warning: No fire alarm detected!",
+            "ADA_description":"For safety, fire alarms should be placed on the ceiling in the kitchen and bedroom."
+        }
+    }
+}

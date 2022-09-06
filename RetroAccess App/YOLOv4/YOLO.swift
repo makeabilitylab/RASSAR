@@ -287,7 +287,7 @@ class YOLO : NSObject {
 		}
 		
 		//print("predictions [\(output.rows) x \(output.cols)]: max conf: \(confidenceMax), threshold: \(confidenceThreshold)")
-		print(predictions)
+		//print(predictions)
 		
 		// We already filtered out any bounding boxes that have very low scores,
 		// but there still may be boxes that overlap too much with others. We'll

@@ -17,10 +17,9 @@ enum AllObjectCategory{
 }
 
 public enum ODCategory:String, CaseIterable{
-    case ElectricCords="electriccords",Medication="medication",Rug="rug",GrabBar="grabbar"
-    case NightLight="nightlight",Handrail="handrail",ChildSafetyGate="childsafetygate",TubMat="tubMat"
-    case SmokeAlarm="smokealarm",ElectricSocket="electricsocket",Telephone="telephone",Switch="switch"
-    case Doorhandle="doorhandle",Vase="vase",Knife="knife",Scissors="scissors",WindowGuard="windowguard"
+    case Medication="Medication",Rug="Rug",GrabBar="Grab Bar"
+    case SmokeAlarm="Smoke Alarm",ElectricSocket="Electric Socket",Telephone="Telephone",Switch="Switch"
+    case Doorhandle="Door Handle",Knife="Knife",Scissors="Scissors"
 }
 public enum RPObjectCategory:String, CaseIterable{
     case bathtub="bathtub",bed="bed",chair="chair",dishwasher="dishwasher",fireplace="fireplace",oven="oven"
@@ -34,49 +33,122 @@ public class DetectedObject{
     public var identifier: UUID {
         detectedObjectIdentifier
     }
-
-    public var transform: simd_float4x4 {
-        getCenterPosition()
+    public var transform:simd_float4x4{
+        centerTransform
     }
-    public private(set) var dimensions: simd_float3
+    public var position: simd_float3 {
+        centerPosition
+    }
+    public var notifier:NotifyingEntity{
+        notifyingObject
+    }
+    //public private(set) var dimensions: simd_float3
     public private(set) var detectedObjectCategory: ODCategory
     private let detectedObjectIdentifier: UUID
-    private var detectedObjectTransform: [simd_float4x4]
-    
-    public init(category:ODCategory,transform:simd_float4x4)
+    private var detectedObjectAnchors: [DetectedObjectAnchor]
+    private var centerPosition:simd_float3
+    private var centerTransform:simd_float4x4
+    private var notifyingObject:NotifyingEntity
+    private var valid:Bool=false
+    public init(anchor:DetectedObjectAnchor)
     {
-        detectedObjectIdentifier=UUID.init()
-        detectedObjectTransform=[transform]
-        detectedObjectCategory=category
+        detectedObjectIdentifier=anchor.identifier
+        detectedObjectAnchors=[DetectedObjectAnchor]()
+        detectedObjectAnchors.append(anchor)
+        detectedObjectCategory=anchor.category!
+        centerTransform=anchor.transform
+        centerPosition=simd_make_float3(centerTransform.columns.3.x, centerTransform.columns.3.y, centerTransform.columns.3.z)
+        notifyingObject=NotifyingEntity(anchor: anchor)
         //TODO: figure out how to calculate dimensions from image bbox and object distance to camera
-        dimensions=simd_make_float3(0, 0, 0)
+        //dimensions=simd_make_float3(0, 0, 0)
     }
     
     //This function compares this object anchor with the other, in order to know if they are related to same item
     public func compare(object:DetectedObject)->Bool{
-        //TODO: compare 2 objects by their transform, category, and potentially dimension
+        
         fatalError("Unimplemented function")
     }
     
     //If 2 objects are related to a same item, just merge them. Notice that the object as parameter is the one being merged
-    public func merge(object:DetectedObject){
-        detectedObjectTransform.append(object.transform)
+    public func merge(object:DetectedObjectAnchor)->Bool{
+        //TODO: compare 2 objects by their transform, category, and potentially dimension
+        if object.category==detectedObjectCategory{
+            if calculateDistance(centerPos: centerPosition, transform: object.transform)<Settings.instance.detectedObjectMergeThreshold{
+                detectedObjectAnchors.append(object)
+                if detectedObjectAnchors.count==Settings.instance.detectedObjectAnchorCountThreshold{
+                    tellValidity()
+                }
+                calculateCenterPosition()
+                return true
+            }
+        }
+        return false
     }
-    
-    private func getCenterPosition()->simd_float4x4{
-        //TODO: calculate middle position and return it
-        return detectedObjectTransform[0]
+    public func expel(object:DetectedObjectAnchor)->Bool{
+        //This function determines if a new anchor should be expelled by this object.
+        //If this object is valid (has many anchors), and close enough to anchor, and has different class
+        if valid{
+            if object.category != detectedObjectCategory{
+                if calculateDistance(centerPos: centerPosition, transform: object.transform)<Settings.instance.detectedObjectMergeThreshold{
+                    return true
+                }
+            }
+        }
+        return false
     }
     public func getDimension(measurement:String)->Double{
-        if measurement=="Height"{
-            return Double(dimensions.y)
-        }
-        else{
-            fatalError("Unexpected diension name")
-        }
+//        if measurement=="Height"{
+//            return Double(dimensions.y)
+//        }
+//        else{
+//            fatalError("Unexpected diension name")
+//        }
+        fatalError("OD object dimension not implemented yet!")
     }
     public func getCategoryName()->String{
         return self.detectedObjectCategory.rawValue
+    }
+    public func calculateDistance(centerPos:simd_float3,transform:simd_float4x4)->Float{
+        let x=centerPos.x-transform.columns.3.x
+        let y=centerPos.y-transform.columns.3.y
+        let z=centerPos.z-transform.columns.3.z
+        return sqrt(x*x+y*y+z*z)
+    }
+    public func calculateCenterPosition()->simd_float3{
+        var x:Float=0
+        var y:Float=0
+        var z:Float=0
+        for a in detectedObjectAnchors{
+            x+=a.transform.columns.3.x
+            y+=a.transform.columns.3.y
+            z+=a.transform.columns.3.z
+        }
+        x=x/Float( detectedObjectAnchors.count)
+        y=y/Float(detectedObjectAnchors.count)
+        z=z/Float(detectedObjectAnchors.count)
+        centerPosition=simd_make_float3(x, y, z)
+        //Update the transform of self and notifying object
+        centerTransform.columns.3.x=x
+        centerTransform.columns.3.y=y
+        centerTransform.columns.3.z=z
+        notifyingObject.updateTransform(transform: centerTransform)
+        return centerPosition
+    }
+    public func tellValidity(){
+        if detectedObjectAnchors.count < Settings.instance.detectedObjectAnchorCountThreshold{
+            fatalError("Unexpected error!")
+        }
+        //TODO: use scene context to understand if this item is placed right
+        valid=true
+        notifyingObject.show()
+    }
+    public func getPosition(measurement:String)->Float{
+        switch measurement{
+        case "Height":
+            return centerPosition.y-Settings.instance.replicator!.getFloorHeight()
+        default:
+            fatalError("Non-Implemented situation")
+        }
     }
 }
 public class DetectedObjectAnchor:ARAnchor{
@@ -90,16 +162,16 @@ public class DetectedObjectAnchor:ARAnchor{
 
     //public private(set) var dimensions: simd_float3
     public private(set) var category: ODCategory?
-
+    public var ODRect:CGRect?
     public var detectedObjectIdentifier: UUID?
     //private var detectedObjectTransform: simd_float4x4?
 
-    public init(anchor: ARAnchor,cat:String,identifier:UUID) {
+    public init(anchor: ARAnchor,rect:CGRect,cat:String,identifier:UUID) {
 
         detectedObjectIdentifier = identifier
         //detectedObjectTransform = anchor.transform
         //dimensions = anchor.dimensions
-        
+        ODRect=rect
         category = ODCategory(rawValue: cat)
 
         super.init(anchor: anchor)
@@ -168,20 +240,18 @@ public class RoomObjectAnchor: ARAnchor {
         case "Height":
             return Double(dimensions.y)
         case "Depth":
-            //TODO: find a way to figure out which direction is depth. Probably need to use geometric methods like plane detetion or mass center finding
-            return Double(dimensions.x)
-        case "Radius":
-            //TODO: find a way to figure out radius. Probably need to use
-            return Double(dimensions.x)
+            //TODO: find a way to figure out which direction is depth. Probably need to use geometric methods like plane detetion or mass center finding. Now just return the smallest dim of x and y
+            return min(Double(dimensions.x), Double(dimensions.z))
         default:
-            print("Non-implemented situation")
+            fatalError("Non-implemented situation")
         }
-        
-        if measurement=="Height"{
-            return Double(dimensions.y)
-        }
-        else{
-            fatalError("Unexpected diension name")
+    }
+    public func getPosition(measurement:String)->Float{
+        switch measurement{
+        case "Height":
+            return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()
+        default:
+            fatalError("Non-implemented situation")
         }
     }
     public func getCategoryName()->String{
@@ -271,23 +341,18 @@ public class RoomSurfaceAnchor: ARAnchor {
     }
     public func getDimension(measurement:String)->Double{
         switch measurement{
-        case "Height":
-            return Double(dimensions.y)
-        case "Depth":
-            //TODO: find a way to figure out which direction is depth. Probably need to use geometric methods like plane detetion or mass center finding
-            return Double(dimensions.x)
         case "Radius":
-            //TODO: find a way to figure out radius. Probably need to use
-            return Double(dimensions.x)
+            return max(Double(dimensions.x), Double(dimensions.z))
         default:
-            print("Non-implemented situation")
+            fatalError("Non-implemented situation")
         }
-        
-        if measurement=="Height"{
-            return Double(dimensions.y)
-        }
-        else{
-            fatalError("Unexpected diension name")
+    }
+    public func getPosition(measurement:String)->Float{
+        switch measurement{
+        case "Height":
+            return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()
+        default:
+            fatalError("Non-implemented situation")
         }
     }
 }

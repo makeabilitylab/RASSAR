@@ -11,7 +11,7 @@ import ARKit
 class Filter
 {
     //TODO: create 2 json files
-    let rubricFile="Rubrics"
+    let rubricFile="Rubrics_mini"
     let suggestionFile=""
     //var rubrics:Data?
     var replicator:RoomObjectReplicator
