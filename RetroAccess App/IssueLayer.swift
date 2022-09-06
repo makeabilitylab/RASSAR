@@ -8,6 +8,20 @@
 import Foundation
 import UIKit
 import RoomPlan
+
+class CenterCATextLayer : CATextLayer {
+    override func draw(in context: CGContext) {
+        let height = self.bounds.size.height
+        let fontSize = self.fontSize
+        let yDiff = (height-fontSize)/2 - fontSize/10
+
+        context.saveGState()
+        context.translateBy(x: 0, y: yDiff)
+        super.draw(in: context)
+        context.restoreGState()
+    }
+}
+
 public class IssueLayer:CALayer{
     private var issue:AccessibilityIssue
     public var pos:CGPoint
@@ -25,29 +39,47 @@ public class IssueLayer:CALayer{
         var y=pos.y
         //var x=214
         //var y=463
-        self.bounds = CGRect(x: x, y: y, width:200, height: 100)
-        self.frame=CGRect(x: x, y: y, width:200, height: 100)
+        self.bounds = CGRect(x: x, y: y, width:340, height: 70)
+        self.frame=CGRect(x: x, y: y, width:340, height: 70)
         self.position = CGPoint(x: x, y: y)
         self.name = "Issue Preview"
-        self.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 0.2, 0.2, 0.4])
+        self.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.663, 0.663, 0.663, 0.4])
         self.cornerRadius = 7
         
-        let textLayer = CATextLayer()
+        let iconLayer = CALayer()
+        iconLayer.name = "Object Icon"
+        let iconCategory=getIconCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
+        iconLayer.contents = UIImage(named: "Furniture")?.cgImage
+        iconLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
+        iconLayer.position = CGPoint(x:x+35, y: y+35)
+        self.addSublayer(iconLayer)
+        
+        let textLayer = CenterCATextLayer()
         textLayer.name = "Object Label"
-        //let category=issue.category.rawValue
         let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
         let formattedString = NSMutableAttributedString(string:category )
-        let largeFont = UIFont(name: "Helvetica", size: 20.0)!
+        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
         textLayer.string = formattedString
-        textLayer.bounds = CGRect(x: 0, y: 0, width: 150, height: 50)
-        textLayer.position = CGPoint(x:x+100, y: y+50)
-        textLayer.shadowOpacity = 0.7
-        textLayer.shadowOffset = CGSize(width: 2, height: 2)
-        textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
-        textLayer.contentsScale = 2.0 // retina rendering
-        
+        textLayer.bounds = CGRect(x: 0, y: 0, width: 135, height: 50)
+        textLayer.position = CGPoint(x:x+137.5, y: y+35)
+        textLayer.alignmentMode = CATextLayerAlignmentMode.center
+        textLayer.contentsScale = 2.0
         self.addSublayer(textLayer)
+        
+        let checkLayer = CALayer()
+        checkLayer.name = "Check Box"
+        checkLayer.contents = UIImage(named: "V")?.cgImage
+        checkLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
+        checkLayer.position = CGPoint(x:x+240, y: y+35)
+        self.addSublayer(checkLayer)
+        
+        let xLayer = CALayer()
+        xLayer.name = "X Box"
+        xLayer.contents = UIImage(named: "X")?.cgImage
+        xLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
+        xLayer.position = CGPoint(x:x+300, y: y+35)
+        self.addSublayer(xLayer)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -94,6 +126,29 @@ public class IssueLayer:CALayer{
         case .fireplace: return "fireplace"
 //        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
         case .stairs: return "stairs"
+        @unknown default:
+            return "unknown"
+            //fatalError()
+        }
+    }
+    public func getIconCategoryString(category:CapturedRoom.Object.Category)->String{
+        switch category {
+        case .storage: return "furniture"
+        case .refrigerator: return "furniture"
+        case .stove: return "furniture"
+        case .bed: return "furniture"
+        case .sink:  return "furniture"
+//        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
+        case .toilet: return "furniture"
+        case .bathtub: return "furniture"
+        case .oven: return "furniture"
+        case .dishwasher: return "furniture"
+        case .table: return "furniture"
+        case .sofa: return "furniture"
+        case .chair: return "furniture"
+        case .fireplace: return "furniture"
+//        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
+        case .stairs: return "furniture"
         @unknown default:
             return "unknown"
             //fatalError()
