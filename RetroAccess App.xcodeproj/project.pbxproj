@@ -39,6 +39,7 @@
 		5EB83FB828C3FB3500263575 /* Rubrics_mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EB83FB728C3FB3500263575 /* Rubrics_mini.json */; };
 		5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FBC28C72DD800263575 /* PDFCreator.swift */; };
 		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
+		5EB83FC328C84D8300263575 /* yolov4_final_9_classes.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		5EB83FB728C3FB3500263575 /* Rubrics_mini.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Rubrics_mini.json; sourceTree = "<group>"; };
 		5EB83FBC28C72DD800263575 /* PDFCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
+		5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov4_final_9_classes.mlpackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				5EB83FA428BD687E00263575 /* VideoCapture.swift */,
 				5EB83FA128BD687E00263575 /* YOLO.swift */,
 				5EB83FA628BD687E00263575 /* YOLO4Tiny.swift */,
+				5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */,
 				5EB83FA828BD687F00263575 /* yolov4_final.mlpackage */,
 				5EB83FA528BD687E00263575 /* yolov4.mlpackage */,
 			);
@@ -375,6 +378,7 @@
 				5EB83FB228BD687F00263575 /* UIImage+CVPixelBuffer.swift in Sources */,
 				5E1656DF2888D514002577D3 /* Situation.swift in Sources */,
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
+				5EB83FC328C84D8300263575 /* yolov4_final_9_classes.mlpackage in Sources */,
 				5EB83FAC28BD687F00263575 /* YOLO.swift in Sources */,
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,
 				5E1656D4287CE6AA002577D3 /* RoomObjectSystem.swift in Sources */,

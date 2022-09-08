@@ -32,7 +32,7 @@ public class NotifyingEntity: Entity, HasAnchoring, HasModel{
         //components.set([AnchoringComponent(roomObjectAnchor)])
         self.transform=Transform(matrix: roomObjectAnchor.transform)
     }
-    public convenience init(anchor: ARAnchor,dim:Float=0.3) {
+    public convenience init(anchor: ARAnchor,dim:Float=0.2) {
         
         self.init(dimensions: simd_float3.init(x: dim, y:dim, z: dim))
         //components.set([AnchoringComponent(anchor)])

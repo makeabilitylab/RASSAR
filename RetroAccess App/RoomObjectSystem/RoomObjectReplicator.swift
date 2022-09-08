@@ -186,16 +186,16 @@ public class RoomObjectReplicator {
     public func updateAccessibilityIssue(in session: RoomCaptureSession){
         //First search with current frame information
         let currentIssues=self.filter!.filter()
-        for obj in trackedObjectAnchors{
-            print(obj.category)
-            print(obj.transform.columns.3)
-            print(obj.dimensions)
-        }
-        for obj in trackedSurfaceAnchors{
-            print(obj.category)
-            print(obj.transform.columns.3)
-            print(obj.dimensions)
-        }
+//        for obj in trackedObjectAnchors{
+//            print(obj.category)
+//            print(obj.transform.columns.3)
+//            print(obj.dimensions)
+//        }
+//        for obj in trackedSurfaceAnchors{
+//            print(obj.category)
+//            print(obj.transform.columns.3)
+//            print(obj.dimensions)
+//        }
         //Then set all existing issue's updated attribute to false. This helps removing disappearing issues
         for (_,issue) in detectedIssues{
             issue.updated=false
@@ -205,6 +205,9 @@ public class RoomObjectReplicator {
             issue.updated=true
             if detectedIssues[issue.identifier] != nil{
                 //Nothing to do for now
+                if detectedIssues[issue.identifier]!.cancelled{
+                    issue.cancel()
+                }
                 detectedIssues[issue.identifier]=issue
             }
             else{

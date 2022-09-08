@@ -26,7 +26,7 @@ class YOLO4My : YOLOWrapper {
 		
 		yolo = nil
 		
-		let model = try await yolov4_final.load(contentsOf: Bundle.main.url(forResource: "yolov4_final", withExtension: "mlmodelc")!).model
+		let model = try await yolov4_final.load(contentsOf: Bundle.main.url(forResource: "yolov4_final_9_classes", withExtension: "mlmodelc")!).model
 		
 		try yolo = YOLO(width: width, height: height,
 				channels: 3, model: model, confidenceThreshold: confidence, nmsThreshold: nms, maxBoundingBoxes: maxBoundingBoxes)

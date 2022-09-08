@@ -23,7 +23,7 @@ class Settings{
     
     var replicator:RoomObjectReplicator?=nil
     //Hyper parameters
-    var dimension_tolerance=1
+    var dimension_tolerance=0
     var detectedObjectMergeThreshold=Float(0.3)
     var detectedObjectAnchorCountThreshold=5
 }

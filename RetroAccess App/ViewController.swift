@@ -46,7 +46,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         
         //Load new OD framework
         Task { [weak self] in
-            try! await self!.yolo.load(width: 416, height: 416, confidence: 0.5, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
+            try! await self!.yolo.load(width: 416, height: 416, confidence: 0.6, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
             print("YOLO successfully loaded")
         }
         setUpBoundingBoxes()
@@ -255,24 +255,25 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
 //                let query=session.currentFrame?.raycastQuery(from: center, allowing: .estimatedPlane, alignment:.any)
 //                print(query?.origin)
 //                print(cameraPosition)
-                if let cast=arView.raycast(from: center, allowing: .estimatedPlane, alignment: .any).first{
-                    //print("A successful cast")
-                    let resultAnchor = ARAnchor(transform:  cast.worldTransform)
-                    let resultTransform=cast.worldTransform
-                    let name=yolo.names[prediction.classIndex]
-                    let prob=prediction.score
-                    let odAnchor=DetectedObjectAnchor(anchor: resultAnchor, rect:rect,cat: name!, identifier: UUID.init())
-                    if odAnchor.category != nil{
-                        ODAnchors.append(odAnchor)
+                //Only cast for centered points
+                if center.x>50 && center.x<378 && center.y>50 && center.y<876
+                {
+                    if let cast=arView.raycast(from: center, allowing: .estimatedPlane, alignment: .any).first{
+                        //print("A successful cast")
+                        let resultAnchor = ARAnchor(transform:  cast.worldTransform)
+                        let resultTransform=cast.worldTransform
+                        let name=yolo.names[prediction.classIndex]
+                        let prob=prediction.score
+                        let odAnchor=DetectedObjectAnchor(anchor: resultAnchor, rect:rect,cat: name!, identifier: UUID.init())
+                        if odAnchor.category != nil{
+                            ODAnchors.append(odAnchor)
+                        }
+                        //replicator.addODAnchor(anchor:odAnchor)
+    //                    session.add(anchor: odAnchor)
+                        //let resultAnchor = AnchorEntity(world: cast.worldTransform)
+                        //resultAnchor.addChild(sphere(radius: 0.05, color: .lightGray))
+                        //arView.scene.addAnchor(resultAnchor)
                     }
-                    //replicator.addODAnchor(anchor:odAnchor)
-//                    session.add(anchor: odAnchor)
-                    //let resultAnchor = AnchorEntity(world: cast.worldTransform)
-                    //resultAnchor.addChild(sphere(radius: 0.05, color: .lightGray))
-                    //arView.scene.addAnchor(resultAnchor)
-                }
-                else{
-                    //print("No cast result returned")
                 }
                 //centers.append(CGPoint(x: rect.origin.x, y: rect.origin.y))
                 
@@ -305,7 +306,9 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                     if layer.contains(locationInView){
                         if layer is IssueLayer{
                             let issueLayer = layer as! IssueLayer
-                            rootLayer.addSublayer( issueLayer.getExtendedLayer())
+                            //This is where we used to add popping up layer. Now cancel this to use as cancel issue
+                            //rootLayer.addSublayer( issueLayer.getExtendedLayer())
+                            issueLayer.issue.cancel()
                             //print("Trying to add another layer")
                         }
                     }
@@ -344,23 +347,23 @@ extension ViewController: RoomCaptureSessionDelegate {
 }
 
 extension ViewController: ARSessionDelegate {
-
+    
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
-//        for a in anchors{
-//            //session.add(anchor: a)
-//            //arView.scene.addAnchor(NotifyingEntity(anchor:a))
-//
-//            let mesh = MeshResource.generateSphere(radius: 0.3)
-//            let material = SimpleMaterial(color: .systemRed, roughness: 0.27, isMetallic: false)
-//            let model = ModelEntity(mesh: mesh, materials: [material])
-//            let anchorEntity = AnchorEntity(anchor: a)
-//            anchorEntity.anchor?.addChild(model)
-//            arView.scene.addAnchor(anchorEntity)
+        //        for a in anchors{
+        //            //session.add(anchor: a)
+        //            //arView.scene.addAnchor(NotifyingEntity(anchor:a))
+        //
+        //            let mesh = MeshResource.generateSphere(radius: 0.3)
+        //            let material = SimpleMaterial(color: .systemRed, roughness: 0.27, isMetallic: false)
+        //            let model = ModelEntity(mesh: mesh, materials: [material])
+        //            let anchorEntity = AnchorEntity(anchor: a)
+        //            anchorEntity.anchor?.addChild(model)
+        //            arView.scene.addAnchor(anchorEntity)
         //}
         //arView.scene.addRoomObjectEntities(for: anchors)
         
     }
-
+    
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
         //arView.scene.updateRoomObjectEntities(for: anchors)
         
@@ -371,6 +374,9 @@ extension ViewController: ARSessionDelegate {
         // Do something with the new transform
         let allIssues=replicator.getAllIssuesToBePresented()
         for issue in allIssues{
+            if issue.cancelled{
+                continue
+            }
             let source=issue.getSource()
             //let anchor=issue.getAnchor()
             var trans:simd_float4x4?
@@ -387,51 +393,65 @@ extension ViewController: ARSessionDelegate {
             if trans != nil{
                 let position = SIMD3(x: trans!.columns.3.x, y: trans!.columns.3.y, z: trans!.columns.3.z)
                 //let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
-                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 428, height: 926))
-                if pos != nil{
-                    //TODO: create a new class for the preview layer
-                    let shapeLayer=IssueLayer(issue: issue, position: pos!)
-                    detectionOverlay.addSublayer(shapeLayer)
-                }
+                //let cameraTrans=session.currentFrame?.camera.transform
+                //let cameraPos=SIMD3(x: cameraTrans!.columns.3.x, y: cameraTrans!.columns.3.y, z: cameraTrans!.columns.3.z)
+                //                let angle=session.currentFrame?.camera.eulerAngles
+                //                let angle2=session.currentFrame?.camera.transform
+                //let vector=SIMD3(x: position.x-cameraPos.x, y: position.y-cameraPos.y, z: position.z-cameraPos.z)
+                //                let dot=simd_dot(angle!,vector)
+                //                print("camera angle and issue vector")
+                //                print(angle)
+                //                print(vector)
+                //                print(dot)
+                //if simd_length(vector)<2.5{
+                    let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 428, height: 926))
+                    if pos != nil{
+                        //TODO: create a new class for the preview layer
+                        let shapeLayer=IssueLayer(issue: issue, position: pos!)
+                        detectionOverlay.addSublayer(shapeLayer)
+                    }
+                    //                }
+                    
+                //}
+                
             }
-            
+            //        print(session.currentFrame?.anchors)
+            //Use UI layer to visualize DetectedObjectAnchor
+            //        for a in session.currentFrame!.anchors{
+            //            if a is DetectedObjectAnchor{
+            //                let trans=a.transform
+            //                let position = SIMD3(x: trans.columns.3.x, y: trans.columns.3.y, z: trans.columns.3.z)
+            //                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+            //                if pos != nil{
+            //                    //TODO: create a new class for the preview layer
+            //                    let layer=CALayer()
+            //                    layer.position = CGPoint(x: pos!.x, y: pos!.y)
+            //                    layer.bounds = CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
+            //                    layer.frame=CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
+            //                    layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.1, 0.1, 1.0, 0.4])
+            //                    layer.cornerRadius = 7
+            //                    detectionOverlay.addSublayer(layer)
+            //                }
+            //            }
+            //        }
+            //        for a in replicator.getAllIssuesToBePresented(){
+            //            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)
+            //            let rotation=simd_float3x3(columns: (SIMD3(x: a.transform.columns.0.x, y: a.transform.columns.0.y, z: a.transform.columns.0.z),
+            //                                                 SIMD3(x: a.transform.columns.1.x, y: a.transform.columns.1.y, z: a.transform.columns.1.z),
+            //                                                 SIMD3(x: a.transform.columns.2.x, y: a.transform.columns.2.y, z: a.transform.columns.2.z)))
+            //            //position+=simd_mul(rotation,a.dimensions/2)
+            //            let bounds=view.bounds.size.width
+            //            let boundsh=view.bounds.size.height
+            //            let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
+            //            //Add an icon onto UI layer
+            //            print(a.getCategoryName())
+            //            print(pos)
+            //            if pos != nil{
+            //                //TODO: create a new class for the preview layer
+            //                let shapeLayer=createPreviewLayerWithPosition(pos!,a.getCategoryName())
+            //                detectionOverlay.addSublayer(shapeLayer)
+            //            }
+            //        }
         }
-//        print(session.currentFrame?.anchors)
-        //Use UI layer to visualize DetectedObjectAnchor
-//        for a in session.currentFrame!.anchors{
-//            if a is DetectedObjectAnchor{
-//                let trans=a.transform
-//                let position = SIMD3(x: trans.columns.3.x, y: trans.columns.3.y, z: trans.columns.3.z)
-//                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
-//                if pos != nil{
-//                    //TODO: create a new class for the preview layer
-//                    let layer=CALayer()
-//                    layer.position = CGPoint(x: pos!.x, y: pos!.y)
-//                    layer.bounds = CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
-//                    layer.frame=CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
-//                    layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.1, 0.1, 1.0, 0.4])
-//                    layer.cornerRadius = 7
-//                    detectionOverlay.addSublayer(layer)
-//                }
-//            }
-//        }
-//        for a in replicator.getAllIssuesToBePresented(){
-//            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)
-//            let rotation=simd_float3x3(columns: (SIMD3(x: a.transform.columns.0.x, y: a.transform.columns.0.y, z: a.transform.columns.0.z),
-//                                                 SIMD3(x: a.transform.columns.1.x, y: a.transform.columns.1.y, z: a.transform.columns.1.z),
-//                                                 SIMD3(x: a.transform.columns.2.x, y: a.transform.columns.2.y, z: a.transform.columns.2.z)))
-//            //position+=simd_mul(rotation,a.dimensions/2)
-//            let bounds=view.bounds.size.width
-//            let boundsh=view.bounds.size.height
-//            let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
-//            //Add an icon onto UI layer
-//            print(a.getCategoryName())
-//            print(pos)
-//            if pos != nil{
-//                //TODO: create a new class for the preview layer
-//                let shapeLayer=createPreviewLayerWithPosition(pos!,a.getCategoryName())
-//                detectionOverlay.addSublayer(shapeLayer)
-//            }
-//        }
     }
 }
