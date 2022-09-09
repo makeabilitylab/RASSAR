@@ -65,7 +65,7 @@ public class IssueLayer:CALayer{
         iconLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
         iconLayer.position = CGPoint(x:x+35, y: y+35)
         self.addSublayer(iconLayer)
-        
+
         let textLayer = CenterCATextLayer()
         textLayer.name = "Object Label"
         let category=issue.category.rawValue
@@ -80,20 +80,18 @@ public class IssueLayer:CALayer{
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
         textLayer.contentsScale = 2.0
         self.addSublayer(textLayer)
-        
-        let checkLayer = CALayer()
-        checkLayer.name = "Check Box"
-        checkLayer.contents = UIImage(named: "V")?.cgImage
-        checkLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
-        checkLayer.position = CGPoint(x:x+240, y: y+35)
-        self.addSublayer(checkLayer)
-        
-        let xLayer = CALayer()
-        xLayer.name = "X Box"
-        xLayer.contents = UIImage(named: "X")?.cgImage
-        xLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
-        xLayer.position = CGPoint(x:x+300, y: y+35)
-        self.addSublayer(xLayer)
+
+        let checkButton = UIButton(type: UIButton.ButtonType.system) as UIButton
+        checkButton.frame = CGRectMake(x+215, y+10, 50, 50)
+        checkButton.layer.contents = UIImage(named: "V")?.cgImage
+        checkButton.addTarget(self, action: #selector(pressedCheckBtn(sender:)), for: UIControl.Event.touchUpInside)
+        self.addSublayer(checkButton.layer)
+
+        let xButton = UIButton(type: UIButton.ButtonType.system) as UIButton
+        xButton.frame = CGRectMake(x+275, y+10, 50, 50)
+        xButton.layer.contents = UIImage(named: "X")?.cgImage
+        xButton.addTarget(self, action: #selector(pressedCheckBtn(sender:)), for: UIControl.Event.touchUpInside)
+        self.addSublayer(xButton.layer)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -187,5 +185,13 @@ public class IssueLayer:CALayer{
 //            return "unknown"
 //            //fatalError()
 //        }
+    }
+    
+    @objc func pressedCheckBtn(sender: UIButton) {
+        print("Pressed the Check Button!")
+    }
+    
+    @objc func pressedXBtn(sender: UIButton) {
+        print("Pressed the X Button!")
     }
 }
