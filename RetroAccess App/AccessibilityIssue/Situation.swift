@@ -97,6 +97,8 @@ public class Situation{
         }
         else if retrieveResults.foundRoomplanObjects.count>0{
             for obj in retrieveResults.foundRoomplanObjects{
+                print(obj.category)
+                print(obj.dimensions)
                 if compareValues(target: Float(obj.getDimension(measurement:measurement)), comparison: self.dimension!.comparison!, values: self.dimension!.value!)==false{
                     let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                                  type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
@@ -136,9 +138,11 @@ public class Situation{
         else{
             //Then exist become problem. Only detected objects would be considered
             for obj in retrieveResults.foundDetectedObjects{
-                let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .ExistenceOrNot, description: "", rubric: self)
-                issue.setSourceODObject(source: obj)
-                issuesFound.append(issue)
+                if obj.valid{
+                    let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .ExistenceOrNot, description: "", rubric: self)
+                    issue.setSourceODObject(source: obj)
+                    issuesFound.append(issue)
+                }
             }
         }
         
@@ -155,6 +159,11 @@ public class Situation{
 //        }
         let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keywordMainPart)
         for obj in retrieveResults.foundDetectedObjects{
+            if obj.valid != true{
+                continue
+            }
+            print(obj.detectedObjectCategory.rawValue)
+            print(obj.position)
             if compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                              type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
@@ -164,6 +173,10 @@ public class Situation{
         }
         for obj in retrieveResults.foundRoomplanObjects{
             if compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
+                print("Found obj position issue")
+                print(obj.category)
+                print(obj.getPosition(measurement: measurement))
+                print(obj.transform.columns.3)
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                              type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
                 issue.setSourceRPObject(source: obj)
@@ -186,6 +199,7 @@ public class Situation{
         //TODO: conduct unit transform. From meter to inch
         //First transform the target value to inch!
         let targetTransformed=target*39.37
+        let v=Float(values[0])
         //let targetTransformed=target
         switch comparison{
         case "NoLessThan":
@@ -199,7 +213,7 @@ public class Situation{
             }
             return false
         case "Between":
-            if targetTransformed>=Float(values[0]) && target<=Float(values[1]){
+            if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
                 return true
             }
             return false

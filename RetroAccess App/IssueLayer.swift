@@ -23,7 +23,7 @@ class CenterCATextLayer : CATextLayer {
 }
 
 public class IssueLayer:CALayer{
-    private var issue:AccessibilityIssue
+    public var issue:AccessibilityIssue
     public var pos:CGPoint
     public init(issue:AccessibilityIssue,position:CGPoint){
         self.issue=issue
@@ -68,11 +68,11 @@ public class IssueLayer:CALayer{
 
         let textLayer = CenterCATextLayer()
         textLayer.name = "Object Label"
-        let category=issue.category.rawValue
+        let category=issue.category.rawValue+":"+getCategoryString()
 
         //let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
         let formattedString = NSMutableAttributedString(string:category )
-        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
+        let largeFont = UIFont(name: "Helvetica", size: 20.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
         textLayer.string = formattedString
         textLayer.bounds = CGRect(x: 0, y: 0, width: 135, height: 50)
@@ -120,28 +120,45 @@ public class IssueLayer:CALayer{
         })
         return textLayer
     }
-    public func getCategoryString(category:CapturedRoom.Object.Category)->String{
-        switch category {
-        case .storage: return "storage"
-        case .refrigerator: return "fridge"
-        case .stove: return "stove"
-        case .bed: return "bed"
-        case .sink:  return "sink"
-//        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
-        case .toilet: return "toilet"
-        case .bathtub: return "bathtub"
-        case .oven: return "oven"
-        case .dishwasher: return "dishwasher"
-        case .table: return "table"
-        case .sofa: return "sofa"
-        case .chair: return "chair"
-        case .fireplace: return "fireplace"
-//        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
-        case .stairs: return "stairs"
-        @unknown default:
-            return "unknown"
-            //fatalError()
+    public func getCategoryString()->String{
+        let source=issue.getSource()
+        if source.SourceDetectedObject != nil{
+            return source.SourceDetectedObject!.detectedObjectCategory.rawValue
         }
+        else if source.SourceRoomplanObject != nil {
+            let category=source.SourceRoomplanObject!.category
+            switch category {
+            case .storage: return "storage"
+            case .refrigerator: return "fridge"
+            case .stove: return "stove"
+            case .bed: return "bed"
+            case .sink:  return "sink"
+    //        case .washerDryer: return SimpleMaterial(color: .systemPurple, roughness: roughness, isMetallic: false)
+            case .toilet: return "toilet"
+            case .bathtub: return "bathtub"
+            case .oven: return "oven"
+            case .dishwasher: return "dishwasher"
+            case .table: return "table"
+            case .sofa: return "sofa"
+            case .chair: return "chair"
+            case .fireplace: return "fireplace"
+    //        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
+            case .stairs: return "stairs"
+            @unknown default:
+                return "unknown"
+                //fatalError()
+            }
+        }
+        else if source.SourceRoomplanSurface != nil{
+            let category=source.SourceRoomplanSurface!.category
+            switch category{
+            case .door(isOpen: true): return "door"
+            case .door(isOpen: false): return "door"
+            default:
+                return "unknown"
+            }
+        }
+        return "NULL"
     }
     public func getIconCategoryString()->String{
         let source=issue.getSource()

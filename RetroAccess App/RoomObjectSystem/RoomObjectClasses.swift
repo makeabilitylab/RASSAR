@@ -49,7 +49,7 @@ public class DetectedObject{
     private var centerPosition:simd_float3
     private var centerTransform:simd_float4x4
     private var notifyingObject:NotifyingEntity
-    private var valid:Bool=false
+    public var valid:Bool=false
     public init(anchor:DetectedObjectAnchor)
     {
         detectedObjectIdentifier=anchor.identifier
@@ -249,7 +249,7 @@ public class RoomObjectAnchor: ARAnchor {
     public func getPosition(measurement:String)->Float{
         switch measurement{
         case "Height":
-            return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()
+            return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()-dimensions.y
         default:
             fatalError("Non-implemented situation")
         }

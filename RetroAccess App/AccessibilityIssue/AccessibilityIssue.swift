@@ -26,6 +26,7 @@ public class AccessibilityIssue
     var sourceObject:DetectedObject?
     var sourceRPObject:RoomObjectAnchor?
     var sourceRPSurface:RoomSurfaceAnchor?
+    var cancelled:Bool=false
     public var updated=false
     public init(time: Date, identifier:UUID,transform: simd_float4x4?,type:AccessibilityIssueType,description:String,rubric:Situation) {
         self.time = time
@@ -34,6 +35,9 @@ public class AccessibilityIssue
         self.category=type
         self.description=description
         self.rubric=rubric
+    }
+    public func cancel(){
+        self.cancelled=true
     }
     public func getSuggestion()->String{
         //TODO: retrirve suggestion from document
