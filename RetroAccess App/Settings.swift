@@ -26,4 +26,5 @@ class Settings{
     var dimension_tolerance=0
     var detectedObjectMergeThreshold=Float(0.3)
     var detectedObjectAnchorCountThreshold=5
+    var raycastEnabled=false
 }

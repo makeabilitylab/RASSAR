@@ -68,14 +68,14 @@ public class IssueLayer:CALayer{
         
         let textLayer = CenterCATextLayer()
         textLayer.name = "Object Label"
-        let category=issue.category.rawValue+":"+getCategoryString()
-
+        //let category=issue.category.rawValue+":"+getCategoryString()
+        let category=getCategoryString()
         //let category=getCategoryString(category:issue.getSource().SourceRoomplanObject!.category)
         let formattedString = NSMutableAttributedString(string:category )
         let largeFont = UIFont(name: "Helvetica", size: 20.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: category.count))
         textLayer.string = formattedString
-        textLayer.bounds = CGRect(x: 0, y: 0, width: 135, height: 50)
+        textLayer.bounds = CGRect(x: 0, y: 0, width: 185, height: 50)
         textLayer.position = CGPoint(x:x+137.5, y: y+35)
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
         textLayer.contentsScale = 2.0
@@ -86,14 +86,14 @@ public class IssueLayer:CALayer{
         checkLayer.contents = UIImage(named: "V")?.cgImage
         checkLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
         checkLayer.position = CGPoint(x:x+240, y: y+35)
-        self.addSublayer(checkLayer)
+        //self.addSublayer(checkLayer)
         
         let xLayer = CALayer()
         xLayer.name = "X Box"
         xLayer.contents = UIImage(named: "X")?.cgImage
         xLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
         xLayer.position = CGPoint(x:x+300, y: y+35)
-        self.addSublayer(xLayer)
+        //self.addSublayer(xLayer)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -104,7 +104,7 @@ public class IssueLayer:CALayer{
         textLayer.name = "Extended Layer"
         let details=issue.getDetails()
         let formattedString = NSMutableAttributedString(string: details)
-        let largeFont = UIFont(name: "Helvetica", size: 15.0)!
+        let largeFont = UIFont(name: "Helvetica", size: 18.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: details.count))
         textLayer.string = formattedString
         textLayer.bounds = CGRect(x: 0, y: 0, width: 400, height: 300)
@@ -130,7 +130,7 @@ public class IssueLayer:CALayer{
         else if source.SourceRoomplanObject != nil {
             let category=source.SourceRoomplanObject!.category
             switch category {
-            case .storage: return "storage"
+            case .storage: return "Storage too high"
             case .refrigerator: return "fridge"
             case .stove: return "stove"
             case .bed: return "bed"
@@ -140,9 +140,9 @@ public class IssueLayer:CALayer{
             case .bathtub: return "bathtub"
             case .oven: return "oven"
             case .dishwasher: return "dishwasher"
-            case .table: return "table"
-            case .sofa: return "sofa"
-            case .chair: return "chair"
+            case .table: return "Table too low"
+            case .sofa: return "Sofa too low"
+            case .chair: return "Chair too shallow"
             case .fireplace: return "fireplace"
     //        case .television: return SimpleMaterial(color: .systemGray3, roughness: roughness, isMetallic: false)
             case .stairs: return "stairs"

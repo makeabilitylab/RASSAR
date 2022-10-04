@@ -11,7 +11,7 @@ class OnboardViewController: UIViewController {
 
     @IBOutlet var communityPicker:UIPickerView!
     var selected:String="null"
-    let communities=["Please select one community","Blind or Low Vision","Children","Elder People","Wheelchair"]
+    let communities=["Please select one community","Blind or Low Vision People","Children","Older Adults","Wheelchair Users"]
     override func viewDidLoad() {
         super.viewDidLoad()
         communityPicker.dataSource=self

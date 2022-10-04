@@ -27,6 +27,7 @@
 		5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */; };
 		5E16572928AC62CE002577D3 /* RoomObjectClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */; };
 		5E16572B28ACBDD8002577D3 /* IssueLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16572A28ACBDD8002577D3 /* IssueLayer.swift */; };
+		5E8502F028DE6CA200FA3F01 /* YOLOResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8502EF28DE6CA200FA3F01 /* YOLOResizer.swift */; };
 		5EB83FAC28BD687F00263575 /* YOLO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FA128BD687E00263575 /* YOLO.swift */; };
 		5EB83FAF28BD687F00263575 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FA428BD687E00263575 /* VideoCapture.swift */; };
 		5EB83FB028BD687F00263575 /* yolov4.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FA528BD687E00263575 /* yolov4.mlpackage */; };
@@ -84,6 +85,7 @@
 		5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingEntity.swift; sourceTree = "<group>"; };
 		5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomObjectClasses.swift; sourceTree = "<group>"; };
 		5E16572A28ACBDD8002577D3 /* IssueLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLayer.swift; sourceTree = "<group>"; };
+		5E8502EF28DE6CA200FA3F01 /* YOLOResizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOResizer.swift; sourceTree = "<group>"; };
 		5EB83FA128BD687E00263575 /* YOLO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YOLO.swift; sourceTree = "<group>"; };
 		5EB83FA428BD687E00263575 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		5EB83FA528BD687E00263575 /* yolov4.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov4.mlpackage; sourceTree = "<group>"; };
@@ -147,22 +149,18 @@
 		5E1656A1287CD8A2002577D3 /* RetroAccess App */ = {
 			isa = PBXGroup;
 			children = (
+				5E8502F128DFA3EB00FA3F01 /* UI */,
 				5EB83FBB28C3FBE600263575 /* AccessibilityIssue */,
 				5EB83FBA28C3FB5E00263575 /* RoomObjectSystem */,
 				5EB83FB928C3FB4100263575 /* Rubrics */,
 				5EB83FA028BD685400263575 /* YOLOv4 */,
 				5E1656A2287CD8A2002577D3 /* AppDelegate.swift */,
-				5E1656A4287CD8A2002577D3 /* ViewController.swift */,
 				5E1656A6287CD8A2002577D3 /* Experience.rcproject */,
 				5E1656A8287CD8A2002577D3 /* Main.storyboard */,
 				5E1656AB287CD8A4002577D3 /* Assets.xcassets */,
 				5E1656AD287CD8A4002577D3 /* LaunchScreen.storyboard */,
-				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
 				5E1656E62891F8E8002577D3 /* Settings.swift */,
 				5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */,
-				5E16572A28ACBDD8002577D3 /* IssueLayer.swift */,
-				5EB83FBC28C72DD800263575 /* PDFCreator.swift */,
-				5EB83FC028C733C900263575 /* PDFPreviewController.swift */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";
@@ -184,6 +182,18 @@
 			path = "RetroAccess AppUITests";
 			sourceTree = "<group>";
 		};
+		5E8502F128DFA3EB00FA3F01 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				5E1656A4287CD8A2002577D3 /* ViewController.swift */,
+				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
+				5E16572A28ACBDD8002577D3 /* IssueLayer.swift */,
+				5EB83FBC28C72DD800263575 /* PDFCreator.swift */,
+				5EB83FC028C733C900263575 /* PDFPreviewController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		5EB83FA028BD685400263575 /* YOLOv4 */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +207,7 @@
 				5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */,
 				5EB83FA828BD687F00263575 /* yolov4_final.mlpackage */,
 				5EB83FA528BD687E00263575 /* yolov4.mlpackage */,
+				5E8502EF28DE6CA200FA3F01 /* YOLOResizer.swift */,
 			);
 			path = YOLOv4;
 			sourceTree = "<group>";
@@ -385,6 +396,7 @@
 				5E1656D8287CE916002577D3 /* AccessibilityIssue.swift in Sources */,
 				5EB83FAF28BD687F00263575 /* VideoCapture.swift in Sources */,
 				5E1656E72891F8E8002577D3 /* Settings.swift in Sources */,
+				5E8502F028DE6CA200FA3F01 /* YOLOResizer.swift in Sources */,
 				5EB83FB028BD687F00263575 /* yolov4.mlpackage in Sources */,
 				5E1656A7287CD8A2002577D3 /* Experience.rcproject in Sources */,
 				5EB83FB428BD687F00263575 /* CVPiexlBuffer+Helpers.swift in Sources */,
@@ -581,7 +593,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.MakeabilityLab.RetroAccess-App";
+				PRODUCT_BUNDLE_IDENTIFIER = com.XiaSu.RetroAccess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -613,7 +625,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.MakeabilityLab.RetroAccess-App";
+				PRODUCT_BUNDLE_IDENTIFIER = com.XiaSu.RetroAccess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

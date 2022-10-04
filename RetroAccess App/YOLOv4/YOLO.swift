@@ -55,7 +55,7 @@ class imageInput : MLFeatureProvider {
 @objc class Prediction : NSObject {
 	@objc let classIndex: Int
 	@objc let score: Float
-	@objc let rect: CGRect
+	@objc var rect: CGRect
 	
 	public init(classIndex: Int,
 	 score: Float,

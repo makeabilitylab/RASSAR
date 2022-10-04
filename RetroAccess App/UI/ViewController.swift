@@ -34,6 +34,9 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     let ciContext = CIContext()
     var resizedPixelBuffer: CVPixelBuffer?
     var showBbox:Bool=false
+    
+    var resizers:[YOLOResizer]=[YOLOResizer]()
+    
     private var bboxOverlay: CALayer! = nil
     override func viewDidLoad() {
         replicator.setView(view:arView)
@@ -51,8 +54,11 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         }
         setUpBoundingBoxes()
         setUpCoreImage()
+        setUpYOLOResizers()
         self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
-            self.updateOD()
+            for resizer in self.resizers{
+                self.updateOD(resizer: resizer)
+            }
             //self.drawVisionRequestResults(self.ODResults)
             //self.updateObjectLabelWithODResult(self.ODResults)
         })
@@ -65,7 +71,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         stopButton.addTarget(self, action: #selector(stop), for: .touchUpInside)
         stopButton.setTitleColor(.white, for: .normal)
         stopButton.backgroundColor = .blue
-        self.view.addSubview(stopButton)
+        //self.view.addSubview(stopButton)
     }
     @objc func stop(sender: UIButton!) {
         //Generate pdf report with scanned issues
@@ -166,16 +172,26 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         bboxOverlay.position = CGPoint(x: 0, y: 0)
         rootLayer.addSublayer(bboxOverlay)
     }
-    func updateOD(){
+    func setUpYOLOResizers(){
+        //Firstly, we have a null resizer that does nothing.
+        //TODO: First test the resized one, then update the showing func to show both results
+        //resizers.append(YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppingPosition: .middle, croppingRatio: 1))
+        
+        //Then add a middle part resizer
+        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppedBufferSize: CGSize(width: 416, height: 416), croppingPosition: .middle, rotate: .up)
+        resizers.append(middleResizer)
+        rootLayer.addSublayer(middleResizer.getNotifyingFrame())
+    }
+    func updateOD(resizer:YOLOResizer){
         //try to add od here
         guard let currentFrame = roomCaptureSession?.arSession.currentFrame else {
             return
         }
         let buffer = currentFrame.capturedImage
         //visionRequest(buffer)
-        predict(pixelBuffer: buffer)
+        predict(pixelBuffer: buffer,resizer: resizer)
     }
-    func predict(pixelBuffer: CVPixelBuffer) {
+    func predict(pixelBuffer: CVPixelBuffer,resizer:YOLOResizer) {
         
         // Measure how long it takes to predict a single video frame.
         let startTime = CACurrentMediaTime()
@@ -191,11 +207,15 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         //let finalImage=scaledImage.transformed(by: rotateTransform)
         ciContext.render(scaledImage, to: resizedPixelBuffer)
         
-        
-        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
+        if let boundingBoxes = try? yolo.predict(image: resizer.resizeBuffer(buffer: pixelBuffer)) {
             let elapsed = CACurrentMediaTime() - startTime
-            showOnMainThread(boundingBoxes, elapsed)
+            let resizedBbox=resizer.resizeResults(initialResults:boundingBoxes)
+            showOnMainThread(resizedBbox, elapsed)
         }
+//        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
+//            let elapsed = CACurrentMediaTime() - startTime
+//            showOnMainThread(boundingBoxes, elapsed)
+//        }
     }
     
     
@@ -217,36 +237,43 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             if i < predictions.count {
                 let prediction = predictions[i]
                 
-                let width = view.bounds.height/1920*1440
-                let height = view.bounds.height
-                let scaleX = width
-                let scaleY = height
-                let left = (width - view.bounds.width) / 2
-                
-                // Translate and scale the rectangle to our own coordinate system.
+//                let width = view.bounds.height/1920*1440
+//                let height = view.bounds.height
+//                let scaleX = width
+//                let scaleY = height
+//                let left = (width - view.bounds.width) / 2
+//
+//                // Translate and scale the rectangle to our own coordinate system.
                 var rect = prediction.rect
-                let temp1=rect.origin.x
-                rect.origin.x=1-rect.origin.y-rect.size.height
-                rect.origin.y=temp1
-                
-                rect.origin.x *= scaleX
-                rect.origin.y *= scaleY
-                rect.origin.x -= left
-                
-                let temp2=rect.size.width
-                rect.size.width=rect.size.height
-                rect.size.height=temp2
-                
-                rect.size.width *= scaleX
-                rect.size.height *= scaleY
-                
+//                let temp1=rect.origin.x
+//                rect.origin.x=1-rect.origin.y-rect.size.height
+//                rect.origin.y=temp1
+//
+//                rect.origin.x *= scaleX
+//                rect.origin.y *= scaleY
+//                rect.origin.x -= left
+//
+//                let temp2=rect.size.width
+//                rect.size.width=rect.size.height
+//                rect.size.height=temp2
+//
+//                rect.size.width *= scaleX
+//                rect.size.height *= scaleY
+//
                 // Show the bounding box.
                 let label = String(format: "%@ %.1f", yolo.names[prediction.classIndex] ?? "<unknown>", prediction.score)
                 let color = colors[prediction.classIndex]
                 if showBbox{
+                    print("showing result")
+                    print(label)
+                    print(rect.origin)
+                    print(rect.size)
                     boundingBoxes[i].show(frame: rect, label: label, color: color)
                 }
                 //Conduct raycast to find 3D pos of item
+                if Settings.instance.raycastEnabled == false{
+                    return
+                }
                 //let center=CGPoint(x: rect.origin.x/view.bounds.width, y: rect.origin.y/view.bounds.height)
                 let center=CGPoint(x: rect.origin.x+rect.size.width/2, y: rect.origin.y+rect.size.height/2)
                 //let session=roomCaptureSession!.arSession
@@ -383,6 +410,8 @@ extension ViewController: ARSessionDelegate {
             if source.SourceDetectedObject != nil{
                 //TODO: get the transformation of od objects
                 trans=source.SourceDetectedObject?.transform
+                //Xia's Note: Cancel the pop-up for detected object since there are already yolo box and red ball
+                continue
             }
             else if source.SourceRoomplanObject != nil{
                 trans=source.SourceRoomplanObject?.transform
