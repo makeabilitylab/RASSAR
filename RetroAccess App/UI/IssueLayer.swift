@@ -65,7 +65,7 @@ public class IssueLayer:CALayer{
         iconLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
         iconLayer.position = CGPoint(x:x+35, y: y+35)
         self.addSublayer(iconLayer)
-        
+
         let textLayer = CenterCATextLayer()
         textLayer.name = "Object Label"
         //let category=issue.category.rawValue+":"+getCategoryString()
@@ -204,5 +204,13 @@ public class IssueLayer:CALayer{
 //            return "unknown"
 //            //fatalError()
 //        }
+    }
+    
+    @objc func pressedCheckBtn(sender: UIButton) {
+        print("Pressed the Check Button!")
+    }
+    
+    @objc func pressedXBtn(sender: UIButton) {
+        print("Pressed the X Button!")
     }
 }
