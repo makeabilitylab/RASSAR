@@ -9,13 +9,21 @@ import UIKit
 
 class OnboardViewController: UIViewController {
 
-    @IBOutlet var communityPicker:UIPickerView!
+    //@IBOutlet var communityPicker:UIPickerView!
+    @IBOutlet weak var CB_WheelChair: CheckBox!
+    @IBOutlet weak var CB_BLV: CheckBox!
+    @IBOutlet weak var CB_Senior: CheckBox!
+    @IBOutlet weak var CB_Children: CheckBox!
     var selected:String="null"
     let communities=["Please select one community","Blind or Low Vision People","Children","Older Adults","Wheelchair Users"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        communityPicker.dataSource=self
-        communityPicker.delegate=self
+        CB_WheelChair.setImageName(img_name: "Wheelchair")
+        CB_BLV.setImageName(img_name: "BLV")
+        CB_Senior.setImageName(img_name: "Senior")
+        CB_Children.setImageName(img_name: "Children")
+        //communityPicker.dataSource=self
+        //communityPicker.delegate=self
         // Do any additional setup after loading the view.
         
     }
@@ -31,7 +39,8 @@ class OnboardViewController: UIViewController {
     }
     */
     @IBAction func didTapButton(){
-        if selected=="null"{
+        //if selected=="null"{
+        if CB_WheelChair.isChecked == false && CB_BLV.isChecked == false && CB_Senior.isChecked == false && CB_Children.isChecked == false{
             var dialogMessage = UIAlertController(title: "Error", message: "Please select a community before scanning.", preferredStyle: .alert)
             
             // Create OK button with action handler
@@ -46,35 +55,36 @@ class OnboardViewController: UIViewController {
         }
         else if let viewController = self.storyboard?.instantiateViewController(
             withIdentifier: "MainView") {
-            Settings.instance.community=selected
+            //TODO: Actuallty link this
+            Settings.instance.community="Wheelchair"
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)
         }
     
     }
 }
-extension OnboardViewController:UIPickerViewDataSource{
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return communities.count
-    }
-    
-    
-}
-extension OnboardViewController:UIPickerViewDelegate{
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return communities[row]
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row==0{
-            selected="null"
-        }
-        else
-        {selected=communities[row]}
-        //TODO: add some extra input UI here to get children height information, if Children selected
-    }
-}
+//extension OnboardViewController:UIPickerViewDataSource{
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 1
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        return communities.count
+//    }
+//
+//
+//}
+//extension OnboardViewController:UIPickerViewDelegate{
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return communities[row]
+//    }
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        if row==0{
+//            selected="null"
+//        }
+//        else
+//        {selected=communities[row]}
+//        //TODO: add some extra input UI here to get children height information, if Children selected
+//    }
+//}
 

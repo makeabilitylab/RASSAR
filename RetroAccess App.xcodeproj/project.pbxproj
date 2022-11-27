@@ -27,6 +27,18 @@
 		5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */; };
 		5E16572928AC62CE002577D3 /* RoomObjectClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */; };
 		5E16572B28ACBDD8002577D3 /* IssueLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16572A28ACBDD8002577D3 /* IssueLayer.swift */; };
+		5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FB25E28ECEA8100281359 /* CheckBox.swift */; };
+		5E3FB26128ECF03C00281359 /* Living Room.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26028ECF03C00281359 /* Living Room.jpg */; };
+		5E3FB26328ED0A1900281359 /* Children.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26228ED0A1900281359 /* Children.png */; };
+		5E3FB26528ED0A2600281359 /* BLV.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26428ED0A2600281359 /* BLV.png */; };
+		5E3FB26728ED0A3800281359 /* Senior.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26628ED0A3800281359 /* Senior.png */; };
+		5E3FB26928ED0A4600281359 /* Wheelchair.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26828ED0A4600281359 /* Wheelchair.png */; };
+		5E3FB26D28ED58F800281359 /* Globe 3D Model.obj in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26B28ED58F800281359 /* Globe 3D Model.obj */; };
+		5E3FB26E28ED58F800281359 /* Globe 3D Model.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26C28ED58F800281359 /* Globe 3D Model.mtl */; };
+		5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */; };
+		5E3FB27828EE433F00281359 /* Wireframe_3D_Globe.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */; };
+		5E3FB27A28EEAEAF00281359 /* QuickLookPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */; };
+		5E3FB27D28EEC34500281359 /* RoomPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3FB27C28EEC34500281359 /* RoomPlan.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5E8502F028DE6CA200FA3F01 /* YOLOResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8502EF28DE6CA200FA3F01 /* YOLOResizer.swift */; };
 		5EB83FAC28BD687F00263575 /* YOLO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FA128BD687E00263575 /* YOLO.swift */; };
 		5EB83FAF28BD687F00263575 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FA428BD687E00263575 /* VideoCapture.swift */; };
@@ -85,6 +97,18 @@
 		5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingEntity.swift; sourceTree = "<group>"; };
 		5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomObjectClasses.swift; sourceTree = "<group>"; };
 		5E16572A28ACBDD8002577D3 /* IssueLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLayer.swift; sourceTree = "<group>"; };
+		5E3FB25E28ECEA8100281359 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		5E3FB26028ECF03C00281359 /* Living Room.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Living Room.jpg"; sourceTree = "<group>"; };
+		5E3FB26228ED0A1900281359 /* Children.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Children.png; sourceTree = "<group>"; };
+		5E3FB26428ED0A2600281359 /* BLV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BLV.png; sourceTree = "<group>"; };
+		5E3FB26628ED0A3800281359 /* Senior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Senior.png; sourceTree = "<group>"; };
+		5E3FB26828ED0A4600281359 /* Wheelchair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wheelchair.png; sourceTree = "<group>"; };
+		5E3FB26B28ED58F800281359 /* Globe 3D Model.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Globe 3D Model.obj"; sourceTree = "<group>"; };
+		5E3FB26C28ED58F800281359 /* Globe 3D Model.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Globe 3D Model.mtl"; sourceTree = "<group>"; };
+		5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Wireframe_3D_Globe.scn; sourceTree = "<group>"; };
+		5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Wireframe_3D_Globe.usdz; sourceTree = "<group>"; };
+		5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookPreviewController.swift; sourceTree = "<group>"; };
+		5E3FB27C28EEC34500281359 /* RoomPlan.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RoomPlan.framework; path = System/Library/Frameworks/RoomPlan.framework; sourceTree = SDKROOT; };
 		5E8502EF28DE6CA200FA3F01 /* YOLOResizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOResizer.swift; sourceTree = "<group>"; };
 		5EB83FA128BD687E00263575 /* YOLO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YOLO.swift; sourceTree = "<group>"; };
 		5EB83FA428BD687E00263575 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
@@ -106,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E3FB27D28EEC34500281359 /* RoomPlan.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +158,7 @@
 				5E1656B7287CD8A4002577D3 /* RetroAccess AppTests */,
 				5E1656C1287CD8A4002577D3 /* RetroAccess AppUITests */,
 				5E1656A0287CD8A2002577D3 /* Products */,
+				5E3FB27B28EEC34500281359 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +175,7 @@
 		5E1656A1287CD8A2002577D3 /* RetroAccess App */ = {
 			isa = PBXGroup;
 			children = (
+				5E3FB26A28ED58CF00281359 /* ARObjects */,
 				5E8502F128DFA3EB00FA3F01 /* UI */,
 				5EB83FBB28C3FBE600263575 /* AccessibilityIssue */,
 				5EB83FBA28C3FB5E00263575 /* RoomObjectSystem */,
@@ -160,7 +187,6 @@
 				5E1656AB287CD8A4002577D3 /* Assets.xcassets */,
 				5E1656AD287CD8A4002577D3 /* LaunchScreen.storyboard */,
 				5E1656E62891F8E8002577D3 /* Settings.swift */,
-				5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */,
 			);
 			path = "RetroAccess App";
 			sourceTree = "<group>";
@@ -182,14 +208,41 @@
 			path = "RetroAccess AppUITests";
 			sourceTree = "<group>";
 		};
+		5E3FB26A28ED58CF00281359 /* ARObjects */ = {
+			isa = PBXGroup;
+			children = (
+				5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */,
+				5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */,
+				5E3FB26C28ED58F800281359 /* Globe 3D Model.mtl */,
+				5E3FB26B28ED58F800281359 /* Globe 3D Model.obj */,
+				5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */,
+			);
+			path = ARObjects;
+			sourceTree = "<group>";
+		};
+		5E3FB27B28EEC34500281359 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5E3FB27C28EEC34500281359 /* RoomPlan.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5E8502F128DFA3EB00FA3F01 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5E3FB26828ED0A4600281359 /* Wheelchair.png */,
+				5E3FB26628ED0A3800281359 /* Senior.png */,
+				5E3FB26428ED0A2600281359 /* BLV.png */,
+				5E3FB26228ED0A1900281359 /* Children.png */,
+				5E3FB26028ECF03C00281359 /* Living Room.jpg */,
 				5E1656A4287CD8A2002577D3 /* ViewController.swift */,
 				5E1656E42890A306002577D3 /* OnboardViewController.swift */,
 				5E16572A28ACBDD8002577D3 /* IssueLayer.swift */,
 				5EB83FBC28C72DD800263575 /* PDFCreator.swift */,
 				5EB83FC028C733C900263575 /* PDFPreviewController.swift */,
+				5E3FB25E28ECEA8100281359 /* CheckBox.swift */,
+				5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -346,11 +399,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */,
 				5E1656AF287CD8A4002577D3 /* LaunchScreen.storyboard in Resources */,
+				5E3FB26D28ED58F800281359 /* Globe 3D Model.obj in Resources */,
+				5E3FB26E28ED58F800281359 /* Globe 3D Model.mtl in Resources */,
 				5EB83FB828C3FB3500263575 /* Rubrics_mini.json in Resources */,
+				5E3FB26728ED0A3800281359 /* Senior.png in Resources */,
 				5E1656AC287CD8A4002577D3 /* Assets.xcassets in Resources */,
+				5E3FB26328ED0A1900281359 /* Children.png in Resources */,
 				5E1656DD28877AD1002577D3 /* Rubrics.json in Resources */,
+				5E3FB26128ECF03C00281359 /* Living Room.jpg in Resources */,
+				5E3FB26528ED0A2600281359 /* BLV.png in Resources */,
 				5E1656AA287CD8A2002577D3 /* Main.storyboard in Resources */,
+				5E3FB26928ED0A4600281359 /* Wheelchair.png in Resources */,
+				5E3FB27828EE433F00281359 /* Wireframe_3D_Globe.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +448,7 @@
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
+				5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */,
 				5EB83FB228BD687F00263575 /* UIImage+CVPixelBuffer.swift in Sources */,
 				5E1656DF2888D514002577D3 /* Situation.swift in Sources */,
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
@@ -400,6 +463,7 @@
 				5EB83FB028BD687F00263575 /* yolov4.mlpackage in Sources */,
 				5E1656A7287CD8A2002577D3 /* Experience.rcproject in Sources */,
 				5EB83FB428BD687F00263575 /* CVPiexlBuffer+Helpers.swift in Sources */,
+				5E3FB27A28EEAEAF00281359 /* QuickLookPreviewController.swift in Sources */,
 				5E16572B28ACBDD8002577D3 /* IssueLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,7 +642,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P3H6X727CU;
+				DEVELOPMENT_TEAM = T4GVUZVTFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
@@ -596,9 +660,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.XiaSu.RetroAccess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -610,7 +677,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P3H6X727CU;
+				DEVELOPMENT_TEAM = T4GVUZVTFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
@@ -628,9 +695,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.XiaSu.RetroAccess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

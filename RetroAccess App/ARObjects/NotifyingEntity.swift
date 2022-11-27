@@ -50,9 +50,22 @@ public class NotifyingEntity: Entity, HasAnchoring, HasModel{
         self.transform=Transform(matrix: transform)
     }
     public func show(){
-        let mesh = MeshResource.generateSphere(radius: 0.05)
-        let material = SimpleMaterial(color: .systemRed, roughness: 0.80, isMetallic: false)
-        let model = ModelComponent(mesh: mesh, materials: [material])
-        components.set([model])
+//        let mesh = MeshResource.generateSphere(radius: 0.05)
+//        let material = SimpleMaterial(color: .systemRed, roughness: 0.80, isMetallic: false)
+//
+//        let model = ModelComponent(mesh: mesh, materials: [material])
+//        components.set([model])
+        //let asset=Settings.instance.globeAsset
+        //let model=Entity.loadModel(named: "Wireframe_3D_Globe.usdz")
+        //components.set([model])
+        let urlpath     = Bundle.main.path(forResource: "Wireframe_3D_Globe", ofType: "usdz")
+        let url = URL(fileURLWithPath: urlpath!)
+        var globeEntity = try! Entity.load(contentsOf: url)
+        //globeEntity.setScale(simd_float3.init(x: 0.3, y: 0.3, z: 0.3), relativeTo: nil)
+        print("Globe scales")
+        print(globeEntity.scale)
+        //globeEntity.setScale(simd_float3.init(x: 0.1, y: 0.1, z: 0.1), relativeTo: nil)
+        //print(globeEntity.scale)
+        self.addChild(globeEntity)
     }
 }

@@ -36,6 +36,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     var showBbox:Bool=false
     
     var resizers:[YOLOResizer]=[YOLOResizer]()
+    let roombuilder=RoomBuilder(options: [.beautifyObjects])
+    var manager = FileManager.default
     
     private var bboxOverlay: CALayer! = nil
     override func viewDidLoad() {
@@ -71,7 +73,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         stopButton.addTarget(self, action: #selector(stop), for: .touchUpInside)
         stopButton.setTitleColor(.white, for: .normal)
         stopButton.backgroundColor = .blue
-        //self.view.addSubview(stopButton)
+        self.view.addSubview(stopButton)
     }
     @objc func stop(sender: UIButton!) {
         //Generate pdf report with scanned issues
@@ -82,6 +84,13 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
 //                vc.modalPresentationStyle = .fullScreen
 //                present(vc, animated: true)
 //        }
+        //Stop the scan, export result as file, and call the QL Preview
+        roomCaptureSession!.stop()
+        //Export scanned data
+        let jsonData = try! JSONEncoder().encode(replicator)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        print(jsonString)
+        //let result=roomCaptureSession.
     }
     private func setupRoomCapture() {
         //roomCaptureView = RoomCaptureView(frame: view.bounds)
@@ -137,7 +146,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             }
         }
         DispatchQueue.main.async {
-            guard let  boxes = self.boundingBoxes,let videoLayer  = self.bboxOverlay else {return}
+            let boxes = self.boundingBoxes
+            guard let videoLayer  = self.bboxOverlay else {return}
             for box in boxes {
                 box.addToLayer(videoLayer)
             }
@@ -178,7 +188,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         //resizers.append(YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppingPosition: .middle, croppingRatio: 1))
         
         //Then add a middle part resizer
-        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppedBufferSize: CGSize(width: 416, height: 416), croppingPosition: .middle, rotate: .up)
+        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppedBufferSize: CGSize(width: 600, height: 600), croppingPosition: .middle, rotate: .up)
         resizers.append(middleResizer)
         rootLayer.addSublayer(middleResizer.getNotifyingFrame())
     }
@@ -371,6 +381,62 @@ extension ViewController: RoomCaptureSessionDelegate {
         arView.session = session.arSession
         arView.session.delegate = self
     }
+    func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) {
+        print("Stop callback called")
+        Task{
+            print("Building results")
+            let finalRoom = try! await roombuilder.capturedRoom(from: data)
+            
+//            let exportURL=URL(fileURLWithPath: "SavedModel.usdz")
+//            print("Exporting room")
+//            try! finalRoom.export(to: exportURL)
+//            print("Export finished")
+            let rootFolderURL = try manager.url(
+                        for: .documentDirectory,
+                        in: .userDomainMask,
+                        appropriateFor: nil,
+                        create: false
+                    )
+
+            let nestedFolderURL = rootFolderURL.appendingPathComponent("RASSAR")
+            if !manager.fileExists(atPath: nestedFolderURL.relativePath) {
+                try manager.createDirectory(
+                    at: nestedFolderURL,
+                    withIntermediateDirectories: false,
+                    attributes: nil
+                )
+                print("Directory created")
+            }
+            else{
+                print("Directory already exist")
+            }
+
+            let fileURL = nestedFolderURL.appendingPathComponent("SavedModel.usdz")
+            print(fileURL)
+            //try! finalRoom.export(to: fileURL)
+    
+            let walls=finalRoom.walls
+            try! finalRoom.export(to: fileURL)
+            print("Export finished")
+            //let qlview=QuickLookPreviewController()
+            //present(qlview, animated: true)
+        }
+    }
+//    private func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) async{
+//        print("Stop callback called")
+//        Task{
+//            print("Building results")
+//            let finalRoom = try! await roombuilder.capturedRoom(from: data)
+//            let urlpath     = Bundle.main.path(forResource: "SavedModel", ofType: "usdz")
+//            let exportURL=URL(fileURLWithPath: urlpath!)
+//            print("Exporting room")
+//            try! finalRoom.export(to: exportURL)
+//            print("Export finished")
+//            let qlview=QuickLookPreviewController()
+//            present(qlview, animated: true)
+//        }
+//
+//    }
 }
 
 extension ViewController: ARSessionDelegate {

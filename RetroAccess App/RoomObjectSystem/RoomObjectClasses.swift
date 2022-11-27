@@ -151,6 +151,19 @@ public class DetectedObject{
         }
     }
 }
+extension DetectedObject:Encodable{
+    enum CodingKeys: String, CodingKey {
+            case category
+            case identifier
+            case position
+        }
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(getCategoryName(), forKey: .category)
+            try container.encode(identifier, forKey: .identifier)
+            try container.encode(centerPosition, forKey: .position)
+        }
+}
 public class DetectedObjectAnchor:ARAnchor{
 //    public override var identifier: UUID {
 //        detectedObjectIdentifier!
@@ -187,6 +200,8 @@ public class DetectedObjectAnchor:ARAnchor{
         fatalError("Unavailable")
     }
 }
+
+
 //This class is used to replicate objects in RoomPlan results.
 public class RoomObjectAnchor: ARAnchor {
 
@@ -278,6 +293,23 @@ public class RoomObjectAnchor: ARAnchor {
         }
     }
 }
+extension RoomObjectAnchor:Encodable{
+    enum CodingKeys: String, CodingKey {
+            case category
+            case dimensions
+            case identifier
+            case transform
+        }
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(getCategoryName(), forKey: .category)
+            try container.encode(dimensions, forKey: .dimensions)
+            try container.encode(identifier, forKey: .identifier)
+            try container.encode(roomObjectTransform, forKey: .transform)
+        }
+}
+
+
 
 //This class is used to replicate surfaces in RoomPlan results.
 public class RoomSurfaceAnchor: ARAnchor {
@@ -356,4 +388,28 @@ public class RoomSurfaceAnchor: ARAnchor {
         }
     }
 }
-
+extension RoomSurfaceAnchor:Encodable{
+    enum CodingKeys: String, CodingKey {
+            case category
+            case dimensions
+            case identifier
+            case transform
+        }
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(getCategoryName(), forKey: .category)
+            try container.encode(dimensions, forKey: .dimensions)
+            try container.encode(identifier, forKey: .identifier)
+            try container.encode(roomSurfaceTransform, forKey: .transform)
+        }
+}
+extension simd_float4x4: Codable {
+    public init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        try self.init(container.decode([SIMD4<Float>].self))
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode([columns.0,columns.1, columns.2, columns.3])
+    }
+}

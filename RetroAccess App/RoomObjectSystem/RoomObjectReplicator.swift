@@ -4,7 +4,7 @@ import RealityKit
 
 //This class replicates the detected room. All items, including Roomplan objects, surfaces, and Object Detection objects, will be stored here.
 //So any issue detector will take this replicator class as input since it contains all information we have.
-public class RoomObjectReplicator {
+public class RoomObjectReplicator{
     
     private var arView:ARView?
     private var trackedObjectAnchors: Set<RoomObjectAnchor>
@@ -314,5 +314,23 @@ public class RoomObjectReplicator {
             return nil
         }
     }
+    
+    
 
 }
+extension RoomObjectReplicator:Encodable{
+    enum CodingKeys: String, CodingKey {
+            case time
+            case objectAnchors
+            case surfaceAnchors
+            case detectedObjects
+        }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(NSDate().timeIntervalSince1970, forKey: .time)
+        try container.encode(trackedObjectAnchors, forKey: .objectAnchors)
+        try container.encode(trackedSurfaceAnchors, forKey: .surfaceAnchors)
+        try container.encode(trackedObjects, forKey: .detectedObjects)
+    }
+}
+

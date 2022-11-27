@@ -153,8 +153,8 @@ class YOLOResizer{
                 
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.white.cgColor
-        shapeLayer.fillColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.9, 0.9, 0.9, 0.1])
+        shapeLayer.strokeColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.9, 0.9, 0.9, 0.2])
+        shapeLayer.fillColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.9, 0.9, 0.9, 0.05])
         shapeLayer.lineWidth = 3
         return shapeLayer
     }
