@@ -53,6 +53,7 @@
 		5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FBC28C72DD800263575 /* PDFCreator.swift */; };
 		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
 		5EB83FC328C84D8300263575 /* yolov4_final_9_classes.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */; };
+		5EC42018294D4420004F4E88 /* SCNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC42017294D4420004F4E88 /* SCNViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		5EB83FBC28C72DD800263575 /* PDFCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
 		5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov4_final_9_classes.mlpackage; sourceTree = "<group>"; };
+		5EC42017294D4420004F4E88 /* SCNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,7 @@
 				5EB83FC028C733C900263575 /* PDFPreviewController.swift */,
 				5E3FB25E28ECEA8100281359 /* CheckBox.swift */,
 				5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */,
+				5EC42017294D4420004F4E88 /* SCNViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				5EB83FB228BD687F00263575 /* UIImage+CVPixelBuffer.swift in Sources */,
 				5E1656DF2888D514002577D3 /* Situation.swift in Sources */,
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
+				5EC42018294D4420004F4E88 /* SCNViewController.swift in Sources */,
 				5EB83FC328C84D8300263575 /* yolov4_final_9_classes.mlpackage in Sources */,
 				5EB83FAC28BD687F00263575 /* YOLO.swift in Sources */,
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,

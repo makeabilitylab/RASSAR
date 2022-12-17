@@ -14,11 +14,11 @@ public class QuickLookPreviewController:QLPreviewController, QLPreviewController
     }
     
     public func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-        guard let url = Bundle.main.url(forResource: "SavedModel", withExtension: "usdz") else {
-                fatalError("Could not load model")
-            }
-        
-            return url as QLPreviewItem
+        //guard let url = Bundle.main.url(forResource: "SavedModel", withExtension: "usdz") else {
+                //fatalError("Could not load model")
+            //}
+        let url=Settings.instance.modelURL
+            return url! as QLPreviewItem
     }
     
     //let previewController = QLPreviewController()

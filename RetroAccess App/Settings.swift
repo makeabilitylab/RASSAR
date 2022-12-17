@@ -35,6 +35,7 @@ class Settings{
     var detectedObjectMergeThreshold=Float(0.3)
     var detectedObjectAnchorCountThreshold=5
     var raycastEnabled=true
+    var modelURL:URL?
     //var globeAsset:MDLAsset
     //var globeEntity:Entity
 }

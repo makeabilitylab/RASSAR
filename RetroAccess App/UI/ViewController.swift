@@ -413,13 +413,13 @@ extension ViewController: RoomCaptureSessionDelegate {
 
             let fileURL = nestedFolderURL.appendingPathComponent("SavedModel.usdz")
             print(fileURL)
-            //try! finalRoom.export(to: fileURL)
-    
-            let walls=finalRoom.walls
             try! finalRoom.export(to: fileURL)
+            Settings.instance.modelURL=fileURL
+            //let walls=finalRoom.walls
+            //try! finalRoom.export(to: fileURL)
             print("Export finished")
-            //let qlview=QuickLookPreviewController()
-            //present(qlview, animated: true)
+            let qlview=QuickLookPreviewController()
+            present(qlview, animated: true)
         }
     }
 //    private func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) async{
