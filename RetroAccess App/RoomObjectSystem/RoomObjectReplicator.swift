@@ -7,15 +7,15 @@ import RealityKit
 public class RoomObjectReplicator{
     
     private var arView:ARView?
-    private var trackedObjectAnchors: Set<RoomObjectAnchor>
+    var trackedObjectAnchors: Set<RoomObjectAnchor>
     private var trackedObjectAnchorsByIdentifier: [UUID: RoomObjectAnchor]
     private var inflightObjectAnchors: Set<RoomObjectAnchor>
     
-    private var trackedSurfaceAnchors: Set<RoomSurfaceAnchor>
+    var trackedSurfaceAnchors: Set<RoomSurfaceAnchor>
     private var trackedSurfaceAnchorsByIdentifier: [UUID: RoomSurfaceAnchor]
     private var inflightSurfaceAnchors: Set<RoomSurfaceAnchor>
     
-    private var trackedObjects:[DetectedObject]
+    var trackedObjects:[DetectedObject]
     private var trackedObjectsByIdentifier:[UUID:DetectedObject]
     
     private var detectedIssues:[UUID:AccessibilityIssue]

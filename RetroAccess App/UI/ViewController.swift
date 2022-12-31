@@ -383,60 +383,49 @@ extension ViewController: RoomCaptureSessionDelegate {
     }
     func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) {
         print("Stop callback called")
-        Task{
-            print("Building results")
-            let finalRoom = try! await roombuilder.capturedRoom(from: data)
-            
-//            let exportURL=URL(fileURLWithPath: "SavedModel.usdz")
-//            print("Exporting room")
-//            try! finalRoom.export(to: exportURL)
-//            print("Export finished")
-            let rootFolderURL = try manager.url(
-                        for: .documentDirectory,
-                        in: .userDomainMask,
-                        appropriateFor: nil,
-                        create: false
-                    )
-
-            let nestedFolderURL = rootFolderURL.appendingPathComponent("RASSAR")
-            if !manager.fileExists(atPath: nestedFolderURL.relativePath) {
-                try manager.createDirectory(
-                    at: nestedFolderURL,
-                    withIntermediateDirectories: false,
-                    attributes: nil
-                )
-                print("Directory created")
-            }
-            else{
-                print("Directory already exist")
-            }
-
-            let fileURL = nestedFolderURL.appendingPathComponent("SavedModel.usdz")
-            print(fileURL)
-            try! finalRoom.export(to: fileURL)
-            Settings.instance.modelURL=fileURL
-            //let walls=finalRoom.walls
-            //try! finalRoom.export(to: fileURL)
-            print("Export finished")
-            let qlview=QuickLookPreviewController()
-            present(qlview, animated: true)
-        }
-    }
-//    private func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) async{
-//        print("Stop callback called")
-//        Task{
-//            print("Building results")
-//            let finalRoom = try! await roombuilder.capturedRoom(from: data)
-//            let urlpath     = Bundle.main.path(forResource: "SavedModel", ofType: "usdz")
-//            let exportURL=URL(fileURLWithPath: urlpath!)
-//            print("Exporting room")
-//            try! finalRoom.export(to: exportURL)
+        //Task{
+            //print("Building results")
+            //Here was an old method that exports usdz file using RoomPlan's API and show that with QuickLookView. However, this method lacks customizability so we just switched to SCNView instead.
+//            let finalRoom = try! await roombuilder.capturedRoom(from: data)]
+//            let rootFolderURL = try manager.url(
+//                        for: .documentDirectory,
+//                        in: .userDomainMask,
+//                        appropriateFor: nil,
+//                        create: false
+//                    )
+//
+//            let nestedFolderURL = rootFolderURL.appendingPathComponent("RASSAR")
+//            if !manager.fileExists(atPath: nestedFolderURL.relativePath) {
+//                try manager.createDirectory(
+//                    at: nestedFolderURL,
+//                    withIntermediateDirectories: false,
+//                    attributes: nil
+//                )
+//                print("Directory created")
+//            }
+//            else{
+//                print("Directory already exist")
+//            }
+            //let fileURL = nestedFolderURL.appendingPathComponent("SavedModel.usdz")
+//            print(fileURL)
+//            try! finalRoom.export(to: fileURL)
+//            Settings.instance.modelURL=fileURL
 //            print("Export finished")
 //            let qlview=QuickLookPreviewController()
 //            present(qlview, animated: true)
-//        }
-//
-//    }
+        //}
+        //The new method is use SCNView instead.
+        //let postview=PostHocView()
+        DispatchQueue.main.async {
+            // UIView usage
+            //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let storyboard = self.storyboard
+            let posthoc = storyboard!.instantiateViewController(identifier: "PostHocView")
+            //var posthoc=PostHocViewController()
+            self.show(posthoc, sender: self)
+        }
+        
+    }
 }
 
 extension ViewController: ARSessionDelegate {

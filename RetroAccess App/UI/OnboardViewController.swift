@@ -47,7 +47,6 @@ class OnboardViewController: UIViewController {
             let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
                 print("Ok button tapped")
              })
-            
             //Add OK button to a dialog message
             dialogMessage.addAction(ok)
             // Present Alert to
@@ -55,12 +54,11 @@ class OnboardViewController: UIViewController {
         }
         else if let viewController = self.storyboard?.instantiateViewController(
             withIdentifier: "MainView") {
-            //TODO: Actuallty link this
+            //TODO: Actuallty link this to selection results
             Settings.instance.community="Wheelchair"
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)
         }
-    
     }
 }
 //extension OnboardViewController:UIPickerViewDataSource{
