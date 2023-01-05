@@ -29,14 +29,15 @@ class PostHocViewController:UIViewController{
             sceneView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
         sceneView.scene = scene
+        infoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             infoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
-            infoView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            infoView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            infoView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            infoView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             infoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-        infoView.backgroundColor=UIColor.systemGray
-        
+        infoView.backgroundColor=UIColor.darkGray
+        updateInfoView(sourceObject: nil, sourceIssue: nil)
         let panRecognizer = UIPanGestureRecognizer(target: self,action: #selector(self.panGesture(_:)))
         panRecognizer.maximumNumberOfTouches=1
         sceneView.addGestureRecognizer(panRecognizer)
@@ -58,8 +59,8 @@ class PostHocViewController:UIViewController{
         let translation = gesture.translation(in: gesture.view!)
         let x = Float(translation.x)
         let y = Float(-translation.y)
-        if(panState==0){
-            if(x*x>=y*y/2){
+        if(panState==0 && x*x+y*y>10){
+            if(x*x>=y*y){
                 panState=1
             }
             else{
@@ -101,7 +102,6 @@ class PostHocViewController:UIViewController{
         translateX=x
         translateY=y
         //geometryNode.transform = SCNMatrix4MakeRotation(anglePan, -y, x, 0)
-
         if(gesture.state == UIGestureRecognizer.State.ended) {
             translateX=0
             translateY=0
@@ -132,6 +132,7 @@ class PostHocViewController:UIViewController{
 //            }
 //        }
 //    }
+    
     @objc func pinchGesture(_ gesture: UIPinchGestureRecognizer){
         let scale = gesture.scale
         scene.geometryNode!.scale.x=Float(scale)*sceneScale
@@ -144,37 +145,44 @@ class PostHocViewController:UIViewController{
     }
     func updateInfoView(sourceObject:BoxNode?,sourceIssue:BallNode?){
         //TODO: Add code here to generate detail view for source object. Use InfoView as container
+        infoView.subviews.forEach { $0.removeFromSuperview() }
+        let stack=UIStackView(frame: infoView.bounds)
+        //let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        //let stack=UIStackView()
+        stack.isLayoutMarginsRelativeArrangement=true
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.alignment = .leading
+        stack.spacing=10
+        let title = UILabel(frame: CGRect(x: 50, y: 50, width: 400, height: 100))
+        title.textColor = UIColor.black
+        title.backgroundColor = UIColor.white
+        title.font = UIFont.boldSystemFont(ofSize: 30.0)
+        let description = UILabel()
+        description.textColor = UIColor.black
+        description.backgroundColor = UIColor.white
         
+        if (sourceObject != nil){
+            title.text=sourceObject!.getSourceClass()
+            description.text=sourceObject?.getSourceDescription()
+        }
+        else if (sourceIssue != nil)
+        {
+            fatalError("This part has not been implemented")
+        }
+        else{
+            title.text = "Item Category"
+            description.text = "Please tap any object or issues in 3D view to see details"
+        }
+        title.sizeToFit()
+        description.sizeToFit()
+        stack.addArrangedSubview(title)
+        
+        stack.addArrangedSubview(description)
+        infoView.addSubview(stack)
     }
 }
-//class GameScene: SCNScene {
-//    var geometryNode:SCNNode?
-//    override init() {
-//        super.init()
-//
-//        let cubeNode = BoxNode()
-//        geometryNode=cubeNode
-//        self.rootNode.addChildNode(cubeNode)
-//        let sphereNode=BallNode()
-//        geometryNode!.addChildNode(sphereNode)
-//        let xAngle = SCNMatrix4MakeRotation(.pi / 3.8, 1, 0, 0)
-//        let zAngle = SCNMatrix4MakeRotation(-.pi / 4, 0, 0, 1)
-//        cubeNode.pivot = SCNMatrix4Mult(SCNMatrix4Mult(xAngle, zAngle), cubeNode.transform)
-//
-//        // Rotate the cube
-//        let animation = CAKeyframeAnimation(keyPath: "rotation")
-//        animation.values = [SCNVector4(1, 1, 0.3, 0 * .pi),
-//                            SCNVector4(1, 1, 0.3, 1 * .pi),
-//                            SCNVector4(1, 1, 0.3, 2 * .pi)]
-//        animation.duration = 5
-//        animation.repeatCount = HUGE
-//        //cubeNode.addAnimation(animation, forKey: "rotation")
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//}
 class RoomScene: SCNScene {
     var geometryNode:SCNNode?
     var replicator:RoomObjectReplicator
@@ -266,7 +274,7 @@ class BoxNode: SCNNode {
             return
         case .floor:
             //Create a dark gray floor which is big enough to contain all indoor space
-            let box = SCNCylinder(radius: 10, height: 0.1)
+            let box = SCNCylinder(radius: 5, height: 0.1)
             box.materials = [UIColor.systemGray2].map {
                 let material = SCNMaterial()
                 material.diffuse.contents = $0
@@ -283,7 +291,7 @@ class BoxNode: SCNNode {
             sourceRoomPlanObject=sourceObject
             let dimension=sourceRoomPlanObject!.dimensions
             let box = SCNBox(width: CGFloat(dimension.x), height: CGFloat(dimension.y), length: CGFloat(dimension.z), chamferRadius: 0)
-            box.materials = [UIColor.systemGray].map {
+            box.materials = [UIColor(red: 0.5686, green: 0.3294, blue: 0.0706, alpha: 1.0)].map {
                 let material = SCNMaterial()
                 material.diffuse.contents = $0
                 material.isDoubleSided = true
@@ -319,7 +327,7 @@ class BoxNode: SCNNode {
             sourceRoomPlanSurface=sourceSurface
             let dimension=sourceRoomPlanSurface!.dimensions
             let box = SCNBox(width: CGFloat(dimension.x), height: CGFloat(dimension.y), length: CGFloat(dimension.z), chamferRadius: 0)
-            box.materials = [UIColor.lightGray].map {
+            box.materials = [UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)].map {
                 let material = SCNMaterial()
                 material.diffuse.contents = $0
                 material.isDoubleSided = true
@@ -367,6 +375,22 @@ class BoxNode: SCNNode {
             return "window"
         case .wall:
             return "wall"
+        }
+    }
+    func getSourceDescription()->String{
+        switch nodeType{
+        case .root:
+            return "Root"
+        case .floor:
+            return "Floor of the space"
+        case .furniture:
+            return sourceRoomPlanObject!.getDescription()
+        case .opening:
+            return sourceRoomPlanSurface!.getDescription()
+        case .window:
+            return sourceRoomPlanSurface!.getDescription()
+        case .wall:
+            return sourceRoomPlanSurface!.getDescription()
         }
     }
 }

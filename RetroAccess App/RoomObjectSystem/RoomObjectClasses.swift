@@ -292,6 +292,13 @@ public class RoomObjectAnchor: ARAnchor {
             //fatalError()
         }
     }
+    public func getDescription()->String{
+        var result=getCategoryName()
+        result.capitalizeFirstLetter()
+        result+=" detected with dimension of "
+        result+=dimensions.toString()
+        return result
+    }
 }
 extension RoomObjectAnchor:Encodable{
     enum CodingKeys: String, CodingKey {
@@ -387,6 +394,13 @@ public class RoomSurfaceAnchor: ARAnchor {
             fatalError("Non-implemented situation")
         }
     }
+    public func getDescription()->String{
+        var result=getCategoryName()
+        result.capitalizeFirstLetter()
+        result+=" detected with dimension of "
+        result += dimensions.toString()
+        return result
+    }
 }
 extension RoomSurfaceAnchor:Encodable{
     enum CodingKeys: String, CodingKey {
@@ -411,5 +425,21 @@ extension simd_float4x4: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         try container.encode([columns.0,columns.1, columns.2, columns.3])
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
+
+extension simd_float3{
+    func toString()->String{
+        return " length of \(self.x)m height of \(self.y)m and width of \(self.z)m"
     }
 }
