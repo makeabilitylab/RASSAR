@@ -103,15 +103,17 @@ class YOLO : NSObject {
 	}
 	
 	public static func parseAnchors(model: MLModel) -> [(Float,Float)] {
-		let userDefines = model.modelDescription.metadata[MLModelMetadataKey.creatorDefinedKey] as? NSDictionary
-		let anchorsString = userDefines?["yolo.anchors"] as? String
-		
-		return YOLO.parseAnchorsString(anchorsString: anchorsString!)
+//		let userDefines = model.modelDescription.metadata[MLModelMetadataKey.creatorDefinedKey] as? NSDictionary
+//		let anchorsString = userDefines?["yolo.anchors"] as? String
+//
+//		return YOLO.parseAnchorsString(anchorsString: anchorsString!)
+        return YOLO.parseAnchorsString(anchorsString: "[[0.02403846,0.03365385],\n[0.05528846,0.06490385],\n[0.0889423 ,0.13942307],\n[0.19471154,0.19711539],\n[0.32451922,0.40625],\n[0.8269231 ,0.7668269]]")
 	}
 	
 	public static func parseNames(model: MLModel) throws -> [Int:String] {
-		guard let userDefines = model.modelDescription.metadata[MLModelMetadataKey.creatorDefinedKey] as? NSDictionary else { return [:]}
-		guard let anchorsString = userDefines["yolo.names"] as? String else { return [:] }
+		//guard let userDefines = model.modelDescription.metadata[MLModelMetadataKey.creatorDefinedKey] as? NSDictionary else { return [:]}
+		//guard let anchorsString = userDefines["yolo.names"] as? String else { return [:] }
+        let anchorsString = "{\"0\": \"Door Handle\", \"1\": \"Electric Socket\", \"2\": \"Grab Bar\", \"3\": \"Knife\", \"4\": \"Medication\", \"5\": \"Rug\", \"6\": \"Scissors\", \"7\": \"Smoke Alarm\", \"8\": \"Switch\"}"
 		guard let data = anchorsString.data(using: .utf8) else { return [:] }
 		return try JSONDecoder().decode([Int:String].self, from: data)
 	}

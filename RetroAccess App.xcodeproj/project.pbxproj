@@ -54,6 +54,7 @@
 		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
 		5EB83FC328C84D8300263575 /* yolov4_final_9_classes.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */; };
 		5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC42017294D4420004F4E88 /* PostHocViewController.swift */; };
+		5EC4201C296E1668004F4E88 /* best.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4201B296E1668004F4E88 /* best.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
 		5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov4_final_9_classes.mlpackage; sourceTree = "<group>"; };
 		5EC42017294D4420004F4E88 /* PostHocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHocViewController.swift; sourceTree = "<group>"; };
+		5EC4201B296E1668004F4E88 /* best.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = best.mlmodel; path = ../../../../../Downloads/best.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +255,7 @@
 		5EB83FA028BD685400263575 /* YOLOv4 */ = {
 			isa = PBXGroup;
 			children = (
+				5EC4201B296E1668004F4E88 /* best.mlmodel */,
 				5EB83FAB28BD687F00263575 /* BoundingBox.swift */,
 				5EB83FA928BD687F00263575 /* CVPiexlBuffer+Helpers.swift */,
 				5EB83FAA28BD687F00263575 /* Helpers.swift */,
@@ -448,6 +451,7 @@
 				5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */,
 				5EB83FB128BD687F00263575 /* YOLO4Tiny.swift in Sources */,
 				5EB83FB528BD687F00263575 /* Helpers.swift in Sources */,
+				5EC4201C296E1668004F4E88 /* best.mlmodel in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,

@@ -99,5 +99,22 @@ public class AccessibilityIssue
         sourceRPObject=nil
         sourceRPSurface=nil
     }
-    
+    public func hasSource()->Bool{
+        if sourceObject != nil || sourceRPObject != nil || sourceRPSurface != nil{
+            return true
+        }
+        return false
+    }
+    public func getPosition()->simd_float3{
+        if sourceObject != nil {
+            return sourceObject!.position
+        }
+        if sourceRPObject != nil {
+            return sourceRPObject!.getFullPosition()
+        }
+        if sourceRPSurface != nil{
+            return sourceRPSurface!.getFullPosition()
+        }
+        fatalError("This issue has no position!")
+    }
 }

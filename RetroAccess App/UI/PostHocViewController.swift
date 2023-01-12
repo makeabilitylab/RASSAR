@@ -5,6 +5,11 @@
 //  Created by Xia Su on 12/16/22.
 //
 
+//TODO list:
+//Adjust the issue sphere size and position
+//Prettify the information showing for post-hoc view
+//Add more detailed information showing
+
 import Foundation
 import SceneKit
 import SwiftUI
@@ -36,7 +41,7 @@ class PostHocViewController:UIViewController{
             infoView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             infoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-        infoView.backgroundColor=UIColor.darkGray
+        infoView.backgroundColor=UIColor.white
         updateInfoView(sourceObject: nil, sourceIssue: nil)
         let panRecognizer = UIPanGestureRecognizer(target: self,action: #selector(self.panGesture(_:)))
         panRecognizer.maximumNumberOfTouches=1
@@ -112,11 +117,16 @@ class PostHocViewController:UIViewController{
             if(gesture.numberOfTouches == 1){
                 let position=gesture.location(in: sceneView)
                 guard let hitTestResult = sceneView.hitTest(position, options: nil).first else { return }
-                guard hitTestResult.node is BoxNode else { return }
+                //guard hitTestResult.node is BoxNode else { return }
                 if let box = hitTestResult.node as? BoxNode{
                     print(box.getSourceClass())
                     //Try to show the information here!
                     updateInfoView(sourceObject:box,sourceIssue:nil)
+                }
+                if let ball = hitTestResult.node as? BallNode{
+                    print(ball.getSourceClass())
+                    //Try to show the information here!
+                    updateInfoView(sourceObject:nil,sourceIssue:ball)
                 }
             }
         }
@@ -155,25 +165,26 @@ class PostHocViewController:UIViewController{
         stack.axis = .vertical
         stack.alignment = .leading
         stack.spacing=10
-        let title = UILabel(frame: CGRect(x: 50, y: 50, width: 400, height: 100))
+        let title = UILabel(frame: CGRect(x: 100, y: 50, width: 400, height: 100))
         title.textColor = UIColor.black
         title.backgroundColor = UIColor.white
         title.font = UIFont.boldSystemFont(ofSize: 30.0)
         let description = UILabel()
         description.textColor = UIColor.black
         description.backgroundColor = UIColor.white
-        
+        description.lineBreakMode = .byWordWrapping
         if (sourceObject != nil){
             title.text=sourceObject!.getSourceClass()
-            description.text=sourceObject?.getSourceDescription()
+            description.text=sourceObject!.getSourceDescription()
         }
         else if (sourceIssue != nil)
         {
-            fatalError("This part has not been implemented")
+            title.text=sourceIssue!.getSourceClass()
+            description.text=sourceIssue!.getSourceDescription()
         }
         else{
             title.text = "Item Category"
-            description.text = "Please tap any object or issues in 3D view to see details"
+            description.text = "Please tap any object or issues in 3D view to see details. The information will include object category and dimension."
         }
         title.sizeToFit()
         description.sizeToFit()
@@ -229,6 +240,12 @@ class RoomScene: SCNScene {
             }
             
         }
+        for issue in replicator.getAllIssuesToBePresented() {
+            if issue.hasSource(){
+                let issueNode=BallNode(issue: issue)
+                rootNode.addChildNode(issueNode)
+            }
+        }
         //let sphereNode=BallNode()
         //geometryNode!.addChildNode(sphereNode)
         let xAngle = SCNMatrix4MakeRotation(.pi / 3.8, 1, 0, 0)
@@ -270,7 +287,7 @@ class BoxNode: SCNNode {
             }
             super.init()
             self.geometry = box
-            self.name = "floorNode"
+            self.name = "rootNode"
             return
         case .floor:
             //Create a dark gray floor which is big enough to contain all indoor space
@@ -319,7 +336,7 @@ class BoxNode: SCNNode {
             }
             super.init()
             self.geometry = box
-            self.name = "furnitureNode"
+            self.name = "openingNode"
             self.transform=SCNMatrix4(sourceRoomPlanSurface!.transform)
             return
         case .wall:
@@ -336,7 +353,7 @@ class BoxNode: SCNNode {
             }
             super.init()
             self.geometry = box
-            self.name = "furnitureNode"
+            self.name = "wallNode"
             self.transform=SCNMatrix4(sourceRoomPlanSurface!.transform)
             return
         case .window:
@@ -353,7 +370,7 @@ class BoxNode: SCNNode {
             }
             super.init()
             self.geometry = box
-            self.name = "furnitureNode"
+            self.name = "windowNode"
             self.transform=SCNMatrix4(sourceRoomPlanSurface!.transform)
             return
         }
@@ -411,10 +428,17 @@ class BallNode: SCNNode {
             material.transparencyMode = .aOne
             return material
         }
-        self.name = "sphereNode"
+        self.name = "issueNode"
+        self.position=SCNVector3(issue.getPosition())
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    func getSourceClass()->String{
+        return "Accessibility Issue"
+    }
+    func getSourceDescription()->String{
+        sourceIssue.getDetails()
     }
 }
 

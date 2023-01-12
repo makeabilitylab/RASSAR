@@ -172,10 +172,10 @@ public class Situation{
             }
         }
         for obj in retrieveResults.foundRoomplanObjects{
-            if compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
+            if compareValues(target: obj.getSpecificPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
                 print("Found obj position issue")
                 print(obj.category)
-                print(obj.getPosition(measurement: measurement))
+                print(obj.getSpecificPosition(measurement: measurement))
                 print(obj.transform.columns.3)
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                              type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
@@ -184,7 +184,7 @@ public class Situation{
             }
         }
         for obj in retrieveResults.foundRoomplanSurfaces{
-            if compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
+            if compareValues(target: obj.getFullPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                              type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
                 issue.setSourceRPSurface(source: obj)

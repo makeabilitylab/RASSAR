@@ -261,13 +261,16 @@ public class RoomObjectAnchor: ARAnchor {
             fatalError("Non-implemented situation")
         }
     }
-    public func getPosition(measurement:String)->Float{
+    public func getSpecificPosition(measurement:String)->Float{
         switch measurement{
         case "Height":
             return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()-dimensions.y
         default:
-            fatalError("Non-implemented situation")
+            fatalError("Wrong case given!")
         }
+    }
+    public func getFullPosition()->simd_float3{
+        return simd_float3(x: transform.columns.3.x, y: transform.columns.3.y, z: transform.columns.3.z)
     }
     public func getCategoryName()->String{
         switch category {
@@ -386,13 +389,16 @@ public class RoomSurfaceAnchor: ARAnchor {
             fatalError("Non-implemented situation")
         }
     }
-    public func getPosition(measurement:String)->Float{
+    public func getFullPosition(measurement:String)->Float{
         switch measurement{
         case "Height":
             return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()
         default:
             fatalError("Non-implemented situation")
         }
+    }
+    public func getFullPosition()->simd_float3{
+        return simd_float3(x: transform.columns.3.x, y: transform.columns.3.y, z: transform.columns.3.z)
     }
     public func getDescription()->String{
         var result=getCategoryName()
