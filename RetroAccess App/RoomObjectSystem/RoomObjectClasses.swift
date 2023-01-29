@@ -140,7 +140,7 @@ public class DetectedObject{
         }
         //TODO: use scene context to understand if this item is placed right
         valid=true
-        notifyingObject.show()
+        //notifyingObject.show()
     }
     public func getPosition(measurement:String)->Float{
         switch measurement{

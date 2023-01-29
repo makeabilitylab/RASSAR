@@ -16,6 +16,7 @@ public class Situation{
     var keywordFollowingPart:String?
     var requirement:String
     var dimension:ObjectDimension?
+    var message:String?
     var relativePosition:RelativePosition?
     var existence:Bool?
     
@@ -59,10 +60,37 @@ public class Situation{
             else{
                 existence=nil
             }
+            if let msg=dic["Message"] as? String{
+                message=msg
+            }
+            else{
+                message=nil
+            }
         }
         else{
             fatalError("Error occurred in reading json situations")
         }
+    }
+    public func get_description()->String{
+        if var msg=message{
+            switch requirement{
+            case "Dim_Height":
+                msg += "The ADA design guideline requires a height of \(dimension!.value) inch"
+            case "Depth":
+                msg += "The ADA design guideline requires a depth more than \(dimension!.value) inch"
+            case "Radius":
+                msg += "The ADA design guideline requires a radius more than \(dimension!.value) inch"
+            case "ExistenceOrNot":
+                msg += ""
+            case "Pos_Height":
+                msg += "The ADA design guideline requires height of \(dimension!.value) inch"
+            default:
+                print("Non-implemented situation")
+            }
+            
+            return msg
+        }
+        return ""
     }
     public func search(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
         //TODO: Search for this situation within this replicator

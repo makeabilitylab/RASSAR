@@ -34,6 +34,7 @@ class PostHocViewController:UIViewController{
             sceneView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
         sceneView.scene = scene
+        sceneView.backgroundColor=UIColor.lightGray
         infoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             infoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
@@ -59,6 +60,18 @@ class PostHocViewController:UIViewController{
         sceneView.addGestureRecognizer(singleTapRecognizer)
         let pinchRecognizer = UIPinchGestureRecognizer(target: self,action: #selector(self.pinchGesture(_:)))
         sceneView.addGestureRecognizer(pinchRecognizer)
+        if let path = Bundle.main.path(forResource: "NodeTechnique", ofType: "plist") {
+            if let dict = NSDictionary(contentsOfFile: path)  {
+                let dict2 = dict as! [String : AnyObject]
+                let technique = SCNTechnique(dictionary:dict2)
+
+                // set the glow color to yellow
+                let color = SCNVector3(1.0, 1.0, 0.0)
+                technique?.setValue(NSValue(scnVector3: color), forKeyPath: "glowColorSymbol")
+
+                sceneView.technique = technique
+            }
+        }
     }
     @objc func panGesture(_ gesture: UIPanGestureRecognizer){
         let translation = gesture.translation(in: gesture.view!)
@@ -115,6 +128,8 @@ class PostHocViewController:UIViewController{
     @objc func singleTapGesture(_ gesture: UITapGestureRecognizer){
         if(gesture.state == UIGestureRecognizer.State.ended) {
             if(gesture.numberOfTouches == 1){
+                //First let every object unhighlighted
+                sceneView.scene?.rootNode.setNonHighlighted()
                 let position=gesture.location(in: sceneView)
                 guard let hitTestResult = sceneView.hitTest(position, options: nil).first else { return }
                 //guard hitTestResult.node is BoxNode else { return }
@@ -122,11 +137,15 @@ class PostHocViewController:UIViewController{
                     print(box.getSourceClass())
                     //Try to show the information here!
                     updateInfoView(sourceObject:box,sourceIssue:nil)
+                    //box.runAction(SCNAction.levitate(distance: 0.03, duration: 2.0) )
+                    box.setHighlighted()
                 }
                 if let ball = hitTestResult.node as? BallNode{
                     print(ball.getSourceClass())
                     //Try to show the information here!
                     updateInfoView(sourceObject:nil,sourceIssue:ball)
+                    //ball.runAction(SCNAction.levitate(distance: 0.03, duration: 2.0) )
+                    ball.setHighlighted()
                 }
             }
         }
@@ -165,7 +184,7 @@ class PostHocViewController:UIViewController{
         stack.axis = .vertical
         stack.alignment = .leading
         stack.spacing=10
-        let title = UILabel(frame: CGRect(x: 100, y: 50, width: 400, height: 100))
+        let title = UILabel(frame: CGRect(x: 20, y: 20, width: 400, height: 100))
         title.textColor = UIColor.black
         title.backgroundColor = UIColor.white
         title.font = UIFont.boldSystemFont(ofSize: 30.0)
@@ -173,9 +192,18 @@ class PostHocViewController:UIViewController{
         description.textColor = UIColor.black
         description.backgroundColor = UIColor.white
         description.lineBreakMode = .byWordWrapping
+        description.frame=CGRect(x: 20, y: 70, width: 400, height: 400)
+        description.numberOfLines=0
+        description.textAlignment = .left
+        
+        //description.ContentMode=.scaleToFill
         if (sourceObject != nil){
             title.text=sourceObject!.getSourceClass()
             description.text=sourceObject!.getSourceDescription()
+            if let issue = sourceObject?.issue{
+                description.text! += "\n"
+                description.text! += issue.getDetails()
+            }
         }
         else if (sourceIssue != nil)
         {
@@ -188,10 +216,11 @@ class PostHocViewController:UIViewController{
         }
         title.sizeToFit()
         description.sizeToFit()
-        stack.addArrangedSubview(title)
+        //stack.addArrangedSubview(title)
         
-        stack.addArrangedSubview(description)
-        infoView.addSubview(stack)
+        //stack.addArrangedSubview(description)
+        infoView.addSubview(title)
+        infoView.addSubview(description)
     }
 }
 class RoomScene: SCNScene {
@@ -208,12 +237,17 @@ class RoomScene: SCNScene {
         //floorNode.position.x=replicator.getFloorHeight()
         //floorNode.position.z=replicator.getFloorHeight()
         rootNode.addChildNode(floorNode)
+//        let ambientLightNode = SCNNode()
+//            ambientLightNode.light = SCNLight()
+//            ambientLightNode.light!.type = .ambient
+//            ambientLightNode.light!.color = UIColor(white: 0.70, alpha: 1.0)
+//
+//            // Add ambient light to scene
+//        rootNode.addChildNode(ambientLightNode)
         let ambientLightNode = SCNNode()
-            ambientLightNode.light = SCNLight()
-            ambientLightNode.light!.type = .ambient
-            ambientLightNode.light!.color = UIColor(white: 0.70, alpha: 1.0)
-
-            // Add ambient light to scene
+        ambientLightNode.light = SCNLight()
+        ambientLightNode.light!.type = .ambient
+        ambientLightNode.light!.color = UIColor.darkGray
         rootNode.addChildNode(ambientLightNode)
         //Add all objects into the room
         for object in replicator.trackedObjectAnchors{
@@ -242,8 +276,41 @@ class RoomScene: SCNScene {
         }
         for issue in replicator.getAllIssuesToBePresented() {
             if issue.hasSource(){
-                let issueNode=BallNode(issue: issue)
-                rootNode.addChildNode(issueNode)
+                if issue.sourceObject != nil{
+                    let issueNode=BallNode(issue: issue)
+                    rootNode.addChildNode(issueNode)
+                }
+                else{
+                    //Find the corresponding node and make it red
+                    for node in rootNode.childNodes{
+                        if let box = node as? BoxNode{
+                            if box.sourceRoomPlanObject != nil && issue.sourceRPObject != nil{
+                                if box.sourceRoomPlanObject==issue.sourceRPObject{
+                                    box.geometry!.materials = [UIColor.red].map {
+                                        let material = SCNMaterial()
+                                        material.diffuse.contents = $0
+                                        material.isDoubleSided = true
+                                        material.transparencyMode = .aOne
+                                        return material
+                                    }
+                                    box.issue=issue
+                                }
+                            }
+                            if box.sourceRoomPlanSurface != nil && issue.sourceRPSurface != nil{
+                                if box.sourceRoomPlanSurface==issue.sourceRPSurface{
+                                    box.geometry!.materials = [UIColor.red].map {
+                                        let material = SCNMaterial()
+                                        material.diffuse.contents = $0
+                                        material.isDoubleSided = true
+                                        material.transparencyMode = .aOne
+                                        return material
+                                    }
+                                    box.issue=issue
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         //let sphereNode=BallNode()
@@ -272,6 +339,7 @@ class BoxNode: SCNNode {
     var sourceRoomPlanObject:RoomObjectAnchor?
     var sourceRoomPlanSurface:RoomSurfaceAnchor?
     var nodeType:BoxNodeTypes
+    var issue:AccessibilityIssue?
     init(type:BoxNodeTypes,sourceObject:RoomObjectAnchor?,sourceSurface:RoomSurfaceAnchor?) {
         nodeType=type
         switch type{
@@ -290,8 +358,10 @@ class BoxNode: SCNNode {
             self.name = "rootNode"
             return
         case .floor:
-            //Create a dark gray floor which is big enough to contain all indoor space
-            let box = SCNCylinder(radius: 5, height: 0.1)
+            //Create a dark gray floor which is big enough to contain all indoor space. Use the information in minimap
+            //let box = SCNCylinder(radius: 5, height: 0.1)
+            let map=Settings.instance.miniMap
+            let box=SCNBox(width:CGFloat( map!.xrange!.len()), height:0.1 , length: CGFloat( map!.xrange!.len()), chamferRadius: 0)
             box.materials = [UIColor.systemGray2].map {
                 let material = SCNMaterial()
                 material.diffuse.contents = $0
@@ -299,8 +369,11 @@ class BoxNode: SCNNode {
                 material.transparencyMode = .aOne
                 return material
             }
+            
             super.init()
             self.geometry = box
+            self.transform=SCNMatrix4(map!.longestWall!.transform)
+            self.position=SCNVector3(x: map!.outlineCenter!.x, y: Settings.instance.replicator!.getFloorHeight(), z: map!.outlineCenter!.y)
             self.name = "floorNode"
             return
         case .furniture:
@@ -420,7 +493,7 @@ class BallNode: SCNNode {
     init(issue:AccessibilityIssue) {
         super.init()
         sourceIssue=issue
-        self.geometry = SCNSphere(radius: 0.5)
+        self.geometry = SCNSphere(radius: 0.2)
         self.geometry!.materials = [UIColor.red].map {
             let material = SCNMaterial()
             material.diffuse.contents = $0
@@ -442,3 +515,29 @@ class BallNode: SCNNode {
     }
 }
 
+fileprivate extension SCNAction {
+    class func levitate(distance: CGFloat, duration: TimeInterval) -> SCNAction {
+        let moveUp = SCNAction.moveBy(x: 0, y: distance/2, z: 0.0, duration: duration/2)
+        let moveDown = SCNAction.moveBy(x: 0, y: -distance/2, z: 0.0, duration: duration/2)
+        (distance: 0.03, duration: 2.0)
+        moveUp.timingMode = .easeInEaseOut
+        moveDown.timingMode = .easeInEaseOut
+
+        return SCNAction.repeatForever(SCNAction.sequence([moveUp, moveDown]))
+
+    }
+}
+extension SCNNode {
+    func setHighlighted( _ highlighted : Bool = true, _ highlightedBitMask : Int = 2 ) {
+        categoryBitMask = highlightedBitMask
+        for child in self.childNodes {
+            child.setHighlighted()
+        }
+    }
+    func setNonHighlighted( _ highlighted : Bool = false, _ highlightedBitMask : Int = 1 ) {
+        categoryBitMask = highlightedBitMask
+        for child in self.childNodes {
+            child.setNonHighlighted()
+        }
+    }
+}

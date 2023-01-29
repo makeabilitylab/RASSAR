@@ -11,7 +11,8 @@
             "Existence":null,
             "Note":null,
             "Message":"Warning: The height of table is not compliant with the ADA guidelines!",
-            "ADA_description":"According to ADA compliance, the surface height of an accessible table will have a height of no more than 34 inches and no less than 28 inches above the floor. The detected table is NUM inches above the floor."
+            "ADA_description":"According to ADA compliance, the surface height of an accessible table will have a height of no more than 34 inches and no less than 28 inches above the floor. The detected table is NUM inches above the floor.",
+            "Suggestions":["If the table is too low, consider using risers to elevate the height of the table.","If the table is too high, consider replace to an adjustable height table"]
         }
     },
     "Counter":{
@@ -25,8 +26,9 @@
             "RelativePosition":"Upon",
             "Existence":null,
             "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the counter.",
-            "Message":"Warning: Counter is too XXX.",
-            "ADA_description":"According to ADA compliance, counters must be at the proper height (this often is 28-34 inches from the floor). The detected counter is NUM inches from the floor."
+            "Message":"Warning: Counter is too high.",
+            "ADA_description":"According to ADA compliance, counters must be at the proper height (this often is 28-34 inches from the floor). The detected counter is NUM inches from the floor.",
+            "Suggestions":["Replace to an adjustable height counter"]
         }
     },
     "Toilet-Seat":{
@@ -40,8 +42,9 @@
             "RelativePosition":null,
             "Existence":null,
             "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the toilet seat.",
-            "Message":"Warning: The toilet seat is too XXX!",
-            "ADA_description":"According to ADA compliance, the height of toilet seat should between 17 inches to 19 inches above the floor. The height of the detected toilet seat is NUM inches from the floor."
+            "Message":"Warning: The toilet seat is too short!",
+            "ADA_description":"According to ADA compliance, the height of toilet seat should between 17 inches to 19 inches above the floor. The height of the detected toilet seat is NUM inches from the floor.",
+            "Suggestions":["Consider add a raised toilet seat for seats that are too low. Raised toilet seats assist people with bending and seating difficulties and performing toilet transfers with ease","Consider a lower profile toilet if it is too high"]
         }
     },
     "Sofa":{
@@ -55,8 +58,9 @@
             "RelativePosition":null,
             "Existence":null,
             "Note":"replace XXX to either 'tall' or 'short'.",
-            "Message":"Warning: The sofa is too XXX!",
-            "ADA_description":"According to ADA compliance, the height of the sofa shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches."
+            "Message":"Warning: The sofa is too short!",
+            "ADA_description":"According to ADA compliance, the height of the sofa shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches.",
+            "Suggestions":["Consider using risers to elevate the height of the sofa if it's too low."]
         },
         "Depth":{
             "Community":["Elder"],
@@ -69,7 +73,8 @@
             "Existence":null,
             "Note":"replace XXX to either 'shallow' or 'deep'.",
             "Message":"Warning: The sofa is too XXX!",
-            "ADA_description":"According to ADA compliance, the depth of the sofa shall be 20 inches. The depth of the detected sofa is NUM inches."
+            "ADA_description":"According to ADA compliance, the depth of the sofa shall be 20 inches. The depth of the detected sofa is NUM inches.",
+            "Suggestions":[]
         }
     },
     "Chair":{
@@ -84,7 +89,8 @@
             "Existence":null,
             "Note":"replace XXX to either 'shallow' or 'deep'.",
             "Message":"Warning: The chair is too XXX!",
-            "ADA_description":"According to ADA compliance, the depth of the chair shall be 20 inches. The depth of the detected sofa is NUM inches."
+            "ADA_description":"According to ADA compliance, the depth of the chair shall be 20 inches. The depth of the detected sofa is NUM inches.",
+            "Suggestions":[]
         }
     },
     "Cabinet":{
@@ -99,7 +105,8 @@
             "Existence":null,
             "Note":null,
             "Message":"Warning: The cabinet is too tall!",
-            "ADA_description":"According to ADA compliance, the height of cabinets should be no more than 27 inches from the floor. The height of the detected cabinet is NUM inches from the floor."
+            "ADA_description":"According to ADA compliance, the height of cabinets should be no more than 27 inches from the floor. The height of the detected cabinet is NUM inches from the floor.",
+            "Suggestions":["Move things you frequently use to places within easy reach."]
         }
     },
     "Door-Opening":{
@@ -114,7 +121,8 @@
             "Existence":null,
             "Note":null,
             "Message":"Warning: Too narrow door opening is detected!",
-            "ADA_description":"According to ADA compliance, door openings shall provide a clear width of 32 inches minimum."
+            "ADA_description":"According to ADA compliance, door openings shall provide a clear width of 32 inches minimum.",
+            "Suggestions":["Consider using expandable door hinges to widen the door opening.","Clear everything within a radius of 32 inches from the door openings."]
         }
     },
     "Sink":{
@@ -128,7 +136,8 @@
             "Existence":null,
             "Note":null,
             "Message":"Warning: The sink is too tall!",
-            "ADA_description":"According to ADA compliance, the height of the sink is no more than 17 inches from the floor. The height of detected sink is NUM inches from the floor."
+            "ADA_description":"According to ADA compliance, the height of the sink is no more than 17 inches from the floor. The height of detected sink is NUM inches from the floor.",
+            "Suggestions":["Replace to a dual or adjustable height sink / sinks that can be raised and lowed (to different heights)."]
         }
     },
     "Knob":{
@@ -143,7 +152,8 @@
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
             "Message":"Warning: The knob is too XXX the floor!",
-            "ADA_description":"According to ADA compliance, a knob shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
+            "ADA_description":"According to ADA compliance, a knob shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor.",
+            "Suggestions":["Adjust the height of knobs and handles to comply with the ADA standards."]
         }
     },
     "DoorHandle":{
@@ -158,7 +168,8 @@
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
             "Message":"Warning: The door handle is too XXX the floor!",
-            "ADA_description":"According to ADA compliance, a door handle shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
+            "ADA_description":"According to ADA compliance, a door handle shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor.",
+            "Suggestions":["Adjust the height of knobs and handles to comply with the ADA standards."]
         }
     },
     "LightingSwitch":{
@@ -173,7 +184,8 @@
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
             "Message":"Warning: The lighting switch is too XXX the floor!",
-            "ADA_description":"According to ADA compliance, lighting switches and outlets shall be mounted in a range from 15 to 48 inches above the floor. The height of the detected lighting switch is NUM inches above the floor."
+            "ADA_description":"According to ADA compliance, lighting switches and outlets shall be mounted in a range from 15 to 48 inches above the floor. The height of the detected lighting switch is NUM inches above the floor.",
+            "Suggestions":["Add clapper light switch control to lamps. There are other remote control switching options for operating the lights.","Rearrange furnishings to allow quick access to wall switches or lamps."]
         }
     },
     
@@ -189,7 +201,8 @@
             "Existence":true,
             "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
             "Message":"Warning: The grab bar is too XXX above the finished floor!",
-            "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position, 33 inches minimum and 36 inches maximum above the finish floor measured to the top of the gripping surface."
+            "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position, 33 inches minimum and 36 inches maximum above the finish floor measured to the top of the gripping surface.",
+            "Suggestions":["If permanently installed, hired a qualified professional to change the grab bars to the correct location and angle. "]
         }
     },
     "GrabBar-BathTub_Children":{
@@ -204,7 +217,8 @@
             "Existence":true,
             "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
             "Message":"Warning: The grab bar is too XXX above the finished floor!",
-            "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position 18 inches minimum and 27 inches maximum above the finish floor measured to the top of the gripping surface."
+            "ADA_description":"According to ADA compliance, grab bars shall be installed in a horizontal position 18 inches minimum and 27 inches maximum above the finish floor measured to the top of the gripping surface.",
+            "Suggestions":["If permanently installed, hired a qualified professional to change the grab bars to the correct location and angle. "]
         }
     },
     
@@ -220,7 +234,8 @@
             "Existence":null,
             "Note":"replace XXX to either 'floor' or 'stairs'.",
             "Message":"Warning: Outlets detected on the XXX!",
-            "ADA_description":"For safety, no outlet should be present on the floor or stairs."
+            "ADA_description":"For safety, no outlet should be present on the floor or stairs.",
+            "Suggestions":["If permanently installed, hired a qualified professional to change the outlets to the correct location."]
         }
     },
     "Carpet":{
@@ -235,7 +250,8 @@
             "Existence":false,
             "Note":"replace XXX to either 'floor' or 'stairs'.",
             "Message":"Warning: Carpets detected on the XXX!",
-            "ADA_description":"For safety, no carpet should be present on the floor or stairs."
+            "ADA_description":"For safety, no carpet should be present on the floor or stairs.",
+            "Suggestions":["Make sure that the patterns are not too busy","Have carpet stretched or removed to eliminate wrinkles or bumps."," Add a carpet runner to slippery hallway or foyer and secure to the floor"]
         }
     },
     
@@ -251,7 +267,8 @@
             "Existence":false,
             "Note":"replace XXX to one of the dependent objects above.",
             "Message":"Warning: Scissors have been detected in a dangerous place!",
-            "ADA_description":"For safety, no scissors should be present on the XXX."
+            "ADA_description":"For safety, no scissors should be present on the XXX.",
+            "Suggestions":["Move out of reach of children"]
         }
     },
     "Knives":{
@@ -266,7 +283,8 @@
             "Existence":false,
             "Note":"replace XXX to one of the dependent objects above.",
             "Message":"Warning: Knives have been detected in a dangerous place!",
-            "ADA_description":"For safety, no knives should be present on the XXX."
+            "ADA_description":"For safety, no knives should be present on the XXX.",
+            "Suggestions":["Move out of reach of children"]
         }
     },
     "Medication":{
@@ -281,7 +299,8 @@
             "Existence":false,
             "Note":"replace XXX to one of the dependent objects above.",
             "Message":"Warning: Medicines have been detected in a dangerous place!",
-            "ADA_description":"For safety, keep all medicine and vitamins out of children's reach and sight, even medicine you take every day. Write clear instructions for other caregivers about what medicine to give children, when to give it and how much to give."
+            "ADA_description":"For safety, keep all medicine and vitamins out of children's reach and sight, even medicine you take every day. Write clear instructions for other caregivers about what medicine to give children, when to give it and how much to give.",
+            "Suggestions":["Move out of reach of children"]
         }
     },
     
@@ -297,7 +316,8 @@
             "Existence":true,
             "Note":null,
             "Message":"Warning: No fire alarm detected!",
-            "ADA_description":"For safety, fire alarms should be placed on the ceiling in the kitchen and bedroom."
+            "ADA_description":"For safety, fire alarms should be placed on the ceiling in the kitchen and bedroom.",
+            "Suggestions":["Add firealarms"]
         }
     }
 }

@@ -45,7 +45,7 @@ public class AccessibilityIssue
     }
     public func getDetails()->String{
         //TODO: get detailed info for this issue
-        return "Detailed information of this accessibility issue"
+        return rubric.get_description()
     }
     public func getAnchor()->RoomObjectAnchor{
         if sourceObject != nil{
@@ -101,6 +101,18 @@ public class AccessibilityIssue
     }
     public func hasSource()->Bool{
         if sourceObject != nil || sourceRPObject != nil || sourceRPSurface != nil{
+            return true
+        }
+        return false
+    }
+    public func hasPosition()->Bool{
+        if sourceObject != nil {
+            return true
+        }
+        if sourceRPObject != nil {
+            return true
+        }
+        if sourceRPSurface != nil{
             return true
         }
         return false

@@ -34,7 +34,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     let ciContext = CIContext()
     var resizedPixelBuffer: CVPixelBuffer?
     var showBbox:Bool=false
-    
+    var minimap:MiniMapLayer?
     var resizers:[YOLOResizer]=[YOLOResizer]()
     let roombuilder=RoomBuilder(options: [.beautifyObjects])
     var manager = FileManager.default
@@ -51,7 +51,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         
         //Load new OD framework
         Task { [weak self] in
-            try! await self!.yolo.load(width: 416, height: 416, confidence: 0.6, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
+            try! await self!.yolo.load(width: Settings.instance.yoloInputWidth, height: Settings.instance.yoloInputWidth, confidence: 0.6, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
             print("YOLO successfully loaded")
         }
         setUpBoundingBoxes()
@@ -61,6 +61,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             for resizer in self.resizers{
                 self.updateOD(resizer: resizer)
             }
+            
             //self.drawVisionRequestResults(self.ODResults)
             //self.updateObjectLabelWithODResult(self.ODResults)
         })
@@ -74,6 +75,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         stopButton.setTitleColor(.white, for: .normal)
         stopButton.backgroundColor = .blue
         self.view.addSubview(stopButton)
+        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:220,y:720))
+        rootLayer.addSublayer(minimap!)
     }
     @objc func stop(sender: UIButton!) {
         //Generate pdf report with scanned issues
@@ -85,12 +88,14 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
 //                present(vc, animated: true)
 //        }
         //Stop the scan, export result as file, and call the QL Preview
+        Settings.instance.miniMap=minimap
         roomCaptureSession!.stop()
         //Export scanned data
         let jsonData = try! JSONEncoder().encode(replicator)
         let jsonString = String(data: jsonData, encoding: .utf8)!
         print(jsonString)
         //let result=roomCaptureSession.
+        
     }
     private func setupRoomCapture() {
         //roomCaptureView = RoomCaptureView(frame: view.bounds)
@@ -109,6 +114,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             self.replicator.updateAccessibilityIssue(in:self.roomCaptureSession!)
             print("Successfully updated issues")
             print(self.replicator.getAllIssuesToBePresented())
+            
+            self.minimap?.update()
         })
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -155,7 +162,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     }
     
     func setUpCoreImage() {
-        let status = CVPixelBufferCreate(nil, 416, 416,
+        let status = CVPixelBufferCreate(nil, Settings.instance.yoloInputWidth, Settings.instance.yoloInputHeight,
                                          kCVPixelFormatType_32BGRA, nil,
                                          &resizedPixelBuffer)
         if status != kCVReturnSuccess {
@@ -188,7 +195,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         //resizers.append(YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppingPosition: .middle, croppingRatio: 1))
         
         //Then add a middle part resizer
-        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppedBufferSize: CGSize(width: 600, height: 600), croppingPosition: .middle, rotate: .up)
+        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppedBufferSize: CGSize(width: 700, height: 700), croppingPosition: .middle, rotate: .up)
         resizers.append(middleResizer)
         rootLayer.addSublayer(middleResizer.getNotifyingFrame())
     }
@@ -209,8 +216,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         // Resize the input with Core Image.
         guard let resizedPixelBuffer = resizedPixelBuffer else { return }
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let sx = CGFloat(416) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
-        let sy = CGFloat(416) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+        let sx = CGFloat(Settings.instance.yoloInputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+        let sy = CGFloat(Settings.instance.yoloInputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
         let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
         //let rotateTransform=CGAffineTransform(rotationAngle: CGFloat.pi/2*3)
         let scaledImage = ciImage.transformed(by: scaleTransform)
@@ -344,8 +351,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                         if layer is IssueLayer{
                             let issueLayer = layer as! IssueLayer
                             //This is where we used to add popping up layer. Now cancel this to use as cancel issue
-                            //rootLayer.addSublayer( issueLayer.getExtendedLayer())
-                            issueLayer.issue.cancel()
+                            rootLayer.addSublayer(issueLayer.getExtendedLayer())
+                            //issueLayer.issue.cancel()
                             //print("Trying to add another layer")
                         }
                     }
@@ -362,19 +369,23 @@ extension ViewController: RoomCaptureSessionDelegate {
 
     func captureSession(_ session: RoomCaptureSession, didAdd room: CapturedRoom) {
         replicator.anchor(objects: room.objects,surfaces: room.walls+room.doors+room.openings+room.windows , in: session)
+        minimap?.update()
     }
 
     func captureSession(_ session: RoomCaptureSession, didChange room: CapturedRoom) {
         replicator.anchor(objects: room.objects, surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
+        minimap?.update()
     }
 
     func captureSession(_ session: RoomCaptureSession, didUpdate room: CapturedRoom) {
         replicator.anchor(objects: room.objects, surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
+        minimap?.update()
     }
 
     func captureSession(_ session: RoomCaptureSession, didRemove room: CapturedRoom) {
         
         replicator.anchor(objects: room.objects,surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
+        minimap?.update()
     }
     func captureSession(_ session: RoomCaptureSession, didStartWith configuration: RoomCaptureSession.Configuration) {
         arView.session.pause()
@@ -452,8 +463,7 @@ extension ViewController: ARSessionDelegate {
     }
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         detectionOverlay.sublayers=nil
-        
-        // Do something with the new transform
+        // Show issue layers
         let allIssues=replicator.getAllIssuesToBePresented()
         for issue in allIssues{
             if issue.cancelled{
@@ -466,7 +476,7 @@ extension ViewController: ARSessionDelegate {
                 //TODO: get the transformation of od objects
                 trans=source.SourceDetectedObject?.transform
                 //Xia's Note: Cancel the pop-up for detected object since there are already yolo box and red ball
-                continue
+                //continue
             }
             else if source.SourceRoomplanObject != nil{
                 trans=source.SourceRoomplanObject?.transform
@@ -499,43 +509,21 @@ extension ViewController: ARSessionDelegate {
                 //}
                 
             }
-            //        print(session.currentFrame?.anchors)
-            //Use UI layer to visualize DetectedObjectAnchor
-            //        for a in session.currentFrame!.anchors{
-            //            if a is DetectedObjectAnchor{
-            //                let trans=a.transform
-            //                let position = SIMD3(x: trans.columns.3.x, y: trans.columns.3.y, z: trans.columns.3.z)
-            //                let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
-            //                if pos != nil{
-            //                    //TODO: create a new class for the preview layer
-            //                    let layer=CALayer()
-            //                    layer.position = CGPoint(x: pos!.x, y: pos!.y)
-            //                    layer.bounds = CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
-            //                    layer.frame=CGRect(x: pos!.x, y: pos!.y, width:50, height: 50)
-            //                    layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.1, 0.1, 1.0, 0.4])
-            //                    layer.cornerRadius = 7
-            //                    detectionOverlay.addSublayer(layer)
-            //                }
-            //            }
-            //        }
-            //        for a in replicator.getAllIssuesToBePresented(){
-            //            var position = SIMD3(x: a.transform.columns.3.x, y: a.transform.columns.3.y, z: a.transform.columns.3.z)
-            //            let rotation=simd_float3x3(columns: (SIMD3(x: a.transform.columns.0.x, y: a.transform.columns.0.y, z: a.transform.columns.0.z),
-            //                                                 SIMD3(x: a.transform.columns.1.x, y: a.transform.columns.1.y, z: a.transform.columns.1.z),
-            //                                                 SIMD3(x: a.transform.columns.2.x, y: a.transform.columns.2.y, z: a.transform.columns.2.z)))
-            //            //position+=simd_mul(rotation,a.dimensions/2)
-            //            let bounds=view.bounds.size.width
-            //            let boundsh=view.bounds.size.height
-            //            let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
-            //            //Add an icon onto UI layer
-            //            print(a.getCategoryName())
-            //            print(pos)
-            //            if pos != nil{
-            //                //TODO: create a new class for the preview layer
-            //                let shapeLayer=createPreviewLayerWithPosition(pos!,a.getCategoryName())
-            //                detectionOverlay.addSublayer(shapeLayer)
-            //            }
-            //        }
+        }
+        //Rotate the minimap with the real-time camera orientation
+        let cameraTrans=session.currentFrame?.camera.eulerAngles
+        if let trans=cameraTrans {
+            var angle=trans.y
+            if angle<0{
+                angle += .pi*2
+            }
+            let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)
+            if let map=minimap{
+                if map.isDrawn(){
+                    print("Rotating minimap with angle \(angle)")
+                    map.set_rotation(rotation:rotation)
+                }
+            }
         }
     }
 }

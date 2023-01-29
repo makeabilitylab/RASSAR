@@ -55,6 +55,10 @@
 		5EB83FC328C84D8300263575 /* yolov4_final_9_classes.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */; };
 		5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC42017294D4420004F4E88 /* PostHocViewController.swift */; };
 		5EC4201C296E1668004F4E88 /* best.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4201B296E1668004F4E88 /* best.mlmodel */; };
+		5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420272974BD45004F4E88 /* MiniMapLayer.swift */; };
+		5EC4202B29776F34004F4E88 /* NodeRender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4202929776F34004F4E88 /* NodeRender.metal */; };
+		5EC4202C29776F34004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC4202A29776F34004F4E88 /* NodeTechnique.plist */; };
+		5EC420302983346C004F4E88 /* yolov5-iOS.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4202F2983346C004F4E88 /* yolov5-iOS.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +131,10 @@
 		5EB83FC228C84D8300263575 /* yolov4_final_9_classes.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov4_final_9_classes.mlpackage; sourceTree = "<group>"; };
 		5EC42017294D4420004F4E88 /* PostHocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHocViewController.swift; sourceTree = "<group>"; };
 		5EC4201B296E1668004F4E88 /* best.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = best.mlmodel; path = ../../../../../Downloads/best.mlmodel; sourceTree = "<group>"; };
+		5EC420272974BD45004F4E88 /* MiniMapLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMapLayer.swift; sourceTree = "<group>"; };
+		5EC4202929776F34004F4E88 /* NodeRender.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = NodeRender.metal; path = "../../../../../Downloads/SCNTechniqueGlow-master/SCNTechniqueGlow/NodeRender.metal"; sourceTree = "<group>"; };
+		5EC4202A29776F34004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NodeTechnique.plist; path = "../../../../../Downloads/SCNTechniqueGlow-master/SCNTechniqueGlow/NodeTechnique.plist"; sourceTree = "<group>"; };
+		5EC4202F2983346C004F4E88 /* yolov5-iOS.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "yolov5-iOS.mlmodel"; path = "../../../../../Downloads/yolov5-iOS.mlmodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +243,8 @@
 		5E8502F128DFA3EB00FA3F01 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5EC4202929776F34004F4E88 /* NodeRender.metal */,
+				5EC4202A29776F34004F4E88 /* NodeTechnique.plist */,
 				5E3FB26828ED0A4600281359 /* Wheelchair.png */,
 				5E3FB26628ED0A3800281359 /* Senior.png */,
 				5E3FB26428ED0A2600281359 /* BLV.png */,
@@ -248,6 +258,7 @@
 				5E3FB25E28ECEA8100281359 /* CheckBox.swift */,
 				5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */,
 				5EC42017294D4420004F4E88 /* PostHocViewController.swift */,
+				5EC420272974BD45004F4E88 /* MiniMapLayer.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -255,6 +266,7 @@
 		5EB83FA028BD685400263575 /* YOLOv4 */ = {
 			isa = PBXGroup;
 			children = (
+				5EC4202F2983346C004F4E88 /* yolov5-iOS.mlmodel */,
 				5EC4201B296E1668004F4E88 /* best.mlmodel */,
 				5EB83FAB28BD687F00263575 /* BoundingBox.swift */,
 				5EB83FA928BD687F00263575 /* CVPiexlBuffer+Helpers.swift */,
@@ -405,6 +417,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EC4202C29776F34004F4E88 /* NodeTechnique.plist in Resources */,
 				5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */,
 				5E1656AF287CD8A4002577D3 /* LaunchScreen.storyboard in Resources */,
 				5E3FB26D28ED58F800281359 /* Globe 3D Model.obj in Resources */,
@@ -450,6 +463,7 @@
 				5EB83FB628BD687F00263575 /* BoundingBox.swift in Sources */,
 				5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */,
 				5EB83FB128BD687F00263575 /* YOLO4Tiny.swift in Sources */,
+				5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */,
 				5EB83FB528BD687F00263575 /* Helpers.swift in Sources */,
 				5EC4201C296E1668004F4E88 /* best.mlmodel in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
@@ -465,10 +479,12 @@
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,
 				5E1656D4287CE6AA002577D3 /* RoomObjectSystem.swift in Sources */,
 				5E1656D8287CE916002577D3 /* AccessibilityIssue.swift in Sources */,
+				5EC4202B29776F34004F4E88 /* NodeRender.metal in Sources */,
 				5EB83FAF28BD687F00263575 /* VideoCapture.swift in Sources */,
 				5E1656E72891F8E8002577D3 /* Settings.swift in Sources */,
 				5E8502F028DE6CA200FA3F01 /* YOLOResizer.swift in Sources */,
 				5EB83FB028BD687F00263575 /* yolov4.mlpackage in Sources */,
+				5EC420302983346C004F4E88 /* yolov5-iOS.mlmodel in Sources */,
 				5E1656A7287CD8A2002577D3 /* Experience.rcproject in Sources */,
 				5EB83FB428BD687F00263575 /* CVPiexlBuffer+Helpers.swift in Sources */,
 				5E3FB27A28EEAEAF00281359 /* QuickLookPreviewController.swift in Sources */,
@@ -665,7 +681,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.XiaSu.RetroAccess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Makeability.RetroAccess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -700,7 +716,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.XiaSu.RetroAccess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Makeability.RetroAccess;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

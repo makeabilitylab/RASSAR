@@ -36,6 +36,9 @@ class Settings{
     var detectedObjectAnchorCountThreshold=5
     var raycastEnabled=true
     var modelURL:URL?
+    var miniMap:MiniMapLayer?
+    var yoloInputWidth:Int=416
+    var yoloInputHeight:Int=416
     //var globeAsset:MDLAsset
     //var globeEntity:Entity
 }

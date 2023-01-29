@@ -29,7 +29,7 @@ class YOLOResizer{
         self.croppedBufferSize = croppedBufferSize
         self.croppingPosition=croppingPosition
         self.rotateAngle=rotate
-        let status = CVPixelBufferCreate(nil, 416, 416,
+        let status = CVPixelBufferCreate(nil, Settings.instance.yoloInputWidth, Settings.instance.yoloInputHeight,
                                          kCVPixelFormatType_32BGRA, nil,
                                          &resizedPixelBuffer)
         if status != kCVReturnSuccess {
@@ -43,7 +43,7 @@ class YOLOResizer{
         self.croppingPosition=croppingPosition
         self.croppedBufferSize=CGSize(width:CGFloat(Float(fullBufferSize.width)*croppingRatio), height: CGFloat(Float(fullBufferSize.height)*croppingRatio))
         self.rotateAngle=rotate
-        let status = CVPixelBufferCreate(nil, 416, 416,
+        let status = CVPixelBufferCreate(nil, Settings.instance.yoloInputWidth, Settings.instance.yoloInputHeight,
                                          kCVPixelFormatType_32BGRA, nil,
                                          &resizedPixelBuffer)
         if status != kCVReturnSuccess {
@@ -88,8 +88,8 @@ class YOLOResizer{
         let rect=CGRect(x: upperleftX, y: upperleftY, width: croppedBufferSize.width, height: croppedBufferSize.height)
         //let rect=CGRect(x: 400, y: 400, width: 416, height: 416)
         croppedImage=rotatedImage.cropped(to: rect)
-        let sx = CGFloat(416) / CGFloat( croppedBufferSize.width)
-        let sy = CGFloat(416) / CGFloat( croppedBufferSize.height)
+        let sx = CGFloat(Settings.instance.yoloInputWidth) / CGFloat( croppedBufferSize.width)
+        let sy = CGFloat(Settings.instance.yoloInputHeight) / CGFloat( croppedBufferSize.height)
         let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
         var scaledImage = croppedImage.transformed(by: scaleTransform)
         //ciContext.render(scaledImage, to: resizedPixelBuffer)

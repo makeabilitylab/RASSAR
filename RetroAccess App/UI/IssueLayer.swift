@@ -39,11 +39,12 @@ public class IssueLayer:CALayer{
         var y=pos.y
         //var x=214
         //var y=463
-        self.bounds = CGRect(x: x, y: y, width:340, height: 70)
-        self.frame=CGRect(x: x, y: y, width:340, height: 70)
+        //self.bounds = CGRect(x: x, y: y, width:340, height: 70)
+        //self.frame=CGRect(x: x, y: y, width:340, height: 70)
+        self.bounds = CGRect(x: x, y: y, width:70, height: 70)
         self.position = CGPoint(x: x, y: y)
         self.name = "Issue Preview"
-        self.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.663, 0.663, 0.663, 0.4])
+        //self.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.663, 0.663, 0.663, 0.4])
         self.cornerRadius = 7
         
         let iconLayer = CALayer()
@@ -51,13 +52,13 @@ public class IssueLayer:CALayer{
         let iconCategory=getIconCategoryString()
         switch iconCategory{
         case "furniture":
-            iconLayer.contents = UIImage(named: "Furniture")?.cgImage
+            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
         case "medication":
-            iconLayer.contents = UIImage(named: "Medicine")?.cgImage
+            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
         case "notice":
             iconLayer.contents = UIImage(named: "Hazard")?.cgImage
         case "sharp":
-            iconLayer.contents = UIImage(named: "Sharp")?.cgImage
+            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
         default:
             iconLayer.contents = UIImage(named: "Hazard")?.cgImage
         }
@@ -79,7 +80,7 @@ public class IssueLayer:CALayer{
         textLayer.position = CGPoint(x:x+137.5, y: y+35)
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
         textLayer.contentsScale = 2.0
-        self.addSublayer(textLayer)
+        //self.addSublayer(textLayer)
         
         let checkLayer = CALayer()
         checkLayer.name = "Check Box"
@@ -109,13 +110,14 @@ public class IssueLayer:CALayer{
         textLayer.string = formattedString
         textLayer.bounds = CGRect(x: 0, y: 0, width: 400, height: 300)
         let pos=self.position
-        textLayer.position = CGPoint(x:pos.x, y: pos.y+150)
+        textLayer.position = CGPoint(x:220, y: 600)
         textLayer.shadowOpacity = 0.7
         textLayer.shadowOffset = CGSize(width: 2, height: 2)
         textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
         textLayer.contentsScale = 2.0 // retina rendering
         textLayer.backgroundColor=CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0,1.0, 0.4])
         textLayer.cornerRadius=7
+        textLayer.isWrapped=true
         self.addSublayer(textLayer)
         _ = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
             textLayer.removeFromSuperlayer()
