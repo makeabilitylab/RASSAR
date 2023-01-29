@@ -23,6 +23,7 @@ class YOLOResizer{
     var upperleftX:CGFloat=CGFloat(0)
     var upperleftY:CGFloat=CGFloat(0)
     var ciContext = CIContext()
+    var names=[" ","Door Handle", "Electric Socket", "Grab Bar","Knife", "Medication","Rug", "Scissors", "Smoke Alarm","Switch"]
     public init(fullBufferSize: CGSize, fullScreenSize: CGSize, croppedBufferSize: CGSize, croppingPosition:CropPosition,rotate:CGImagePropertyOrientation) {
         self.fullBufferSize = fullBufferSize
         self.fullScreenSize = fullScreenSize
@@ -77,7 +78,7 @@ class YOLOResizer{
             upperleftY=fullBufferSize.height-croppedBufferSize.height/2
         }
     }
-    public func resizeBuffer(buffer:CVPixelBuffer)->CVPixelBuffer{
+    public func resizeImage(buffer:CVPixelBuffer)->CIImage{
         // Resize the input with Core Image.
         guard let resizedPixelBuffer = resizedPixelBuffer else { fatalError("Error when creating null buffer") }
         let ciImage = CIImage(cvPixelBuffer: buffer)
@@ -100,14 +101,14 @@ class YOLOResizer{
         let movedImage=orientedImage.transformed(by: translate.translatedBy(x: -origin.x, y: -origin.y))
         //ciContext.render(scaledImage, to: resizedPixelBuffer)
         ciContext.render(movedImage, to: resizedPixelBuffer)
-        let resultRef=resizedPixelBuffer
-        let cropImg=CIImage(cvImageBuffer: resizedPixelBuffer)
-        return resizedPixelBuffer
+        //let resultRef=resizedPixelBuffer
+        //let cropImg=CIImage(cvImageBuffer: resizedPixelBuffer)
+        return movedImage
     }
-    public func resizeResults(initialResults:[Prediction])->[Prediction]{
+    public func resizeResults(initialResults:[ProcessedObservation])->[Prediction]{
         //Resize the results in cropped frame into the screen
+        var predictions:[Prediction]=[]
         for result in initialResults{
-            //var rect=result.rect
             //First rotate
             switch rotateAngle{
             case .left:
@@ -120,18 +121,20 @@ class YOLOResizer{
                 break
             }
             //Then scale and position
-            let scaleX=croppedBufferSize.width/fullBufferSize.height*fullScreenSize.height
-            let scaleY=croppedBufferSize.height/fullBufferSize.height*fullScreenSize.height
+            let scaleX=fullScreenSize.height/fullBufferSize.height
+            let scaleY=fullScreenSize.height/fullBufferSize.height
             let leftX=(fullBufferSize.width/fullBufferSize.height*fullScreenSize.height-fullScreenSize.width)/2
-            result.rect.origin.x *= scaleX
-            result.rect.origin.y *= scaleY
-            result.rect.size.width *= scaleX
-            result.rect.size.height *= scaleY
+            var pred=Prediction(classIndex: names.firstIndex(of: result.label)!, score: result.confidence, rect: result.boundingBox)
+            pred.rect.origin.x *= scaleX
+            pred.rect.origin.y *= scaleY
+            pred.rect.size.width *= scaleX
+            pred.rect.size.height *= scaleY
             //Move the rect
-            result.rect.origin.x+=upperleftX/fullBufferSize.height*fullScreenSize.height-leftX
-            result.rect.origin.y+=upperleftY/fullBufferSize.height*fullScreenSize.height
+            pred.rect.origin.x+=upperleftX/fullBufferSize.height*fullScreenSize.height-leftX
+            pred.rect.origin.y+=upperleftY/fullBufferSize.height*fullScreenSize.height
+            predictions.append(pred)
         }
-        return initialResults
+        return predictions
     }
     public func getNotifyingFrame()->CALayer{
 //        let layer=CALayer()

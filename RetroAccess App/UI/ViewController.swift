@@ -27,7 +27,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     var bufferSize: CGSize = .zero
     var rootLayer: CALayer! = nil
     
-    var yolo = YOLO4My()
+    var detector:ObjectDetection=ObjectDetection()
     var boundingBoxes = [BoundingBox]()
     var colors: [UIColor] = []
     let maxBoundingBoxes = 10
@@ -49,11 +49,6 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         setupRoomCapture()
         setupLayers()
         
-        //Load new OD framework
-        Task { [weak self] in
-            try! await self!.yolo.load(width: Settings.instance.yoloInputWidth, height: Settings.instance.yoloInputWidth, confidence: 0.6, nms: 0.6, maxBoundingBoxes: 10)//TODO: adjust cnfidence to filter away erronous resutls
-            print("YOLO successfully loaded")
-        }
         setUpBoundingBoxes()
         setUpCoreImage()
         setUpYOLOResizers()
@@ -79,14 +74,6 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         rootLayer.addSublayer(minimap!)
     }
     @objc func stop(sender: UIButton!) {
-        //Generate pdf report with scanned issues
-//        if let vc = self.storyboard?.instantiateViewController(
-//            withIdentifier: "PreviewView") {
-//                let pdfCreator = PDFCreator(title: "Detection Result", body: "List of Accessibility issues",contact: "some author contact")
-//                vc.documentData = pdfCreator.createFlyer()
-//                vc.modalPresentationStyle = .fullScreen
-//                present(vc, animated: true)
-//        }
         //Stop the scan, export result as file, and call the QL Preview
         Settings.instance.miniMap=minimap
         roomCaptureSession!.stop()
@@ -98,12 +85,6 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         
     }
     private func setupRoomCapture() {
-        //roomCaptureView = RoomCaptureView(frame: view.bounds)
-        //roomCaptureView.captureSession.delegate = self
-        //roomCaptureView.delegate = self
-        //roomCaptureView.captureSession.arSession.delegate=self
-        
-        //view.insertSubview(roomCaptureView, at: 0)
         roomCaptureSession = RoomCaptureSession()
         roomCaptureSession?.delegate = self
         roomCaptureSession?.run(configuration: .init())
@@ -214,21 +195,21 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         let startTime = CACurrentMediaTime()
         
         // Resize the input with Core Image.
-        guard let resizedPixelBuffer = resizedPixelBuffer else { return }
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let sx = CGFloat(Settings.instance.yoloInputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
-        let sy = CGFloat(Settings.instance.yoloInputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
-        let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
+        //guard let resizedPixelBuffer = resizedPixelBuffer else { return }
+        //let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        //let sx = CGFloat(Settings.instance.yoloInputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+        //let sy = CGFloat(Settings.instance.yoloInputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+        //let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
         //let rotateTransform=CGAffineTransform(rotationAngle: CGFloat.pi/2*3)
-        let scaledImage = ciImage.transformed(by: scaleTransform)
+        //let scaledImage = ciImage.transformed(by: scaleTransform)
         //let finalImage=scaledImage.transformed(by: rotateTransform)
-        ciContext.render(scaledImage, to: resizedPixelBuffer)
+        //ciContext.render(scaledImage, to: resizedPixelBuffer)
         
-        if let boundingBoxes = try? yolo.predict(image: resizer.resizeBuffer(buffer: pixelBuffer)) {
-            let elapsed = CACurrentMediaTime() - startTime
-            let resizedBbox=resizer.resizeResults(initialResults:boundingBoxes)
-            showOnMainThread(resizedBbox, elapsed)
-        }
+        let observations = detector.detectAndProcess(image: resizer.resizeImage(buffer: pixelBuffer))
+        let elapsed = CACurrentMediaTime() - startTime
+        let resizedBbox=resizer.resizeResults(initialResults:observations)
+        showOnMainThread(resizedBbox, elapsed)
+        
 //        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
 //            let elapsed = CACurrentMediaTime() - startTime
 //            showOnMainThread(boundingBoxes, elapsed)
@@ -254,31 +235,9 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             if i < predictions.count {
                 let prediction = predictions[i]
                 
-//                let width = view.bounds.height/1920*1440
-//                let height = view.bounds.height
-//                let scaleX = width
-//                let scaleY = height
-//                let left = (width - view.bounds.width) / 2
-//
-//                // Translate and scale the rectangle to our own coordinate system.
                 var rect = prediction.rect
-//                let temp1=rect.origin.x
-//                rect.origin.x=1-rect.origin.y-rect.size.height
-//                rect.origin.y=temp1
-//
-//                rect.origin.x *= scaleX
-//                rect.origin.y *= scaleY
-//                rect.origin.x -= left
-//
-//                let temp2=rect.size.width
-//                rect.size.width=rect.size.height
-//                rect.size.height=temp2
-//
-//                rect.size.width *= scaleX
-//                rect.size.height *= scaleY
-//
                 // Show the bounding box.
-                let label = String(format: "%@ %.1f", yolo.names[prediction.classIndex] ?? "<unknown>", prediction.score)
+                let label = String(format: "%@ %.1f", detector.names[prediction.classIndex] ?? "<unknown>", prediction.score)
                 let color = colors[prediction.classIndex]
                 if showBbox{
                     print("showing result")
@@ -306,9 +265,9 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                         //print("A successful cast")
                         let resultAnchor = ARAnchor(transform:  cast.worldTransform)
                         let resultTransform=cast.worldTransform
-                        let name=yolo.names[prediction.classIndex]
+                        let name=detector.names[prediction.classIndex]
                         let prob=prediction.score
-                        let odAnchor=DetectedObjectAnchor(anchor: resultAnchor, rect:rect,cat: name!, identifier: UUID.init())
+                        let odAnchor=DetectedObjectAnchor(anchor: resultAnchor, rect:rect,cat: name, identifier: UUID.init())
                         if odAnchor.category != nil{
                             ODAnchors.append(odAnchor)
                         }
@@ -520,7 +479,7 @@ extension ViewController: ARSessionDelegate {
             let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)
             if let map=minimap{
                 if map.isDrawn(){
-                    print("Rotating minimap with angle \(angle)")
+                    //print("Rotating minimap with angle \(angle)")
                     map.set_rotation(rotation:rotation)
                 }
             }

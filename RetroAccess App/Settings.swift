@@ -37,8 +37,8 @@ class Settings{
     var raycastEnabled=true
     var modelURL:URL?
     var miniMap:MiniMapLayer?
-    var yoloInputWidth:Int=416
-    var yoloInputHeight:Int=416
+    var yoloInputWidth:Int=640
+    var yoloInputHeight:Int=640
     //var globeAsset:MDLAsset
     //var globeEntity:Entity
 }
