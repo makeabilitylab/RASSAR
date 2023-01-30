@@ -44,13 +44,13 @@
 		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
 		5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC42017294D4420004F4E88 /* PostHocViewController.swift */; };
 		5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420272974BD45004F4E88 /* MiniMapLayer.swift */; };
-		5EC4202B29776F34004F4E88 /* NodeRender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4202929776F34004F4E88 /* NodeRender.metal */; };
-		5EC4202C29776F34004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC4202A29776F34004F4E88 /* NodeTechnique.plist */; };
 		5EC420352985FFCB004F4E88 /* yolov5-Medium.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420342985FFCB004F4E88 /* yolov5-Medium.mlmodel */; };
 		5EC4203829860004004F4E88 /* ObjectDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203729860004004F4E88 /* ObjectDetection.swift */; };
 		5EC4203A2986695E004F4E88 /* yolov5-iOS.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */; };
 		5EC4203C29866B4B004F4E88 /* YOLOResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */; };
 		5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203D29866CB6004F4E88 /* BoundingBox.swift */; };
+		5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC420432988628A004F4E88 /* NodeTechnique.plist */; };
+		5EC420462988628A004F4E88 /* NodeRender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420442988628A004F4E88 /* NodeRender.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,13 +112,13 @@
 		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
 		5EC42017294D4420004F4E88 /* PostHocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHocViewController.swift; sourceTree = "<group>"; };
 		5EC420272974BD45004F4E88 /* MiniMapLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMapLayer.swift; sourceTree = "<group>"; };
-		5EC4202929776F34004F4E88 /* NodeRender.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = NodeRender.metal; path = "../../../../../Downloads/SCNTechniqueGlow-master/SCNTechniqueGlow/NodeRender.metal"; sourceTree = "<group>"; };
-		5EC4202A29776F34004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NodeTechnique.plist; path = "../../../../../Downloads/SCNTechniqueGlow-master/SCNTechniqueGlow/NodeTechnique.plist"; sourceTree = "<group>"; };
 		5EC420342985FFCB004F4E88 /* yolov5-Medium.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "yolov5-Medium.mlmodel"; path = "../../../../../Downloads/yolov5-Medium.mlmodel"; sourceTree = "<group>"; };
 		5EC4203729860004004F4E88 /* ObjectDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetection.swift; sourceTree = "<group>"; };
 		5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "yolov5-iOS.mlmodel"; path = "../../../../../Downloads/yolov5-iOS.mlmodel"; sourceTree = "<group>"; };
 		5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YOLOResizer.swift; path = "RetroAccess App/YOLOv4/YOLOResizer.swift"; sourceTree = SOURCE_ROOT; };
 		5EC4203D29866CB6004F4E88 /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundingBox.swift; path = "RetroAccess App/YOLOv4/BoundingBox.swift"; sourceTree = SOURCE_ROOT; };
+		5EC420432988628A004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NodeTechnique.plist; sourceTree = "<group>"; };
+		5EC420442988628A004F4E88 /* NodeRender.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = NodeRender.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,8 +227,8 @@
 		5E8502F128DFA3EB00FA3F01 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				5EC4202929776F34004F4E88 /* NodeRender.metal */,
-				5EC4202A29776F34004F4E88 /* NodeTechnique.plist */,
+				5EC420442988628A004F4E88 /* NodeRender.metal */,
+				5EC420432988628A004F4E88 /* NodeTechnique.plist */,
 				5E3FB26828ED0A4600281359 /* Wheelchair.png */,
 				5E3FB26628ED0A3800281359 /* Senior.png */,
 				5E3FB26428ED0A2600281359 /* BLV.png */,
@@ -393,7 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EC4202C29776F34004F4E88 /* NodeTechnique.plist in Resources */,
+				5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */,
 				5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */,
 				5E1656AF287CD8A4002577D3 /* LaunchScreen.storyboard in Resources */,
 				5E3FB26D28ED58F800281359 /* Globe 3D Model.obj in Resources */,
@@ -450,9 +450,9 @@
 				5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */,
 				5EC4203A2986695E004F4E88 /* yolov5-iOS.mlmodel in Sources */,
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,
+				5EC420462988628A004F4E88 /* NodeRender.metal in Sources */,
 				5E1656D4287CE6AA002577D3 /* RoomObjectSystem.swift in Sources */,
 				5E1656D8287CE916002577D3 /* AccessibilityIssue.swift in Sources */,
-				5EC4202B29776F34004F4E88 /* NodeRender.metal in Sources */,
 				5E1656E72891F8E8002577D3 /* Settings.swift in Sources */,
 				5E1656A7287CD8A2002577D3 /* Experience.rcproject in Sources */,
 				5E3FB27A28EEAEAF00281359 /* QuickLookPreviewController.swift in Sources */,
