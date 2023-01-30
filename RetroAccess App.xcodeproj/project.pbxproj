@@ -44,13 +44,13 @@
 		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
 		5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC42017294D4420004F4E88 /* PostHocViewController.swift */; };
 		5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420272974BD45004F4E88 /* MiniMapLayer.swift */; };
-		5EC420352985FFCB004F4E88 /* yolov5-Medium.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420342985FFCB004F4E88 /* yolov5-Medium.mlmodel */; };
 		5EC4203829860004004F4E88 /* ObjectDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203729860004004F4E88 /* ObjectDetection.swift */; };
 		5EC4203A2986695E004F4E88 /* yolov5-iOS.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */; };
 		5EC4203C29866B4B004F4E88 /* YOLOResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */; };
 		5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203D29866CB6004F4E88 /* BoundingBox.swift */; };
 		5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC420432988628A004F4E88 /* NodeTechnique.plist */; };
 		5EC420462988628A004F4E88 /* NodeRender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420442988628A004F4E88 /* NodeRender.metal */; };
+		5EC4204829886647004F4E88 /* yolov5-Medium.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,13 +112,13 @@
 		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
 		5EC42017294D4420004F4E88 /* PostHocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHocViewController.swift; sourceTree = "<group>"; };
 		5EC420272974BD45004F4E88 /* MiniMapLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMapLayer.swift; sourceTree = "<group>"; };
-		5EC420342985FFCB004F4E88 /* yolov5-Medium.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "yolov5-Medium.mlmodel"; path = "../../../../../Downloads/yolov5-Medium.mlmodel"; sourceTree = "<group>"; };
 		5EC4203729860004004F4E88 /* ObjectDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetection.swift; sourceTree = "<group>"; };
 		5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "yolov5-iOS.mlmodel"; path = "../../../../../Downloads/yolov5-iOS.mlmodel"; sourceTree = "<group>"; };
 		5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YOLOResizer.swift; path = "RetroAccess App/YOLOv4/YOLOResizer.swift"; sourceTree = SOURCE_ROOT; };
 		5EC4203D29866CB6004F4E88 /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundingBox.swift; path = "RetroAccess App/YOLOv4/BoundingBox.swift"; sourceTree = SOURCE_ROOT; };
 		5EC420432988628A004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NodeTechnique.plist; sourceTree = "<group>"; };
 		5EC420442988628A004F4E88 /* NodeRender.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = NodeRender.metal; sourceTree = "<group>"; };
+		5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "yolov5-Medium.mlmodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,10 +280,10 @@
 		5EC420332985FFB6004F4E88 /* YOLOv5 */ = {
 			isa = PBXGroup;
 			children = (
+				5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */,
 				5EC4203D29866CB6004F4E88 /* BoundingBox.swift */,
 				5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */,
 				5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */,
-				5EC420342985FFCB004F4E88 /* yolov5-Medium.mlmodel */,
 				5EC4203729860004004F4E88 /* ObjectDetection.swift */,
 			);
 			path = YOLOv5;
@@ -440,10 +440,10 @@
 				5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */,
 				5EC4203829860004004F4E88 /* ObjectDetection.swift in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
-				5EC420352985FFCB004F4E88 /* yolov5-Medium.mlmodel in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
 				5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */,
+				5EC4204829886647004F4E88 /* yolov5-Medium.mlmodel in Sources */,
 				5E1656DF2888D514002577D3 /* Situation.swift in Sources */,
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
 				5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */,
