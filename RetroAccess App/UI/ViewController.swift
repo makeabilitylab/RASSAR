@@ -38,6 +38,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     var resizers:[YOLOResizer]=[YOLOResizer]()
     let roombuilder=RoomBuilder(options: [.beautifyObjects])
     var manager = FileManager.default
+    let screenSize: CGRect = UIScreen.main.bounds
     
     private var bboxOverlay: CALayer! = nil
     override func viewDidLoad() {
@@ -62,7 +63,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         })
         
         //Add button for ending scanning process and export pdf report
-        let rect1 = CGRect(x: 250, y: 50, width: 150, height: 50)
+        let rect1 = CGRect(x: 2*screenSize.width/3, y: 50, width: screenSize.width/4, height: 50)
         // STOP BUTTON
         let stopButton = UIButton(frame: rect1)
         stopButton.setTitle("Export Results", for: .normal)
@@ -70,7 +71,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         stopButton.setTitleColor(.white, for: .normal)
         stopButton.backgroundColor = .blue
         self.view.addSubview(stopButton)
-        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:220,y:720))
+        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/2,y:screenSize.height-200))
         rootLayer.addSublayer(minimap!)
     }
     @objc func stop(sender: UIButton!) {
@@ -176,7 +177,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         //resizers.append(YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppingPosition: .middle, croppingRatio: 1))
         
         //Then add a middle part resizer
-        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:428,height:926), croppedBufferSize: CGSize(width: 700, height: 700), croppingPosition: .middle, rotate: .up)
+        let middleResizer=YOLOResizer(fullBufferSize: CGSize(width:1440,height:1920), fullScreenSize: CGSize(width:screenSize.width,height:screenSize.height), croppedBufferSize: CGSize(width: 700, height: 700), croppingPosition: .middle, rotate: .up)
         resizers.append(middleResizer)
         rootLayer.addSublayer(middleResizer.getNotifyingFrame())
     }

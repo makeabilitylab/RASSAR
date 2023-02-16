@@ -21,7 +21,7 @@
 		5E1656D6287CE901002577D3 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656D5287CE901002577D3 /* Filter.swift */; };
 		5E1656D8287CE916002577D3 /* AccessibilityIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */; };
 		5E1656DD28877AD1002577D3 /* Rubrics.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E1656DC28877AD1002577D3 /* Rubrics.json */; };
-		5E1656DF2888D514002577D3 /* Situation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656DE2888D514002577D3 /* Situation.swift */; };
+		5E1656DF2888D514002577D3 /* Rubric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656DE2888D514002577D3 /* Rubric.swift */; };
 		5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E42890A306002577D3 /* OnboardViewController.swift */; };
 		5E1656E72891F8E8002577D3 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E62891F8E8002577D3 /* Settings.swift */; };
 		5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */; };
@@ -37,7 +37,6 @@
 		5E3FB26E28ED58F800281359 /* Globe 3D Model.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26C28ED58F800281359 /* Globe 3D Model.mtl */; };
 		5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */; };
 		5E3FB27828EE433F00281359 /* Wireframe_3D_Globe.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */; };
-		5E3FB27A28EEAEAF00281359 /* QuickLookPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */; };
 		5E3FB27D28EEC34500281359 /* RoomPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3FB27C28EEC34500281359 /* RoomPlan.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5EB83FB828C3FB3500263575 /* Rubrics_mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EB83FB728C3FB3500263575 /* Rubrics_mini.json */; };
 		5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FBC28C72DD800263575 /* PDFCreator.swift */; };
@@ -88,10 +87,9 @@
 		5E1656D5287CE901002577D3 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIssue.swift; sourceTree = "<group>"; };
 		5E1656DC28877AD1002577D3 /* Rubrics.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Rubrics.json; sourceTree = "<group>"; };
-		5E1656DE2888D514002577D3 /* Situation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Situation.swift; sourceTree = "<group>"; };
+		5E1656DE2888D514002577D3 /* Rubric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rubric.swift; sourceTree = "<group>"; };
 		5E1656E42890A306002577D3 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
 		5E1656E62891F8E8002577D3 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		5E1656E82892010D002577D3 /* Old_Rubrics.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Old_Rubrics.md; sourceTree = "<group>"; };
 		5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingEntity.swift; sourceTree = "<group>"; };
 		5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomObjectClasses.swift; sourceTree = "<group>"; };
 		5E16572A28ACBDD8002577D3 /* IssueLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLayer.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		5E3FB26C28ED58F800281359 /* Globe 3D Model.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Globe 3D Model.mtl"; sourceTree = "<group>"; };
 		5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Wireframe_3D_Globe.scn; sourceTree = "<group>"; };
 		5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Wireframe_3D_Globe.usdz; sourceTree = "<group>"; };
-		5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookPreviewController.swift; sourceTree = "<group>"; };
 		5E3FB27C28EEC34500281359 /* RoomPlan.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RoomPlan.framework; path = System/Library/Frameworks/RoomPlan.framework; sourceTree = SDKROOT; };
 		5EB83FB728C3FB3500263575 /* Rubrics_mini.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Rubrics_mini.json; sourceTree = "<group>"; };
 		5EB83FBC28C72DD800263575 /* PDFCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
@@ -240,7 +237,6 @@
 				5EB83FBC28C72DD800263575 /* PDFCreator.swift */,
 				5EB83FC028C733C900263575 /* PDFPreviewController.swift */,
 				5E3FB25E28ECEA8100281359 /* CheckBox.swift */,
-				5E3FB27928EEAEAF00281359 /* QuickLookPreviewController.swift */,
 				5EC42017294D4420004F4E88 /* PostHocViewController.swift */,
 				5EC420272974BD45004F4E88 /* MiniMapLayer.swift */,
 			);
@@ -251,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				5E1656DC28877AD1002577D3 /* Rubrics.json */,
-				5E1656E82892010D002577D3 /* Old_Rubrics.md */,
 				5EB83FB728C3FB3500263575 /* Rubrics_mini.json */,
 			);
 			path = Rubrics;
@@ -270,7 +265,7 @@
 		5EB83FBB28C3FBE600263575 /* AccessibilityIssue */ = {
 			isa = PBXGroup;
 			children = (
-				5E1656DE2888D514002577D3 /* Situation.swift */,
+				5E1656DE2888D514002577D3 /* Rubric.swift */,
 				5E1656D5287CE901002577D3 /* Filter.swift */,
 				5E1656D7287CE916002577D3 /* AccessibilityIssue.swift */,
 			);
@@ -444,7 +439,7 @@
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
 				5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */,
 				5EC4204829886647004F4E88 /* yolov5-Medium.mlmodel in Sources */,
-				5E1656DF2888D514002577D3 /* Situation.swift in Sources */,
+				5E1656DF2888D514002577D3 /* Rubric.swift in Sources */,
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
 				5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */,
 				5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */,
@@ -455,7 +450,6 @@
 				5E1656D8287CE916002577D3 /* AccessibilityIssue.swift in Sources */,
 				5E1656E72891F8E8002577D3 /* Settings.swift in Sources */,
 				5E1656A7287CD8A2002577D3 /* Experience.rcproject in Sources */,
-				5E3FB27A28EEAEAF00281359 /* QuickLookPreviewController.swift in Sources */,
 				5E16572B28ACBDD8002577D3 /* IssueLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,7 +643,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Makeability.RetroAccess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RASSAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -684,7 +678,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Makeability.RetroAccess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RASSAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

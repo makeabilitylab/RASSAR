@@ -22,19 +22,21 @@ public class AccessibilityIssue
     var transform:simd_float4x4?
     var category:AccessibilityIssueType
     var description:String
-    var rubric:Situation
+    var problem:String
+    var rubric:Rubric
     var sourceObject:DetectedObject?
     var sourceRPObject:RoomObjectAnchor?
     var sourceRPSurface:RoomSurfaceAnchor?
     var cancelled:Bool=false
     public var updated=false
-    public init(time: Date, identifier:UUID,transform: simd_float4x4?,type:AccessibilityIssueType,description:String,rubric:Situation) {
+    public init(time: Date, identifier:UUID,transform: simd_float4x4?,type:AccessibilityIssueType,description:String,rubric:Rubric,problem:String) {
         self.time = time
         self.identifier=identifier
         self.transform = transform
         self.category=type
         self.description=description
         self.rubric=rubric
+        self.problem=problem
     }
     public func cancel(){
         self.cancelled=true
@@ -45,7 +47,12 @@ public class AccessibilityIssue
     }
     public func getDetails()->String{
         //TODO: get detailed info for this issue
-        return rubric.get_description()
+        var details=rubric.get_description()
+        if details.contains("XXX"){
+            let replaced = details.replacingOccurrences(of: "XXX", with: problem)
+            return replaced
+        }
+        return details
     }
     public func getAnchor()->RoomObjectAnchor{
         if sourceObject != nil{

@@ -10,7 +10,7 @@
             "RelativePosition":"Upon",
             "Existence":null,
             "Note":null,
-            "Message":"Warning: The height of table is not compliant with the ADA guidelines!",
+            "Message":"Warning: The table is too XXX!",
             "ADA_description":"According to ADA compliance, the surface height of an accessible table will have a height of no more than 34 inches and no less than 28 inches above the floor. The detected table is NUM inches above the floor.",
             "Suggestions":["If the table is too low, consider using risers to elevate the height of the table.","If the table is too high, consider replace to an adjustable height table"]
         }
@@ -26,7 +26,7 @@
             "RelativePosition":"Upon",
             "Existence":null,
             "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the counter.",
-            "Message":"Warning: Counter is too high.",
+            "Message":"Warning: Counter is too XXX.",
             "ADA_description":"According to ADA compliance, counters must be at the proper height (this often is 28-34 inches from the floor). The detected counter is NUM inches from the floor.",
             "Suggestions":["Replace to an adjustable height counter"]
         }
@@ -42,7 +42,7 @@
             "RelativePosition":null,
             "Existence":null,
             "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the toilet seat.",
-            "Message":"Warning: The toilet seat is too short!",
+            "Message":"Warning: The toilet seat is too XXX!",
             "ADA_description":"According to ADA compliance, the height of toilet seat should between 17 inches to 19 inches above the floor. The height of the detected toilet seat is NUM inches from the floor.",
             "Suggestions":["Consider add a raised toilet seat for seats that are too low. Raised toilet seats assist people with bending and seating difficulties and performing toilet transfers with ease","Consider a lower profile toilet if it is too high"]
         }
@@ -58,7 +58,7 @@
             "RelativePosition":null,
             "Existence":null,
             "Note":"replace XXX to either 'tall' or 'short'.",
-            "Message":"Warning: The sofa is too short!",
+            "Message":"Warning: The sofa is too XXX!",
             "ADA_description":"According to ADA compliance, the height of the sofa shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches.",
             "Suggestions":["Consider using risers to elevate the height of the sofa if it's too low."]
         },
@@ -183,7 +183,7 @@
             "RelativePosition":"Upon",
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
-            "Message":"Warning: The lighting switch is too XXX the floor!",
+            "Message":"Warning: The lighting switch is too XXX to the floor!",
             "ADA_description":"According to ADA compliance, lighting switches and outlets shall be mounted in a range from 15 to 48 inches above the floor. The height of the detected lighting switch is NUM inches above the floor.",
             "Suggestions":["Add clapper light switch control to lamps. There are other remote control switching options for operating the lights.","Rearrange furnishings to allow quick access to wall switches or lamps."]
         }
@@ -233,7 +233,7 @@
             "RelativePosition":"Upon",
             "Existence":null,
             "Note":"replace XXX to either 'floor' or 'stairs'.",
-            "Message":"Warning: Outlets detected on the XXX!",
+            "Message":"Warning: Outlets detected is too XXX!",
             "ADA_description":"For safety, no outlet should be present on the floor or stairs.",
             "Suggestions":["If permanently installed, hired a qualified professional to change the outlets to the correct location."]
         }

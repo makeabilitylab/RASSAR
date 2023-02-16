@@ -15,7 +15,7 @@ class Filter
     let suggestionFile=""
     //var rubrics:Data?
     var replicator:RoomObjectReplicator
-    var situations:[Situation]
+    var situations:[Rubric]
     //var community:String
     public init(replicator:RoomObjectReplicator) {
         self.replicator=replicator
@@ -31,7 +31,7 @@ class Filter
             for (key, value)  in situs {
                 let cases=value as! [String:Any]
                 for (requirement,content) in cases{
-                    self.situations.append(Situation(index:counter,keyword:key,requirement:requirement,json:content))
+                    self.situations.append(Rubric(index:counter,keyword:key,requirement:requirement,json:content))
                     counter+=1
                 }
                 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Situation{
+public class Rubric{
     var index:Int
     var community:[String]
     var dependency:[String]?
@@ -75,15 +75,15 @@ public class Situation{
         if var msg=message{
             switch requirement{
             case "Dim_Height":
-                msg += "The ADA design guideline requires a height of \(dimension!.value) inch"
+                msg += " \n The ADA design guideline requires a height of \(dimension!.value!) inch"
             case "Depth":
-                msg += "The ADA design guideline requires a depth more than \(dimension!.value) inch"
+                msg += " \n The ADA design guideline requires a depth of \(dimension!.value!) inch"
             case "Radius":
-                msg += "The ADA design guideline requires a radius more than \(dimension!.value) inch"
+                msg += " \n The ADA design guideline requires a radius more than \(dimension!.value!) inch"
             case "ExistenceOrNot":
                 msg += ""
             case "Pos_Height":
-                msg += "The ADA design guideline requires height of \(dimension!.value) inch"
+                msg += " \n The ADA design guideline requires height of \(dimension!.value!) inch"
             default:
                 print("Non-implemented situation")
             }
@@ -127,9 +127,10 @@ public class Situation{
             for obj in retrieveResults.foundRoomplanObjects{
                 print(obj.category)
                 print(obj.dimensions)
-                if compareValues(target: Float(obj.getDimension(measurement:measurement)), comparison: self.dimension!.comparison!, values: self.dimension!.value!)==false{
+                let problem=compareValues(target: Float(obj.getDimension(measurement:measurement)), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
+                if problem.count>0{
                     let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self,problem: problem)
                     issue.setSourceRPObject(source: obj)
                     issuesFound.append(issue)
                 }
@@ -138,9 +139,10 @@ public class Situation{
         else if retrieveResults.foundRoomplanSurfaces.count>0{
             //Only door for now
             for obj in retrieveResults.foundRoomplanSurfaces{
-                if compareValues(target: Float(obj.getDimension(measurement:measurement)), comparison: self.dimension!.comparison!, values: self.dimension!.value!)==false{
+                let problem=compareValues(target: Float(obj.getDimension(measurement:measurement)), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
+                if problem.count>0{
                     let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self)
+                                                 type: AccessibilityIssueType.ObjectDimension, description: "", rubric: self,problem: problem)
                     issue.setSourceRPSurface(source: obj)
                     issuesFound.append(issue)
                 }
@@ -160,14 +162,14 @@ public class Situation{
             //Then non existence would be problem
             let count=retrieveResults.foundRoomplanSurfaces.count+retrieveResults.foundRoomplanObjects.count+retrieveResults.foundDetectedObjects.count
             if count==0{
-                issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .ExistenceOrNot, description: "", rubric: self))
+                issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .ExistenceOrNot, description: "", rubric: self,problem: ""))
             }
         }
         else{
             //Then exist become problem. Only detected objects would be considered
             for obj in retrieveResults.foundDetectedObjects{
                 if obj.valid{
-                    let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .ExistenceOrNot, description: "", rubric: self)
+                    let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .ExistenceOrNot, description: "", rubric: self,problem: "")
                     issue.setSourceODObject(source: obj)
                     issuesFound.append(issue)
                 }
@@ -192,29 +194,32 @@ public class Situation{
             }
             print(obj.detectedObjectCategory.rawValue)
             print(obj.position)
-            if compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
+            let problem=compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
+            if  problem.count>0{
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                             type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
+                                             type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self,problem: problem)
                 issue.setSourceODObject(source: obj)
                 issuesFound.append(issue)
             }
         }
         for obj in retrieveResults.foundRoomplanObjects{
-            if compareValues(target: obj.getSpecificPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
+            let problem=compareValues(target: obj.getSpecificPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
+            if  problem.count>0{
                 print("Found obj position issue")
                 print(obj.category)
                 print(obj.getSpecificPosition(measurement: measurement))
                 print(obj.transform.columns.3)
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                             type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
+                                             type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self,problem: problem)
                 issue.setSourceRPObject(source: obj)
                 issuesFound.append(issue)
             }
         }
         for obj in retrieveResults.foundRoomplanSurfaces{
-            if compareValues(target: obj.getFullPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!) == false{
+            let problem=compareValues(target: obj.getFullPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
+            if problem.count>0{
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
-                                             type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self)
+                                             type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self,problem: problem)
                 issue.setSourceRPSurface(source: obj)
                 issuesFound.append(issue)
             }
@@ -223,36 +228,160 @@ public class Situation{
         
         return issuesFound
     }
-    public func compareValues(target:Float,comparison:String,values:[Int])->Bool{
+    public func compareValues(target:Float,comparison:String,values:[Int])->String{
         //TODO: conduct unit transform. From meter to inch
         //First transform the target value to inch!
         let targetTransformed=target*39.37
         let v=Float(values[0])
         //let targetTransformed=target
-        switch comparison{
-        case "NoLessThan":
-            if targetTransformed>=Float(values[0]){
-                return true
+        switch requirement{
+        case "Dim_Height":
+            switch comparison{
+            case "NoLessThan":
+                if targetTransformed>=Float(values[0]){
+                    return ""
+                }
+                return "SHORT"
+            case "LessThan":
+                if targetTransformed<=Float(values[0]){
+                    return ""
+                }
+                return "TALL"
+            case "Between":
+                if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
+                    return ""
+                }
+                else if targetTransformed <= Float(values[0]){
+                    return "SHORT"
+                }
+                else{
+                    return "TALL"
+                }
+            case "Equal":
+                if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance) && targetTransformed>=Float(values[0])-Float(Settings.instance.dimension_tolerance){
+                    return ""
+                }
+                else if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance){
+                    return "SHORT"
+                }
+                else{
+                    return "TALL"
+                }
+            default:
+                fatalError("Unexpected comparisoon type")
             }
-            return false
-        case "LessThan":
-            if targetTransformed<=Float(values[0]){
-                return true
+        case "Depth":
+            switch comparison{
+            case "NoLessThan":
+                if targetTransformed>=Float(values[0]){
+                    return ""
+                }
+                return "SHALLOW"
+            case "LessThan":
+                if targetTransformed<=Float(values[0]){
+                    return ""
+                }
+                return "DEEP"
+            case "Between":
+                if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
+                    return ""
+                }
+                else if targetTransformed <= Float(values[0]){
+                    return "SHALLOW"
+                }
+                else{
+                    return "DEEP"
+                }
+            case "Equal":
+                if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance) && targetTransformed>=Float(values[0])-Float(Settings.instance.dimension_tolerance){
+                    return ""
+                }
+                else if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance){
+                    return "SHALLOW"
+                }
+                else{
+                    return "DEEP"
+                }
+            default:
+                fatalError("Unexpected comparisoon type")
             }
-            return false
-        case "Between":
-            if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
-                return true
+        case "Radius":
+            switch comparison{
+            case "NoLessThan":
+                if targetTransformed>=Float(values[0]){
+                    return ""
+                }
+                return "NARROW"
+            case "LessThan":
+                if targetTransformed<=Float(values[0]){
+                    return ""
+                }
+                return "WIDE"
+            case "Between":
+                if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
+                    return ""
+                }
+                else if targetTransformed <= Float(values[0]){
+                    return "NARROW"
+                }
+                else{
+                    return "WIDE"
+                }
+            case "Equal":
+                if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance) && targetTransformed>=Float(values[0])-Float(Settings.instance.dimension_tolerance){
+                    return ""
+                }
+                else if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance){
+                    return "NARROW"
+                }
+                else{
+                    return "WIDE"
+                }
+            default:
+                fatalError("Unexpected comparisoon type")
             }
-            return false
-        case "Equal":
-            if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance) && targetTransformed>=Float(values[0])-Float(Settings.instance.dimension_tolerance){
-                return true
+        case "ExistenceOrNot":
+            return ""
+        case "Pos_Height":
+            switch comparison{
+            case "NoLessThan":
+                if targetTransformed>=Float(values[0]){
+                    return ""
+                }
+                return "LOW"
+            case "LessThan":
+                if targetTransformed<=Float(values[0]){
+                    return ""
+                }
+                return "HIGH"
+            case "Between":
+                if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
+                    return ""
+                }
+                else if targetTransformed <= Float(values[0]){
+                    return "LOW"
+                }
+                else{
+                    return "HIGH"
+                }
+            case "Equal":
+                if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance) && targetTransformed>=Float(values[0])-Float(Settings.instance.dimension_tolerance){
+                    return ""
+                }
+                else if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance){
+                    return "LOW"
+                }
+                else{
+                    return "WIDE"
+                }
+            default:
+                fatalError("Unexpected comparisoon type")
             }
-            return false
         default:
-            fatalError("Unexpected comparisoon type")
+            return ""
         }
+        
+        
     }
 }
 

@@ -121,8 +121,8 @@ class YOLOResizer{
                 break
             }
             //Then scale and position
-            let scaleX=fullScreenSize.height/fullBufferSize.height
-            let scaleY=fullScreenSize.height/fullBufferSize.height
+            let scaleX=fullScreenSize.height/fullBufferSize.height/CGFloat(Settings.instance.yoloInputWidth)*CGFloat(croppedBufferSize.width)
+            let scaleY=fullScreenSize.height/fullBufferSize.height/CGFloat(Settings.instance.yoloInputWidth)*CGFloat(croppedBufferSize.width)
             let leftX=(fullBufferSize.width/fullBufferSize.height*fullScreenSize.height-fullScreenSize.width)/2
             var pred=Prediction(classIndex: names.firstIndex(of: result.label)!, score: result.confidence, rect: result.boundingBox)
             pred.rect.origin.x *= scaleX

@@ -340,7 +340,7 @@
       "RelativePosition":null,
       "Existence":null,
       "Note":"replace XXX to either 'shallow' or 'deep'.",
-      "Message":"Warning: The sofa is too XXX!",
+      "Message":"Warning: The sofa is too shallow or deep!",
       "ADA_description":"According to ADA compliance, the depth of the sofa shall be 20 inches. The depth of the detected sofa is NUM inches."
     }
   },
@@ -356,7 +356,7 @@
       "Existence":null,
       "Note":"replace XXX to either 'tall' or 'short'.",
       "Message":"Warning: The chair is too XXX!",
-      "ADA_description":"According to ADA compliance, the height of the chair shall be 18 inches minimum and 20 inches maximum. The height of the detected sofa is NUM inches."
+      "ADA_description":"According to ADA compliance, the height of the chair shall be 18 inches minimum and 20 inches maximum. The height of the detected chair is NUM inches."
     },
     "Depth":{
       "Community":["Elder"],
@@ -368,7 +368,7 @@
       "RelativePosition":null,
       "Existence":null,
       "Note":"replace XXX to either 'shallow' or 'deep'.",
-      "Message":"Warning: The chair is too XXX!",
+      "Message":"Warning: The chair is too shallow!",
       "ADA_description":"According to ADA compliance, the depth of the chair shall be 20 inches. The depth of the detected sofa is NUM inches."
     }
   },
@@ -457,7 +457,7 @@
       "RelativePosition":null,
       "Existence":true,
       "Note":"replace XXX to either 'close to' or 'far away from'.",
-      "Message":"Warning: The knob is too XXX the floor!",
+      "Message":"Warning: The knob is too high or low the floor!",
       "ADA_description":"According to ADA compliance, a knob shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
     }
   },
@@ -472,7 +472,7 @@
       "RelativePosition":null,
       "Existence":true,
       "Note":"replace XXX to either 'close to' or 'far away from'.",
-      "Message":"Warning: The door handle is too XXX the floor!",
+      "Message":"Warning: The door handle is too high or low the floor!",
       "ADA_description":"According to ADA compliance, a door handle shall be 34 inches minimum and 48 inches maximum above the finish floor. The height of the detected knob is NUM inches above the finish floor."
     }
   },
@@ -487,7 +487,7 @@
       "RelativePosition":"Upon",
       "Existence":true,
       "Note":"replace XXX to either 'close to' or 'far away from'.",
-      "Message":"Warning: The lighting switch is too XXX the floor!",
+      "Message":"Warning: The lighting switch is too high or low to the floor!",
       "ADA_description":"According to ADA compliance, lighting switches and outlets shall be mounted in a range from 15 to 48 inches above the floor. The height of the detected lighting switch is NUM inches above the floor."
     }
   },
@@ -666,7 +666,7 @@
       "Existence":false,
       "Note":"replace XXX to either 'floor' or 'stairs'.",
       "Message":"Warning: Carpets detected on the XXX!",
-      "ADA_description":"For safety, no carpet should be present on the floor or stairs."
+      "ADA_description":"For safety, no throw rug should be present on the floor or stairs."
     }
   },
   "Pathway":{
