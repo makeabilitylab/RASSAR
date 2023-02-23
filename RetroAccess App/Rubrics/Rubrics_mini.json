@@ -12,8 +12,8 @@
             "Note":null,
             "Message":"Warning: The bed is too XXX!",
             "ADA_description":"According to ADA Accessible Lodging, the surface height of an accessible bed surface will have a height of no more than 23 inches and no less than 20 inches above the floor.",
-            "Suggestions":["If the bed is too low, consider using risers to elevate the height of the bed or add extra matress to raise the bed surface.","If the bed is too high, consider replace to a lower bed frame or matress."]
-            "Sources":[("Name","Link"),("Another name","Another link")]
+            "Suggestions":["If the bed is too low, consider using risers to elevate the height of the bed or add extra matress to raise the bed surface.","If the bed is too high, consider replace to a lower bed frame or matress."],
+            "Sources":[("ADA National Network - Accessible Lodging","https://adata.org/factsheet/accessible-lodging"),("Disability Rights Education & Defense Fund","https://dredf.org/public-policy/dredfs-model-comments-on-the-doj-anprm/beds-accessible-guest-rooms-sleeping-rooms/")]
         }
     },
     "Table":{
@@ -205,7 +205,7 @@
             "Suggestions":["Add clapper light switch control to lamps. There are other remote control switching options for operating the lights.","Rearrange furnishings to allow quick access to wall switches or lamps."]
         }
     },
-    
+
     "GrabBar-BathTub_Adult":{
         "Pos_Height":{
             "Community":["BVI","Elder","Wheelchair"],
@@ -238,7 +238,7 @@
             "Suggestions":["If permanently installed, hired a qualified professional to change the grab bars to the correct location and angle. "]
         }
     },
-    
+
     "Outlets":{
         "Pos_Height":{
             "Community":["Children","BVI","Wheelchair","Elder"],
@@ -271,7 +271,7 @@
             "Suggestions":["Make sure that the patterns are not too busy","Have carpet stretched or removed to eliminate wrinkles or bumps."," Add a carpet runner to slippery hallway or foyer and secure to the floor"]
         }
     },
-    
+
     "Scissors":{
         "ExistenceOrNot":{
             "Community":["Children"],
@@ -320,7 +320,7 @@
             "Suggestions":["Move out of reach of children"]
         }
     },
-    
+
     "FireAlarms":{
         "ExistenceOrNot":{
             "Community":["Wheelchair","Elder","BVI","Children"],
