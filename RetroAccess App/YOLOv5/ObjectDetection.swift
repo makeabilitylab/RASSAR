@@ -45,13 +45,20 @@ class ObjectDetection{
         let handler = VNImageRequestHandler(ciImage: image)
         
         do{
-            try handler.perform([self.detectionRequest])
-            let observations = self.detectionRequest.results!
-            
-            return observations
+            if self.detectionRequest != nil
+            {
+                try handler.perform([self.detectionRequest])
+                let observations = self.detectionRequest.results!
+                
+                return observations
+            }
+            else{
+                return []
+            }
             
         }catch let error{
-            fatalError("failed to detect: \(error)")
+            //fatalError("failed to detect: \(error)")
+            return []
         }
         
     }
