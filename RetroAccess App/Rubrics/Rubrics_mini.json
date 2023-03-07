@@ -238,7 +238,40 @@
             "Suggestions":["If permanently installed, hired a qualified professional to change the grab bars to the correct location and angle. "]
         }
     },
-    
+    "GrabBar":{
+        "ExistenceOrNot":{
+            "Community":["Wheelchair","Elder"],
+            "Dependency":["Toilet"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Near",
+            "Existence":true,
+            "Note":null,
+            "Message":"Warning: No grab bar detected near toilet!",
+            "ADA_description":"For safety, there should be grab bars near toilet.",
+            "Suggestions":["Add a grab bar on the level next to the toilet or toilet safety grab bars that attach at the toilet seat screws."],
+            "Sources":[("HSSAT","Link")]
+        }
+    }，
+    "GrabBar":{
+        "ExistenceOrNot":{
+            "Community":["Wheelchair","Elder"],
+            "Dependency":["Tub"],
+            "Dimension":{
+                "Comparison":null,
+                "Value":null
+            },
+            "RelativePosition":"Upon",
+            "Existence":true,
+            "Note":null,
+            "Message":"Warning: No grab bar detected near tub!",
+            "ADA_description":"For safety, there should be grab bars near tub.",
+            "Suggestions":["Add a bath grab bar on the wall or a clamp-on grab bar to the tub."],
+            "Sources":[("HSSAT","Link")]
+        }
+    }，
     "Outlets":{
         "Pos_Height":{
             "Community":["Children","BVI","Wheelchair","Elder"],
