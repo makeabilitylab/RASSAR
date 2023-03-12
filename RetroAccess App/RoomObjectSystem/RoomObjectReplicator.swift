@@ -162,6 +162,41 @@ public class RoomObjectReplicator{
         //print("Unable to find object of "+keyword)
         return (foundDetectedObjects,foundRoomplanObjects,foundRoomplanSurfaces)
     }
+    public func retrieveObjectWithKeyword(keywords:[String])->(foundDetectedObjects:[DetectedObject],foundRoomplanObjects:[RoomObjectAnchor],foundRoomplanSurfaces:[RoomSurfaceAnchor]){
+        var foundDetectedObjects=[DetectedObject]()
+        var foundRoomplanObjects=[RoomObjectAnchor]()
+        var foundRoomplanSurfaces=[RoomSurfaceAnchor]()
+        for keyword in keywords{
+            let lowerkeyword=keyword.lowercased()
+            let cat1=transformIntoODObjectEnum(category: lowerkeyword)
+            if cat1 != nil{
+                for obj in trackedObjects{
+                    if obj.detectedObjectCategory==cat1{
+                        foundDetectedObjects.append(obj)
+                    }
+                }
+            }
+            let cat2=transformIntoRPObjectEnum(category: lowerkeyword)
+            if cat2 != nil{
+                for obj in trackedObjectAnchors{
+                    if obj.category==cat2{
+                        foundRoomplanObjects.append(obj)
+                    }
+                }
+            }
+            let cat3=transformIntoRPSurfaceEnum(category: lowerkeyword)
+            if cat3 != nil{
+                for obj in trackedSurfaceAnchors{
+                    if obj.category==cat3{
+                        foundRoomplanSurfaces.append(obj)
+                        print("Found door!")
+                    }
+                }
+            }
+        }
+        //print("Unable to find object of "+keyword)
+        return (foundDetectedObjects,foundRoomplanObjects,foundRoomplanSurfaces)
+    }
     public func getFloorHeight()->Float{
         //TODO: calculate the height of floor
         var minHeight:Float=0.0

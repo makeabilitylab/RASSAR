@@ -63,15 +63,29 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         })
         
         //Add button for ending scanning process and export pdf report
-        let rect1 = CGRect(x: 2*screenSize.width/3, y: 50, width: screenSize.width/4, height: 50)
+        let rect1 = CGRect(x: screenSize.width/4*3, y: screenSize.height-200, width: 56, height: 56)
         // STOP BUTTON
         let stopButton = UIButton(frame: rect1)
-        stopButton.setTitle("Export Results", for: .normal)
+        //stopButton.setTitle("Export Results", for: .normal)
         stopButton.addTarget(self, action: #selector(stop), for: .touchUpInside)
-        stopButton.setTitleColor(.white, for: .normal)
-        stopButton.backgroundColor = .blue
+        //stopButton.setTitleColor(.white, for: .normal)
+        //stopButton.backgroundColor = .blue
+        let buttonShapeView=UIView()
+        buttonShapeView.isUserInteractionEnabled=false
+        buttonShapeView.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
+        let circleLayer = CAShapeLayer()
+        let radius: CGFloat = 28
+        circleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2.0 * radius, height: 2.0 * radius), cornerRadius: radius).cgPath
+        circleLayer.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
+        circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
+        buttonShapeView.layer.addSublayer(circleLayer)
+        let exportIcon=UIImage(named: "export")!.resizeImage(newSize: CGSize(width: 40, height: 40))
+        let iconView=UIImageView(image: exportIcon)
+        iconView.frame=CGRect(x: 8, y: 8, width: 40, height: 40)
+        buttonShapeView.addSubview(iconView)
+        stopButton.addSubview(buttonShapeView)
         self.view.addSubview(stopButton)
-        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/2,y:screenSize.height-200))
+        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/3,y:screenSize.height-200))
         rootLayer.addSublayer(minimap!)
     }
     @objc func stop(sender: UIButton!) {
@@ -312,6 +326,9 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                             let issueLayer = layer as! IssueLayer
                             //This is where we used to add popping up layer. Now cancel this to use as cancel issue
                             rootLayer.addSublayer(issueLayer.getExtendedLayer())
+                            //let issueView=PopupView(issue: issueLayer.issue,controller:self)
+                            //self.view.addSubview(issueView)
+                            
                             //issueLayer.issue.cancel()
                             //print("Trying to add another layer")
                         }
@@ -354,45 +371,10 @@ extension ViewController: RoomCaptureSessionDelegate {
     }
     func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) {
         print("Stop callback called")
-        //Task{
-            //print("Building results")
-            //Here was an old method that exports usdz file using RoomPlan's API and show that with QuickLookView. However, this method lacks customizability so we just switched to SCNView instead.
-//            let finalRoom = try! await roombuilder.capturedRoom(from: data)]
-//            let rootFolderURL = try manager.url(
-//                        for: .documentDirectory,
-//                        in: .userDomainMask,
-//                        appropriateFor: nil,
-//                        create: false
-//                    )
-//
-//            let nestedFolderURL = rootFolderURL.appendingPathComponent("RASSAR")
-//            if !manager.fileExists(atPath: nestedFolderURL.relativePath) {
-//                try manager.createDirectory(
-//                    at: nestedFolderURL,
-//                    withIntermediateDirectories: false,
-//                    attributes: nil
-//                )
-//                print("Directory created")
-//            }
-//            else{
-//                print("Directory already exist")
-//            }
-            //let fileURL = nestedFolderURL.appendingPathComponent("SavedModel.usdz")
-//            print(fileURL)
-//            try! finalRoom.export(to: fileURL)
-//            Settings.instance.modelURL=fileURL
-//            print("Export finished")
-//            let qlview=QuickLookPreviewController()
-//            present(qlview, animated: true)
-        //}
-        //The new method is use SCNView instead.
-        //let postview=PostHocView()
         DispatchQueue.main.async {
             // UIView usage
-            //let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let storyboard = self.storyboard
             let posthoc = storyboard!.instantiateViewController(identifier: "PostHocView")
-            //var posthoc=PostHocViewController()
             self.show(posthoc, sender: self)
         }
         

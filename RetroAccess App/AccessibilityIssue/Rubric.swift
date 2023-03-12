@@ -10,7 +10,7 @@ import Foundation
 public class Rubric{
     var index:Int
     var community:[String]
-    var dependency:[String]?
+    var dependency:[String]
     var keyword:String
     var keywordMainPart:String
     var keywordFollowingPart:String?
@@ -40,7 +40,7 @@ public class Rubric{
                 self.dependency=dependency
             }
             else{
-                self.dependency=nil
+                self.dependency=[]
             }
             if let dim=dic["Dimension"] as? [String:Any]{
                 dimension=ObjectDimension(json:dim)
@@ -157,17 +157,39 @@ public class Rubric{
     public func retrieveExistenceIssue(replicator:RoomObjectReplicator)->[AccessibilityIssue]{
         var issuesFound:[AccessibilityIssue]=[AccessibilityIssue]()
         //If exist
-        let retrieveResults=replicator.retrieveObjectWithKeyword(keyword: keywordMainPart)
+        let retrieveObjectResults=replicator.retrieveObjectWithKeyword(keyword: keywordMainPart)
+        var dependencyObjects=replicator.retrieveObjectWithKeyword(keywords: dependency)
         if existence!{
             //Then non existence would be problem
-            let count=retrieveResults.foundRoomplanSurfaces.count+retrieveResults.foundRoomplanObjects.count+retrieveResults.foundDetectedObjects.count
+            let count=retrieveObjectResults.foundRoomplanSurfaces.count+retrieveObjectResults.foundRoomplanObjects.count+retrieveObjectResults.foundDetectedObjects.count
             if count==0{
                 issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .ExistenceOrNot, description: "", rubric: self,problem: ""))
+            }
+            else{
+                //Tell if all dependency objects has at least one item near them
+                for dep in dependencyObjects.foundRoomplanObjects{
+                    //Iterate through OD objects
+                    var exist:Bool=false
+                    for obj in retrieveObjectResults.foundDetectedObjects{
+                        if obj.calculateDistance(centerPos: obj.position, transform: dep.transform)<Settings.instance.near_tolerance{
+                            exist=true
+                            break
+                        }
+                    }
+                    if exist{
+                        //Do nothing
+                    }
+                    else{
+                        let issue=AccessibilityIssue(time: Date.now, identifier: dep.identifier, transform: dep.transform, type: .ExistenceOrNot, description: "", rubric: self,problem: "")
+                        issue.setSourceRPObject(source: dep)
+                        issuesFound.append(issue)
+                    }
+                }
             }
         }
         else{
             //Then exist become problem. Only detected objects would be considered
-            for obj in retrieveResults.foundDetectedObjects{
+            for obj in retrieveObjectResults.foundDetectedObjects{
                 if obj.valid{
                     let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .ExistenceOrNot, description: "", rubric: self,problem: "")
                     issue.setSourceODObject(source: obj)
@@ -426,8 +448,8 @@ struct RelativePosition{
     }
 }
 
-enum Community{
-    case BVI,Wheelchair,Elder,Children
+enum Community:String{
+    case wheelchair="Wheelchair",elder="Elder",children="Children",BLV="BLV"
 }
 
 enum Keyword{

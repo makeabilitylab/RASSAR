@@ -26,12 +26,13 @@ class Settings{
     }
         
     //creates the global variable
-    var community:String="null"
+    var community:[Community]=[]
     var height:Int=0
     
     var replicator:RoomObjectReplicator?=nil
     //Hyper parameters
     var dimension_tolerance=0
+    var near_tolerance:Float=0.6 //The threshold in meter for determining how close is considered close to an object. For example, if a grab bar is not within 0.5 meter to a toilet, it is not considered as close
     var detectedObjectMergeThreshold=Float(0.3)
     var detectedObjectAnchorCountThreshold=5
     var raycastEnabled=true

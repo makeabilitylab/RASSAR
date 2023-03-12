@@ -10,22 +10,91 @@ import UIKit
 class OnboardViewController: UIViewController {
 
     //@IBOutlet var communityPicker:UIPickerView!
-    @IBOutlet weak var CB_WheelChair: CheckBox!
-    @IBOutlet weak var CB_BLV: CheckBox!
-    @IBOutlet weak var CB_Senior: CheckBox!
-    @IBOutlet weak var CB_Children: CheckBox!
+    var CB_WheelChair: CheckBox!
+    var CB_BLV: CheckBox!
+    var CB_Senior: CheckBox!
+    var CB_Children: CheckBox!
     var selected:String="null"
     let communities=["Please select one community","Blind or Low Vision People","Children","Older Adults","Wheelchair Users"]
+    let screenSize: CGRect = UIScreen.main.bounds
     override func viewDidLoad() {
         super.viewDidLoad()
-        CB_WheelChair.setImageName(img_name: "Wheelchair")
-        CB_BLV.setImageName(img_name: "BLV")
-        CB_Senior.setImageName(img_name: "Senior")
-        CB_Children.setImageName(img_name: "Children")
+        //Add the 4 checkboxes to view
+//        var view = CALayer()
+//        view.frame = CGRect(x:  (screenSize.width-230)/2, y: 376, width: 230, height: 340)
+//        //view.backgroundColor=UIColor.gray
+//        //view.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 376)
+//        //view.backgroundColor = .white
+        var parent = self.view!
+//        parent.layer.addSublayer(view)
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.widthAnchor.constraint(equalToConstant: 230).isActive = true
+//        view.heightAnchor.constraint(equalToConstant: 340).isActive = true
+//        view.centerXAnchor.constraint(equalTo: parent.centerXAnchor, constant: 0).isActive = true
+//        view.topAnchor.constraint(equalTo: parent.topAnchor, constant: 376).isActive = true
+        //view.isUserInteractionEnabled=false
+        CB_BLV=CheckBox()
+        CB_Senior=CheckBox()
+        CB_Children=CheckBox()
+        CB_WheelChair=CheckBox()
+        
+        
+        CB_WheelChair.setContent(name:"Wheelchair User",img_name: "Wheelchair",position: CGPoint(x: (screenSize.width-230)/2, y:376 + 24))
+        CB_BLV.setContent(name:"Blind/Low Vision",img_name: "BLV",position: CGPoint(x: (screenSize.width-230)/2, y: 376 + 108))
+        CB_Senior.setContent(name:"Older Adults",img_name: "Senior",position: CGPoint(x: (screenSize.width-230)/2, y: 376+192))
+        CB_Children.setContent(name:"Children",img_name: "Children",position: CGPoint(x: (screenSize.width-230)/2, y: 376+276))
+        //view.addSubview(CB_BLV)
+        //view.addSubview(CB_Senior)
+        //view.addSubview(CB_Children)
+        //view.addSubview(CB_WheelChair)
         //communityPicker.dataSource=self
         //communityPicker.delegate=self
-        // Do any additional setup after loading the view.
+        //self.view.addSubview(view)
+        self.view.addSubview(CB_WheelChair)
+        self.view.addSubview(CB_BLV)
+        self.view.addSubview(CB_Senior)
+        self.view.addSubview(CB_Children)
+        // Button
+        var button = UIButton(frame:CGRect(x: 128, y: 788, width: 171, height: 55))
+        //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
         
+        //button.backgroundColor = .gray
+        var shadows = UIView()
+        shadows.frame = CGRect(x: 0, y: 0, width: 171, height: 55)
+        shadows.clipsToBounds = false
+        shadows.isUserInteractionEnabled=false
+        button.addSubview(shadows)
+        let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 72)
+        let layer0 = CALayer()
+        layer0.shadowPath = shadowPath0.cgPath
+        layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+        layer0.shadowOpacity = 1
+        layer0.shadowRadius = 40
+        layer0.shadowOffset = CGSize(width: 0, height: 16)
+        layer0.frame = CGRect(x: 0, y: 0, width: 171, height: 55)
+        //layer0.position = CGPoint(x: 0, y: 0)
+        shadows.layer.addSublayer(layer0)
+
+        var shapes = UIView()
+        shapes.frame = CGRect(x: 0, y: 0, width: 171, height: 55)
+        shapes.clipsToBounds = true
+        button.addSubview(shapes)
+
+        let layer1 = CALayer()
+        layer1.backgroundColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
+        layer1.bounds = shapes.bounds
+        layer1.position = shapes.center
+        shapes.layer.addSublayer(layer1)
+        shapes.layer.cornerRadius = 27
+        button.setTitle("Start Scanning", for: .normal)
+        shapes.isUserInteractionEnabled=false
+        self.view.addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 171).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        button.leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 128).isActive = true
+        button.topAnchor.constraint(equalTo: parent.topAnchor, constant: 788).isActive = true
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
 
@@ -54,8 +123,19 @@ class OnboardViewController: UIViewController {
         }
         else if let viewController = self.storyboard?.instantiateViewController(
             withIdentifier: "MainView") {
-            //TODO: Actuallty link this to selection results
-            Settings.instance.community="Wheelchair"
+            Settings.instance.community=[]
+            if CB_WheelChair.isChecked{
+                Settings.instance.community.append(.wheelchair)
+            }
+            if CB_BLV.isChecked{
+                Settings.instance.community.append(.BLV)
+            }
+            if CB_Senior.isChecked{
+                Settings.instance.community.append(.elder)
+            }
+            if CB_Children.isChecked{
+                Settings.instance.community.append(.children)
+            }
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)
         }

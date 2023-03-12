@@ -50,6 +50,9 @@
 		5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC420432988628A004F4E88 /* NodeTechnique.plist */; };
 		5EC420462988628A004F4E88 /* NodeRender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420442988628A004F4E88 /* NodeRender.metal */; };
 		5EC4204829886647004F4E88 /* yolov5-Medium.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */; };
+		5ECAEEAB29B7FF0D00631F8D /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */; };
+		5ECAEEAD29B9B4EA00631F8D /* export.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ECAEEAC29B9B4EA00631F8D /* export.png */; };
+		5ECAEEB129BBC66B00631F8D /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECAEEB029BBC66B00631F8D /* PopupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +119,9 @@
 		5EC420432988628A004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NodeTechnique.plist; sourceTree = "<group>"; };
 		5EC420442988628A004F4E88 /* NodeRender.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = NodeRender.metal; sourceTree = "<group>"; };
 		5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "yolov5-Medium.mlmodel"; sourceTree = "<group>"; };
+		5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
+		5ECAEEAC29B9B4EA00631F8D /* export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export.png; sourceTree = "<group>"; };
+		5ECAEEB029BBC66B00631F8D /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +230,8 @@
 		5E8502F128DFA3EB00FA3F01 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5ECAEEAC29B9B4EA00631F8D /* export.png */,
+				5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */,
 				5EC420442988628A004F4E88 /* NodeRender.metal */,
 				5EC420432988628A004F4E88 /* NodeTechnique.plist */,
 				5E3FB26828ED0A4600281359 /* Wheelchair.png */,
@@ -239,6 +247,7 @@
 				5E3FB25E28ECEA8100281359 /* CheckBox.swift */,
 				5EC42017294D4420004F4E88 /* PostHocViewController.swift */,
 				5EC420272974BD45004F4E88 /* MiniMapLayer.swift */,
+				5ECAEEB029BBC66B00631F8D /* PopupView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -401,7 +410,9 @@
 				5E3FB26128ECF03C00281359 /* Living Room.jpg in Resources */,
 				5E3FB26528ED0A2600281359 /* BLV.png in Resources */,
 				5E1656AA287CD8A2002577D3 /* Main.storyboard in Resources */,
+				5ECAEEAD29B9B4EA00631F8D /* export.png in Resources */,
 				5E3FB26928ED0A4600281359 /* Wheelchair.png in Resources */,
+				5ECAEEAB29B7FF0D00631F8D /* LaunchScreen.png in Resources */,
 				5E3FB27828EE433F00281359 /* Wireframe_3D_Globe.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -435,6 +446,7 @@
 				5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */,
 				5EC4203829860004004F4E88 /* ObjectDetection.swift in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
+				5ECAEEB129BBC66B00631F8D /* PopupView.swift in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
 				5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */,

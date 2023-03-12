@@ -104,6 +104,7 @@ public class MiniMapLayer:CALayer{
         outline.bounds = trans!.transform(bound:CGRect(x: CGFloat(xrange!.mid()), y: CGFloat(yrange!.mid()), width: CGFloat(xrange!.len()), height: CGFloat(yrange!.len())))
         outline.backgroundColor=CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.9, 0.9, 0.9, 1])
         outline.position=CGPoint(x: CGFloat(radius),y: CGFloat(radius))
+        outline.cornerRadius=2
         let angle=get_angle_of_vector(a: xdir!.x,b: xdir!.y)
         let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)
         outline.transform = rotation
@@ -187,6 +188,7 @@ public class MiniMapLayer:CALayer{
             layer.bounds=CGRect(x: 0, y: 0, width: CGFloat(furniture.dimensions.x*trans!.scale), height:CGFloat(furniture.dimensions.z*trans!.scale))
             layer.backgroundColor=CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.7, 0.7, 0.7, 1])
             layer.position=trans!.transform(pos:  CGPoint(x: CGFloat(furniture.transform.columns.3.x), y: CGFloat(furniture.transform.columns.3.z)))
+            layer.cornerRadius=1
             let angle=get_angle_of_vector(a: furniture.transform.columns.0.x,b: furniture.transform.columns.0.z)
             //print("Calculated angle for a \(furniture.getCategoryName()), which is \(angle)")
             let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)

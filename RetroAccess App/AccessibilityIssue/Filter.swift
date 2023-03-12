@@ -15,11 +15,11 @@ class Filter
     let suggestionFile=""
     //var rubrics:Data?
     var replicator:RoomObjectReplicator
-    var situations:[Rubric]
+    var rubrics:[Rubric]
     //var community:String
     public init(replicator:RoomObjectReplicator) {
         self.replicator=replicator
-        self.situations=[]
+        self.rubrics=[]
         //Read all situations and store them as struct
         let rubrics=readLocalJSONFile(forName: rubricFile)
         if(rubrics==nil){
@@ -31,7 +31,7 @@ class Filter
             for (key, value)  in situs {
                 let cases=value as! [String:Any]
                 for (requirement,content) in cases{
-                    self.situations.append(Rubric(index:counter,keyword:key,requirement:requirement,json:content))
+                    self.rubrics.append(Rubric(index:counter,keyword:key,requirement:requirement,json:content))
                     counter+=1
                 }
                 
@@ -41,17 +41,26 @@ class Filter
     public func filter()->[AccessibilityIssue]{
         //Go through the entire accessbility issue table to find potential issues
         var issuesFound:[AccessibilityIssue]=[]
-        for situ in self.situations{
-            //Use this situ to find if any issue exist in replicator
-            let result=situ.search(replicator: replicator)
-            issuesFound+=result
+        var related:Bool=false
+        for situ in self.rubrics{
+            for community in Settings.instance.community{
+                if situ.community.contains(community.rawValue){
+                    related=true
+                    break
+                }
+            }
+            if related{
+                //Use this situ to find if any issue exist in replicator
+                let result=situ.search(replicator: replicator)
+                issuesFound+=result
+            }
         }
         return issuesFound
     }
     public func filterWithKeyword(keyword:String)->[AccessibilityIssue]{
         //Find specific issues with keyword
         var issuesFound:[AccessibilityIssue]=[]
-        for situ in self.situations{
+        for situ in self.rubrics{
             if(situ.keyword==keyword){
                 //Use this situ to find if any issue exist in replicator
                 let result=situ.search(replicator: replicator)
