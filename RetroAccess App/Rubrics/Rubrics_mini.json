@@ -114,7 +114,30 @@
                 }]
         }
     },
-    "Door-Opening":{
+    "Door":{
+        "Radius":{
+            "Community":["Wheelchair"],
+            "Dependency":["Door"],
+            "Dimension":{
+                "Comparison":"NoLessThan",
+                "Value":[32]
+            },
+            "RelativePosition":null,
+            "Existence":null,
+            "Note":null,
+            "Message":"Warning: Too narrow door opening is detected!",
+            "ADA_description":"According to ADA compliance, door openings shall provide a clear width of 32 inches minimum.",
+            "Suggestions":["Consider using expandable door hinges to widen the door opening.","Clear everything within a radius of 32 inches from the door openings."],
+            "Sources":[{"name":"ADA National Network - Accessible Lodging",
+                "url":"https://adata.org/factsheet/accessible-lodging"
+                },
+                {
+                    "name":"Disability Rights Education & Defense Fund",
+                    "url":"https://dredf.org/public-policy/dredfs-model-comments-on-the-doj-anprm/beds-accessible-guest-rooms-sleeping-rooms/"
+                }]
+        }
+    },
+    "Opening":{
         "Radius":{
             "Community":["Wheelchair"],
             "Dependency":["Door"],
@@ -229,7 +252,7 @@
         }
     },
 
-    "GrabBar":{
+    "GrabBar_Height_Adult":{
         "Pos_Height":{
             "Community":["BLV","Elder","Wheelchair"],
             "Dependency":["Bathtub"],
@@ -252,7 +275,7 @@
                 }]
         }
     },
-    "GrabBar":{
+    "GrabBar_Height_Children":{
         "Pos_Height":{
             "Community":["Children"],
             "Dependency":["Bathtub"],
@@ -275,7 +298,7 @@
                 }]
         }
     },
-    "GrabBar":{
+    "GrabBar_Existence_Toilet":{
         "ExistenceOrNot":{
             "Community":["Wheelchair","Elder"],
             "Dependency":["Toilet"],
@@ -289,7 +312,6 @@
             "Message":"Warning: No grab bar detected near toilet!",
             "ADA_description":"For safety, there should be grab bars near toilet.",
             "Suggestions":["Add a grab bar on the level next to the toilet or toilet safety grab bars that attach at the toilet seat screws."],
-            "Sources":[("HSSAT","Link")],
             "Sources":[{"name":"ADA National Network - Accessible Lodging",
                 "url":"https://adata.org/factsheet/accessible-lodging"
                 },
@@ -299,7 +321,7 @@
                 }]
         }
     },
-    "GrabBar":{
+    "GrabBar_Existence_Tub":{
         "ExistenceOrNot":{
             "Community":["Wheelchair","Elder"],
             "Dependency":["Tub"],
@@ -313,7 +335,6 @@
             "Message":"Warning: No grab bar detected near tub!",
             "ADA_description":"For safety, there should be grab bars near tub.",
             "Suggestions":["Add a bath grab bar on the wall or a clamp-on grab bar to the tub."],
-            "Sources":[("HSSAT","Link")],
             "Sources":[{"name":"ADA National Network - Accessible Lodging",
                 "url":"https://adata.org/factsheet/accessible-lodging"
                 },
@@ -326,7 +347,7 @@
     "Outlets":{
         "Pos_Height":{
             "Community":["Children","BLV","Wheelchair","Elder"],
-            "Dependency":["Floor","Stairs"],
+            "Dependency":[],
             "Dimension":{
                 "Comparison":"Between",
                 "Value":[15,48]
@@ -349,7 +370,7 @@
     "Carpet":{
         "ExistenceOrNot":{
             "Community":["Children","BLV","Wheelchair","Elder"],
-            "Dependency":["Floor"],
+            "Dependency":[],
             "Dimension":{
                 "Comparison":null,
                 "Value":null
@@ -443,7 +464,7 @@
     "FireAlarms":{
         "ExistenceOrNot":{
             "Community":["Wheelchair","Elder","BLV","Children"],
-            "Dependency":["Kitchen","Bedroom"],
+            "Dependency":[],
             "Dimension":{
                 "Comparison":null,
                 "Value":null

@@ -22,6 +22,7 @@ class PostHocViewController:UIViewController{
     private var panState=0
     private var translateX:Float=0
     private var translateY:Float=0
+    let screenSize: CGRect = UIScreen.main.bounds
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,6 +73,26 @@ class PostHocViewController:UIViewController{
                 sceneView.technique = technique
             }
         }
+        
+        //Add an export button
+        let exportButton=UIButton()
+        exportButton.frame=CGRect(x: screenSize.width-80, y: 50, width: 50, height: 50)
+        exportButton.addTarget(self, action: #selector(btnExportData), for: .touchUpInside)
+        let buttonShapeView=UIView()
+        buttonShapeView.isUserInteractionEnabled=false
+        buttonShapeView.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
+        let circleLayer = CAShapeLayer()
+        let radius: CGFloat = 28
+        circleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2.0 * radius, height: 2.0 * radius), cornerRadius: radius).cgPath
+        circleLayer.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
+        circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
+        buttonShapeView.layer.addSublayer(circleLayer)
+        let exportIcon=UIImage(named: "export")!.resizeImage(newSize: CGSize(width: 40, height: 40))
+        let iconView=UIImageView(image: exportIcon)
+        iconView.frame=CGRect(x: 8, y: 8, width: 40, height: 40)
+        buttonShapeView.addSubview(iconView)
+        exportButton.addSubview(buttonShapeView)
+        self.view.addSubview(exportButton)
     }
     @objc func panGesture(_ gesture: UIPanGestureRecognizer){
         let translation = gesture.translation(in: gesture.view!)
@@ -221,6 +242,40 @@ class PostHocViewController:UIViewController{
         //stack.addArrangedSubview(description)
         infoView.addSubview(title)
         infoView.addSubview(description)
+    }
+    @objc func btnExportData(_ sender: Any) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HHmm E, d MMM y"
+        let prompt = UIAlertController(title: "Export data for counter", message: "Provide file name:", preferredStyle: .alert)
+        prompt.addTextField {(textField) in textField.text = formatter.string(from: Date.now)}
+        prompt.addAction(UIAlertAction(title: "Export", style: .default, handler: {
+            (_) in
+            do {
+                let jsonData = try! JSONEncoder().encode(Settings.instance.replicator!)
+                let jsonString = String(data: jsonData, encoding: .utf8)!
+                let data = jsonString.data(using: .utf8)!
+                let fm = FileManager.default
+                let fileFolder = fm.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let fileURL = fileFolder.appendingPathComponent(prompt.textFields![0].text! + ".txt")
+                do {
+                    try data.write(to: fileURL)
+                } catch {
+                    print("Save failed")
+                }
+                let sharing = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+                            sharing.completionWithItemsHandler = {
+                                (type, completed, items, error) in
+                                do {
+                                    try fm.removeItem(at: fileURL)
+                                } catch {
+                                }
+                            }
+                            sharing.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItems?.first
+                            self.present(sharing, animated: true, completion: nil)
+            }
+        }))
+        prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(prompt, animated: true, completion: nil)
     }
 }
 class RoomScene: SCNScene {

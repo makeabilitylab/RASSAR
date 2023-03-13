@@ -156,12 +156,14 @@ extension DetectedObject:Encodable{
             case category
             case identifier
             case position
+        case valid
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(getCategoryName(), forKey: .category)
             try container.encode(identifier, forKey: .identifier)
             try container.encode(centerPosition, forKey: .position)
+            try container.encode(valid, forKey: .valid)
         }
 }
 public class DetectedObjectAnchor:ARAnchor{

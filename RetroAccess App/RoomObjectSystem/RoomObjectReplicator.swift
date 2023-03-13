@@ -154,7 +154,6 @@ public class RoomObjectReplicator{
             for obj in trackedSurfaceAnchors{
                 if obj.category==cat3{
                     foundRoomplanSurfaces.append(obj)
-                    print("Found door!")
                 }
             }
             return (foundDetectedObjects,foundRoomplanObjects,foundRoomplanSurfaces)
@@ -199,7 +198,7 @@ public class RoomObjectReplicator{
     }
     public func getFloorHeight()->Float{
         //TODO: calculate the height of floor
-        var minHeight:Float=0.0
+        var minHeight:Float=10
 //        for obj in trackedObjects{
 //            if obj.position.z<minHeight{
 //                minHeight=obj.position.z
@@ -215,7 +214,7 @@ public class RoomObjectReplicator{
                 minHeight=srf.transform.columns.3.y-srf.dimensions.y/2
             }
         }
-        print(String(format: "%@%f", "Calculated Min Height: ", minHeight))
+        //print(String(format: "%@%f", "Calculated Min Height: ", minHeight))
         return minHeight
     }
     public func updateAccessibilityIssue(in session: RoomCaptureSession){
@@ -359,6 +358,7 @@ extension RoomObjectReplicator:Encodable{
             case objectAnchors
             case surfaceAnchors
             case detectedObjects
+        case accessibilityIssues
         }
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -366,6 +366,7 @@ extension RoomObjectReplicator:Encodable{
         try container.encode(trackedObjectAnchors, forKey: .objectAnchors)
         try container.encode(trackedSurfaceAnchors, forKey: .surfaceAnchors)
         try container.encode(trackedObjects, forKey: .detectedObjects)
+        try container.encode(detectedIssues,forKey: .accessibilityIssues)
     }
 }
 

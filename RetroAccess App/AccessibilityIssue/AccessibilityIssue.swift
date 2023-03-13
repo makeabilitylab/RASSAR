@@ -75,6 +75,21 @@ public class AccessibilityIssue
     public func getSource()->(SourceDetectedObject:DetectedObject?,SourceRoomplanObject:RoomObjectAnchor?,SourceRoomplanSurface:RoomSurfaceAnchor?){
         return (sourceObject,sourceRPObject,sourceRPSurface)
     }
+    public func getSourceUUID()->UUID?{
+        let source = getSource()
+        if source.SourceDetectedObject != nil{
+            return source.SourceDetectedObject!.identifier
+        }
+        else if source.SourceRoomplanObject != nil{
+            return source.SourceRoomplanObject!.identifier
+        }
+        else if source.SourceRoomplanSurface != nil{
+            return source.SourceRoomplanSurface!.identifier
+        }
+        else{
+            return nil
+        }
+    }
     public func update(){
         if sourceObject != nil{
             //TODO: Get an ARAcnhor from detected object
@@ -136,4 +151,19 @@ public class AccessibilityIssue
         }
         fatalError("This issue has no position!")
     }
+}
+extension AccessibilityIssue:Encodable{
+    enum CodingKeys: String, CodingKey {
+            case category
+            case details
+            case identifier
+            case cancelled
+        }
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(category.rawValue, forKey: .category)
+            try container.encode(getSourceUUID(), forKey: .identifier)
+            try container.encode(getDetails(), forKey: .details)
+            try container.encode(cancelled, forKey: .cancelled)
+        }
 }

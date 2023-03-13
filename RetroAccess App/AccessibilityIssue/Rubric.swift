@@ -27,8 +27,8 @@ public class Rubric{
             self.requirement=requirement
             self.community = dic["Community"] as! [String]
             self.keyword = keyword //TODO: parse keyword by separating with - and _. A - separation means there are parts of item being addressed. A _ separation is used to avoid same keywords so content after _ can be ignored
-            if keyword.contains("-"){
-                let comps=self.keyword.split(separator: "-")
+            if keyword.contains("_"){
+                let comps=self.keyword.split(separator: "_")
                 keywordMainPart=String(comps[0])
                 keywordFollowingPart=String(comps[1])
             }
@@ -125,8 +125,6 @@ public class Rubric{
         }
         else if retrieveResults.foundRoomplanObjects.count>0{
             for obj in retrieveResults.foundRoomplanObjects{
-                print(obj.category)
-                print(obj.dimensions)
                 let problem=compareValues(target: Float(obj.getDimension(measurement:measurement)), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
                 if problem.count>0{
                     let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
@@ -162,8 +160,12 @@ public class Rubric{
         if existence!{
             //Then non existence would be problem
             let count=retrieveObjectResults.foundRoomplanSurfaces.count+retrieveObjectResults.foundRoomplanObjects.count+retrieveObjectResults.foundDetectedObjects.count
-            if count==0{
-                issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .ExistenceOrNot, description: "", rubric: self,problem: ""))
+            let count_dep=dependency.count
+            if count_dep==0{
+                //Then just tell if there is any retrieved object existing
+                if count == 0{
+                    issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .ExistenceOrNot, description: "", rubric: self,problem: ""))
+                }
             }
             else{
                 //Tell if all dependency objects has at least one item near them

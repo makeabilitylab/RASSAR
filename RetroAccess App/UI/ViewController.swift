@@ -53,7 +53,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         setUpBoundingBoxes()
         setUpCoreImage()
         setUpYOLOResizers()
-        self.timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { _ in
             for resizer in self.resizers{
                 self.updateOD(resizer: resizer)
             }
@@ -63,7 +63,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         })
         
         //Add button for ending scanning process and export pdf report
-        let rect1 = CGRect(x: screenSize.width/4*3, y: screenSize.height-200, width: 56, height: 56)
+        let rect1 = CGRect(x: screenSize.width/4*3, y: 150, width: 56, height: 56)
         // STOP BUTTON
         let stopButton = UIButton(frame: rect1)
         //stopButton.setTitle("Export Results", for: .normal)
@@ -85,7 +85,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         buttonShapeView.addSubview(iconView)
         stopButton.addSubview(buttonShapeView)
         self.view.addSubview(stopButton)
-        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/3,y:screenSize.height-200))
+        minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/2,y:screenSize.height-200))
         rootLayer.addSublayer(minimap!)
     }
     @objc func stop(sender: UIButton!) {
@@ -93,11 +93,10 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         Settings.instance.miniMap=minimap
         roomCaptureSession!.stop()
         //Export scanned data
-        let jsonData = try! JSONEncoder().encode(replicator)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        print(jsonString)
-        //let result=roomCaptureSession.
-        
+        //let jsonData = try! JSONEncoder().encode(replicator)
+        //let jsonString = String(data: jsonData, encoding: .utf8)!
+        //let data = jsonString.data(using: .utf8)!
+        //print(jsonString)
     }
     private func setupRoomCapture() {
         roomCaptureSession = RoomCaptureSession()
@@ -208,29 +207,11 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         
         // Measure how long it takes to predict a single video frame.
         let startTime = CACurrentMediaTime()
-        
-        // Resize the input with Core Image.
-        //guard let resizedPixelBuffer = resizedPixelBuffer else { return }
-        //let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        //let sx = CGFloat(Settings.instance.yoloInputWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
-        //let sy = CGFloat(Settings.instance.yoloInputHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
-        //let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
-        //let rotateTransform=CGAffineTransform(rotationAngle: CGFloat.pi/2*3)
-        //let scaledImage = ciImage.transformed(by: scaleTransform)
-        //let finalImage=scaledImage.transformed(by: rotateTransform)
-        //ciContext.render(scaledImage, to: resizedPixelBuffer)
-        
         let observations = detector.detectAndProcess(image: resizer.resizeImage(buffer: pixelBuffer))
         let elapsed = CACurrentMediaTime() - startTime
         let resizedBbox=resizer.resizeResults(initialResults:observations)
         showOnMainThread(resizedBbox, elapsed)
-        
-//        if let boundingBoxes = try? yolo.predict(image: resizedPixelBuffer) {
-//            let elapsed = CACurrentMediaTime() - startTime
-//            showOnMainThread(boundingBoxes, elapsed)
-//        }
     }
-    
     
     func showOnMainThread(_ boundingBoxes: [Prediction], _ elapsed: CFTimeInterval) {
         DispatchQueue.main.async { [weak self] in
@@ -255,10 +236,10 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                 let label = String(format: "%@ %.1f", detector.names[prediction.classIndex] ?? "<unknown>", prediction.score)
                 let color = colors[prediction.classIndex]
                 if showBbox{
-                    print("showing result")
-                    print(label)
-                    print(rect.origin)
-                    print(rect.size)
+                    //print("showing result")
+                    //print(label)
+                    //print(rect.origin)
+                    //print(rect.size)
                     boundingBoxes[i].show(frame: rect, label: label, color: color)
                 }
                 //Conduct raycast to find 3D pos of item
@@ -300,15 +281,6 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             }
         }
         replicator.addODAnchor(anchors: ODAnchors)
-    }
-    
-
-    
-    func sphere(radius: Float, color: UIColor) -> ModelEntity {
-        let sphere = ModelEntity(mesh: MeshResource.generateSphere(radius: radius), materials: [SimpleMaterial(color: color, isMetallic: false)])
-        // Move sphere up by half its diameter so that it does not intersect with the mesh
-        sphere.position.y = radius
-        return sphere
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
