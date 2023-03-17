@@ -292,7 +292,7 @@ public class RoomObjectReplicator{
     func transformIntoRPObjectEnum(category:String)->CapturedRoom.Object.Category?{
         
         switch category.lowercased(){
-        case "bathtub":
+        case "tub":
             return CapturedRoom.Object.Category.bathtub
         case "bed":
             return CapturedRoom.Object.Category.bed

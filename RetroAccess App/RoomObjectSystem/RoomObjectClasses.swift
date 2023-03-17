@@ -112,6 +112,7 @@ public class DetectedObject{
         let x=centerPos.x-transform.columns.3.x
         let y=centerPos.y-transform.columns.3.y
         let z=centerPos.z-transform.columns.3.z
+        print("Distance is \(sqrt(x*x+y*y+z*z))m")
         return sqrt(x*x+y*y+z*z)
     }
     public func calculateCenterPosition()->simd_float3{
@@ -220,6 +221,7 @@ public class RoomObjectAnchor: ARAnchor {
 
     private let roomObjectIdentifier: UUID
     private var roomObjectTransform: simd_float4x4
+    public let roomObjectExtraIdentifier:UUID
 
     public required init(anchor: ARAnchor) {
         guard let anchor = anchor as? RoomObjectAnchor else {
@@ -230,7 +232,7 @@ public class RoomObjectAnchor: ARAnchor {
         roomObjectTransform = anchor.roomObjectTransform
         dimensions = anchor.dimensions
         category = anchor.category
-
+        roomObjectExtraIdentifier = UUID.init()
         super.init(anchor: anchor)
     }
 
@@ -244,6 +246,7 @@ public class RoomObjectAnchor: ARAnchor {
         roomObjectTransform = object.transform
         dimensions = object.dimensions
         category = object.category
+        roomObjectExtraIdentifier = UUID.init()
         super.init(transform: object.transform)
     }
 
@@ -266,7 +269,12 @@ public class RoomObjectAnchor: ARAnchor {
     public func getSpecificPosition(measurement:String)->Float{
         switch measurement{
         case "Height":
-            return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()-dimensions.y
+            if category == .sink{
+                return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()+dimensions.y/2
+            }
+            else{
+                return transform.columns.3.y-Settings.instance.replicator!.getFloorHeight()-dimensions.y/2
+            }
         default:
             fatalError("Wrong case given!")
         }

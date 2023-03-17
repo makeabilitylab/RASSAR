@@ -68,29 +68,6 @@
                 }]
         }
     },
-    "Toilet":{
-        "Dim_Height":{
-            "Community":["Wheelchair","Elder"],
-            "Dependency":null,
-            "Dimension":{
-                "Comparison":"Between",
-                "Value":[17,19]
-            },
-            "RelativePosition":null,
-            "Existence":null,
-            "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the toilet seat.",
-            "Message":"Warning: The toilet seat is too XXX!",
-            "ADA_description":"According to ADA compliance, the height of toilet seat should between 17 inches to 19 inches above the floor.",
-            "Suggestions":["Consider add a raised toilet seat for seats that are too low. Raised toilet seats assist people with bending and seating difficulties and performing toilet transfers with ease","Consider a lower profile toilet if it is too high"],
-            "Sources":[{"name":"ADA National Network - Accessible Lodging",
-                "url":"https://adata.org/factsheet/accessible-lodging"
-                },
-                {
-                    "name":"Disability Rights Education & Defense Fund",
-                    "url":"https://dredf.org/public-policy/dredfs-model-comments-on-the-doj-anprm/beds-accessible-guest-rooms-sleeping-rooms/"
-                }]
-        }
-    },
     "Cabinet":{
         "Pos_Height":{
             "Community":["Wheelchair"],
@@ -161,7 +138,7 @@
         }
     },
     "Sink":{
-        "Dim_Height":{"Community":["Wheelchair"],
+        "Pos_Height":{"Community":["Wheelchair"],
             "Dependency":null,
             "Dimension":{
                 "Comparison":"LessThan",
