@@ -72,6 +72,12 @@ class ObjectDetection{
             
             let objectObservation = observation as! VNRecognizedObjectObservation
             
+            let conf=objectObservation.confidence
+            
+            if Float(conf)<Settings.instance.yoloConfidenceThreshold{
+                continue
+            }
+            
             let objectBounds = VNImageRectForNormalizedRect(objectObservation.boundingBox, Int(viewSize.width), Int(viewSize.height))
             
             let flippedBox = CGRect(x: objectBounds.minX, y: viewSize.height - objectBounds.maxY, width: objectBounds.maxX - objectBounds.minX, height: objectBounds.maxY - objectBounds.minY)

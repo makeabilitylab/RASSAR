@@ -40,6 +40,7 @@ class Settings{
     var miniMap:MiniMapLayer?
     var yoloInputWidth:Int=640
     var yoloInputHeight:Int=640
+    var yoloConfidenceThreshold:Float = 0.65
     //var globeAsset:MDLAsset
     //var globeEntity:Entity
 }
