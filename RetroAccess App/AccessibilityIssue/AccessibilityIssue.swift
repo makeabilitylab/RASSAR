@@ -10,7 +10,8 @@ import ARKit
 
 public enum AccessibilityIssueType:String{
     //TODO: add all existing issues
-    case ExistenceOrNot="ExistOrNot"
+    case Exist="Exist"
+    case NonExist="NonExist"
     case ObjectDimension="ObjDim"
     case ObjectPosition="ObjPos"
 }

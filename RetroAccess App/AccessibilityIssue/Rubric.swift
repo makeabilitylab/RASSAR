@@ -164,7 +164,7 @@ public class Rubric{
             if count_dep==0{
                 //Then just tell if there is any retrieved object existing
                 if count == 0{
-                    issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .ExistenceOrNot, description: "", rubric: self,problem: ""))
+                    issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .NonExist, description: "", rubric: self,problem: ""))
                 }
             }
             else{
@@ -173,16 +173,18 @@ public class Rubric{
                     //Iterate through OD objects
                     var exist:Bool=false
                     for obj in retrieveObjectResults.foundDetectedObjects{
-                        if obj.calculateDistance(centerPos: obj.position, transform: dep.transform)<Settings.instance.near_tolerance{
-                            exist=true
-                            break
+                        if obj.valid{
+                            if obj.calculateDistance(centerPos: obj.position, transform: dep.transform)<Settings.instance.near_tolerance{
+                                exist=true
+                                break
+                            }
                         }
                     }
                     if exist{
                         //Do nothing
                     }
                     else{
-                        let issue=AccessibilityIssue(time: Date.now, identifier: dep.identifier, transform: dep.transform, type: .ExistenceOrNot, description: "", rubric: self,problem: "")
+                        let issue=AccessibilityIssue(time: Date.now, identifier: dep.identifier, transform: dep.transform, type: .NonExist, description: "", rubric: self,problem: "")
                         issue.setSourceRPObject(source: dep)
                         issuesFound.append(issue)
                     }
@@ -193,7 +195,7 @@ public class Rubric{
             //Then exist become problem. Only detected objects would be considered
             for obj in retrieveObjectResults.foundDetectedObjects{
                 if obj.valid{
-                    let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .ExistenceOrNot, description: "", rubric: self,problem: "")
+                    let issue=AccessibilityIssue(time: Date.now, identifier: obj.identifier, transform: obj.transform, type: .Exist, description: "", rubric: self,problem: "")
                     issue.setSourceODObject(source: obj)
                     issuesFound.append(issue)
                 }
@@ -396,7 +398,7 @@ public class Rubric{
                     return "LOW"
                 }
                 else{
-                    return "WIDE"
+                    return "HIGH"
                 }
             default:
                 fatalError("Unexpected comparisoon type")

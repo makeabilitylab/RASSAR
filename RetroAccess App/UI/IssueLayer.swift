@@ -51,14 +51,18 @@ public class IssueLayer:CALayer{
         iconLayer.name = "Object Icon"
         let iconCategory=getIconCategoryString()
         switch iconCategory{
-        case "furniture":
-            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
-        case "medication":
-            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
-        case "notice":
-            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
-        case "sharp":
-            iconLayer.contents = UIImage(named: "Hazard")?.cgImage
+        case "ObjectDimensionHigh":
+            iconLayer.contents = UIImage(named: "ObjectDimensionHigh")?.cgImage
+        case "ObjectDimensionLow":
+            iconLayer.contents = UIImage(named: "ObjectDimensionLow")?.cgImage
+        case "ObjectPositionHigh":
+            iconLayer.contents = UIImage(named: "ObjectPositionHigh")?.cgImage
+        case "ObjectPositionLow":
+            iconLayer.contents = UIImage(named: "ObjectPositionLow")?.cgImage
+        case "RiskyItem":
+            iconLayer.contents = UIImage(named: "RiskyItem")?.cgImage
+        case "AssistiveItem":
+            iconLayer.contents = UIImage(named: "AssistiveItem")?.cgImage
         default:
             iconLayer.contents = UIImage(named: "Hazard")?.cgImage
         }
@@ -165,26 +169,47 @@ public class IssueLayer:CALayer{
         return "NULL"
     }
     public func getIconCategoryString()->String{
-        let source=issue.getSource()
-        if source.SourceDetectedObject != nil{
-            let category=source.SourceDetectedObject!.detectedObjectCategory
-            if category == .Medication{
-                return "medication"
-            }
-            else if category == .Knife || category == .Scissors{
-                return "sharp"
+        switch issue.category{
+        case .ObjectDimension:
+            if issue.problem == "SHORT" || issue.problem == "NARROW"{
+                return "ObjectDimensionLow"
             }
             else{
-                return "notice"
+                return "ObjectDimensionHigh"
             }
+        case .ObjectPosition:
+            if issue.problem == "LOW"{
+                return "ObjectPositionLow"
+            }
+            else{
+                return "ObjectPositionHigh"
+            }
+        case .Exist:
+            return "RiskyItem"
+        case .NonExist:
+            return "AssistiveItem"
         }
-        else if source.SourceRoomplanObject != nil{
-            return "furniture"
-        }
-        else if source.SourceRoomplanSurface != nil{
-            return "furniture"
-        }
-        return "null"
+        
+//        let source=issue.getSource()
+//        if source.SourceDetectedObject != nil{
+//            let category=source.SourceDetectedObject!.detectedObjectCategory
+//            if category == .Medication{
+//                return "medication"
+//            }
+//            else if category == .Knife || category == .Scissors{
+//                return "sharp"
+//            }
+//            else{
+//                return "notice"
+//            }
+//        }
+//        else if source.SourceRoomplanObject != nil{
+//            return "furniture"
+//        }
+//        else if source.SourceRoomplanSurface != nil{
+//            return "furniture"
+//        }
+//        return "null"
 //        switch category {
 //        case .storage: return "furniture"
 //        case .refrigerator: return "furniture"
