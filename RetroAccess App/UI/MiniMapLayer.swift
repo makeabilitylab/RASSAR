@@ -198,7 +198,7 @@ public class MiniMapLayer:CALayer{
     }
     func draw_issues(){
         for issue in replicator.getAllIssuesToBePresented(){
-            continue
+            //continue
             if !issue.hasPosition(){
                 continue
             }
