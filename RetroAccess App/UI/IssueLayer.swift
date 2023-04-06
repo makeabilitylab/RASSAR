@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import RoomPlan
+import RealityKit
 
 class CenterCATextLayer : CATextLayer {
     override func draw(in context: CGContext) {
@@ -240,4 +241,26 @@ public class IssueLayer:CALayer{
     @objc func pressedXBtn(sender: UIButton) {
         print("Pressed the X Button!")
     }
+    public func getExtendedView(parent:ARView)->UIView{
+        let iconCategory=getIconCategoryString()
+        var icon:UIImage?=nil
+        switch iconCategory{
+        case "ObjectDimensionHigh":
+            icon = UIImage(named: "ObjectDimensionHigh")
+        case "ObjectDimensionLow":
+            icon = UIImage(named: "ObjectDimensionLow")
+        case "ObjectPositionHigh":
+            icon = UIImage(named: "ObjectPositionHigh")
+        case "ObjectPositionLow":
+            icon = UIImage(named: "ObjectPositionLow")
+        case "RiskyItem":
+            icon = UIImage(named: "RiskyItem")
+        case "AssistiveItem":
+            icon = UIImage(named: "AssistiveItem")
+        default:
+            icon = UIImage(named: "Hazard")
+        }
+        return IssueExtendedView(issue: issue, parentView: parent, icon: icon!)
+    }
+    
 }

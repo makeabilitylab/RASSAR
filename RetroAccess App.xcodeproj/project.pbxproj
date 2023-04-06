@@ -53,6 +53,7 @@
 		5ECAEEAB29B7FF0D00631F8D /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */; };
 		5ECAEEAD29B9B4EA00631F8D /* export.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ECAEEAC29B9B4EA00631F8D /* export.png */; };
 		5ECAEEB129BBC66B00631F8D /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECAEEB029BBC66B00631F8D /* PopupView.swift */; };
+		5ECEE2DF29DCAE5E00DE46F8 /* IssueExtendedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECEE2DE29DCAE5E00DE46F8 /* IssueExtendedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 		5ECAEEAC29B9B4EA00631F8D /* export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export.png; sourceTree = "<group>"; };
 		5ECAEEB029BBC66B00631F8D /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		5ECEE2DE29DCAE5E00DE46F8 /* IssueExtendedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueExtendedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +250,7 @@
 				5EC42017294D4420004F4E88 /* PostHocViewController.swift */,
 				5EC420272974BD45004F4E88 /* MiniMapLayer.swift */,
 				5ECAEEB029BBC66B00631F8D /* PopupView.swift */,
+				5ECEE2DE29DCAE5E00DE46F8 /* IssueExtendedView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				5EC4203829860004004F4E88 /* ObjectDetection.swift in Sources */,
 				5E1656E52890A306002577D3 /* OnboardViewController.swift in Sources */,
 				5ECAEEB129BBC66B00631F8D /* PopupView.swift in Sources */,
+				5ECEE2DF29DCAE5E00DE46F8 /* IssueExtendedView.swift in Sources */,
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
 				5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */,

@@ -19,6 +19,9 @@ public class Rubric{
     var message:String?
     var relativePosition:RelativePosition?
     var existence:Bool?
+    var suggestions:[String]?
+    var sources:String="2010 ADA Standards for Accessible Design"
+    var urls:String="https://www.ada.gov/regs2010/2010ADAStandards/2010ADAstandards.htm"
     
     public init(index:Int,keyword:String,requirement:String,json:Any!){
         //Here json is at the situation list item level
@@ -66,6 +69,12 @@ public class Rubric{
             else{
                 message=nil
             }
+            if let sug=dic["Suggestions"] as? [String]{
+                self.suggestions=sug
+            }
+            else{
+                suggestions=nil
+            }
         }
         else{
             fatalError("Error occurred in reading json situations")
@@ -75,19 +84,45 @@ public class Rubric{
         if var msg=message{
             switch requirement{
             case "Dim_Height":
-                msg += " \n The ADA design guideline requires a height of \(dimension!.value!) inch"
+                let value=dimension!.value!
+                var valueincm:[Float]=[]
+                for v in value{
+                    valueincm.append(Float(v)*2.54)
+                }
+                msg += " \nThe ADA design guideline requires a height of \(valueincm) cm"
             case "Depth":
-                msg += " \n The ADA design guideline requires a depth of \(dimension!.value!) inch"
+                let value=dimension!.value!
+                var valueincm:[Float]=[]
+                for v in value{
+                    valueincm.append(Float(v)*2.54)
+                }
+                msg += " \nThe ADA design guideline requires a depth of \(valueincm) cm"
             case "Radius":
-                msg += " \n The ADA design guideline requires a radius more than \(dimension!.value!) inch"
+                let value=dimension!.value!
+                var valueincm:[Float]=[]
+                for v in value{
+                    valueincm.append(Float(v)*2.54)
+                }
+                msg += " \nThe ADA design guideline requires a radius more than \(valueincm) cm"
             case "ExistenceOrNot":
                 msg += ""
             case "Pos_Height":
-                msg += " \n The ADA design guideline requires height of \(dimension!.value!) inch"
+                let value=dimension!.value!
+                var valueincm:[Float]=[]
+                for v in value{
+                    valueincm.append(Float(v)*2.54)
+                }
+                msg += " \nThe ADA design guideline requires height of \(valueincm) cm"
             default:
                 print("Non-implemented situation")
             }
-            
+            if suggestions != nil{
+                msg+="\nPossible Fix:"
+                for s in suggestions!{
+                    msg+="\n"
+                    msg+=s
+                }
+            }
             return msg
         }
         return ""
@@ -267,31 +302,31 @@ public class Rubric{
                 if targetTransformed>=Float(values[0]){
                     return ""
                 }
-                return "SHORT"
+                return "LOW"
             case "LessThan":
                 if targetTransformed<=Float(values[0]){
                     return ""
                 }
-                return "TALL"
+                return "HIGH"
             case "Between":
                 if targetTransformed >= Float(values[0]) && targetTransformed <= Float(values[1]){
                     return ""
                 }
                 else if targetTransformed <= Float(values[0]){
-                    return "SHORT"
+                    return "LOW"
                 }
                 else{
-                    return "TALL"
+                    return "HIGH"
                 }
             case "Equal":
                 if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance) && targetTransformed>=Float(values[0])-Float(Settings.instance.dimension_tolerance){
                     return ""
                 }
                 else if targetTransformed<=Float(values[0])+Float(Settings.instance.dimension_tolerance){
-                    return "SHORT"
+                    return "LOW"
                 }
                 else{
-                    return "TALL"
+                    return "HIGH"
                 }
             default:
                 fatalError("Unexpected comparisoon type")

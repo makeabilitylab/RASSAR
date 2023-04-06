@@ -63,7 +63,7 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         })
         
         //Add button for ending scanning process and export pdf report
-        let rect1 = CGRect(x: screenSize.width/4*3, y: 150, width: 56, height: 56)
+        let rect1 = CGRect(x: screenSize.width/4*3, y: 50, width: 56, height: 56)
         // STOP BUTTON
         let stopButton = UIButton(frame: rect1)
         //stopButton.setTitle("Export Results", for: .normal)
@@ -77,7 +77,8 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         let radius: CGFloat = 28
         circleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2.0 * radius, height: 2.0 * radius), cornerRadius: radius).cgPath
         circleLayer.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
-        circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
+        //circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
+        circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 0).cgColor
         buttonShapeView.layer.addSublayer(circleLayer)
         let exportIcon=UIImage(named: "export")!.resizeImage(newSize: CGSize(width: 40, height: 40))
         let iconView=UIImageView(image: exportIcon)
@@ -297,10 +298,10 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
                         if layer is IssueLayer{
                             let issueLayer = layer as! IssueLayer
                             //This is where we used to add popping up layer. Now cancel this to use as cancel issue
-                            rootLayer.addSublayer(issueLayer.getExtendedLayer())
+                            //rootLayer.addSublayer(issueLayer.getExtendedLayer())
                             //let issueView=PopupView(issue: issueLayer.issue,controller:self)
                             //self.view.addSubview(issueView)
-                            
+                            self.arView.addSubview(issueLayer.getExtendedView(parent: arView))
                             //issueLayer.issue.cancel()
                             //print("Trying to add another layer")
                         }

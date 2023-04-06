@@ -198,7 +198,11 @@ public class MiniMapLayer:CALayer{
     }
     func draw_issues(){
         for issue in replicator.getAllIssuesToBePresented(){
+            continue
             if !issue.hasPosition(){
+                continue
+            }
+            if issue.cancelled{
                 continue
             }
             let circleLayer = CAShapeLayer()

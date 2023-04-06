@@ -456,6 +456,9 @@ extension String {
 
 extension simd_float3{
     func toString()->String{
-        return " length of \(self.x)m height of \(self.y)m and width of \(self.z)m"
+        let x=roundf(self.x*100)/100.0
+        let y=roundf(self.y*100)/100.0
+        let z=roundf(self.z*100)/100.0
+        return "\nLength : \(x) m Height : \(y) m Width : \(z)m"
     }
 }

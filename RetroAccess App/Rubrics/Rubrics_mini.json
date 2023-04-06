@@ -355,7 +355,7 @@
             "RelativePosition":"Upon",
             "Existence":false,
             "Note":"replace XXX to either 'floor' or 'stairs'.",
-            "Message":"Warning: Carpets detected on the XXX!",
+            "Message":"Warning: Detected throw rug! It's a tripping hazard!",
             "ADA_description":"For safety, no carpet should be present on the floor or stairs.",
             "Suggestions":["Make sure that the patterns are not too busy","Have carpet stretched or removed to eliminate wrinkles or bumps."," Add a carpet runner to slippery hallway or foyer and secure to the floor"],
             "Sources":[{"name":"ADA National Network - Accessible Lodging",

@@ -76,7 +76,7 @@ class PostHocViewController:UIViewController{
         
         //Add an export button
         let exportButton=UIButton()
-        exportButton.frame=CGRect(x: screenSize.width-80, y: 50, width: 50, height: 50)
+        exportButton.frame=CGRect(x: screenSize.width-80, y: 30, width: 50, height: 50)
         exportButton.addTarget(self, action: #selector(btnExportData), for: .touchUpInside)
         let buttonShapeView=UIView()
         buttonShapeView.isUserInteractionEnabled=false
@@ -222,14 +222,30 @@ class PostHocViewController:UIViewController{
             title.text=sourceObject!.getSourceClass()
             description.text=sourceObject!.getSourceDescription()
             if let issue = sourceObject?.issue{
-                description.text! += "\n"
+                description.text! += "\n\n"
                 description.text! += issue.getDetails()
+                let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
+                cancel.textColor = UIColor.black
+                cancel.backgroundColor = UIColor.white
+                cancel.font = UIFont.boldSystemFont(ofSize: 20.0)
+                let underlineAttriString = NSAttributedString(string: "Cancel this issue",
+                                                          attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+                cancel.attributedText=underlineAttriString
+                infoView.addSubview(cancel)
             }
         }
         else if (sourceIssue != nil)
         {
             title.text=sourceIssue!.getSourceClass()
             description.text=sourceIssue!.getSourceDescription()
+            let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
+            cancel.textColor = UIColor.black
+            cancel.backgroundColor = UIColor.white
+            cancel.font = UIFont.boldSystemFont(ofSize: 20.0)
+            let underlineAttriString = NSAttributedString(string: "Cancel this issue",
+                                                      attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+            cancel.attributedText=underlineAttriString
+            infoView.addSubview(cancel)
         }
         else{
             title.text = "Item Category"
@@ -246,7 +262,7 @@ class PostHocViewController:UIViewController{
     @objc func btnExportData(_ sender: Any) {
         let formatter = DateFormatter()
         formatter.dateFormat = "HHmm E, d MMM y"
-        let prompt = UIAlertController(title: "Export data for counter", message: "Provide file name:", preferredStyle: .alert)
+        let prompt = UIAlertController(title: "Warning! The exported data might contain layout information of your home space!", message: "If you are aware of the risk, please provide file name and proceed.", preferredStyle: .alert)
         prompt.addTextField {(textField) in textField.text = formatter.string(from: Date.now)}
         prompt.addAction(UIAlertAction(title: "Export", style: .default, handler: {
             (_) in
@@ -330,6 +346,9 @@ class RoomScene: SCNScene {
             
         }
         for issue in replicator.getAllIssuesToBePresented() {
+            if issue.cancelled{
+                continue
+            }
             if issue.hasSource(){
                 if issue.sourceObject != nil{
                     let issueNode=BallNode(issue: issue)

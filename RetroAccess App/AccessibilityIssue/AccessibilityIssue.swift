@@ -10,10 +10,10 @@ import ARKit
 
 public enum AccessibilityIssueType:String{
     //TODO: add all existing issues
-    case Exist="Exist"
-    case NonExist="NonExist"
-    case ObjectDimension="ObjDim"
-    case ObjectPosition="ObjPos"
+    case Exist="Risky Item"
+    case NonExist="Lack of Assistive Item"
+    case ObjectDimension="Object Dimension"
+    case ObjectPosition="Object Position"
 }
 
 public class AccessibilityIssue
@@ -44,7 +44,10 @@ public class AccessibilityIssue
     }
     public func getSuggestion()->String{
         //TODO: retrirve suggestion from document
-        fatalError("Unimplemented function")
+        if let sug=rubric.suggestions{
+            return sug[0]
+        }
+        return ""
     }
     public func getDetails()->String{
         //TODO: get detailed info for this issue
