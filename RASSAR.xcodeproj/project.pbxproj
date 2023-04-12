@@ -38,13 +38,13 @@
 		5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */; };
 		5E3FB27828EE433F00281359 /* Wireframe_3D_Globe.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */; };
 		5E3FB27D28EEC34500281359 /* RoomPlan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3FB27C28EEC34500281359 /* RoomPlan.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5E960A2B29E608BC004D66B2 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E960A2A29E608BC004D66B2 /* logo.png */; };
 		5EB83FB828C3FB3500263575 /* Rubrics_mini.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EB83FB728C3FB3500263575 /* Rubrics_mini.json */; };
 		5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FBC28C72DD800263575 /* PDFCreator.swift */; };
 		5EB83FC128C733C900263575 /* PDFPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB83FC028C733C900263575 /* PDFPreviewController.swift */; };
 		5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC42017294D4420004F4E88 /* PostHocViewController.swift */; };
 		5EC420282974BD45004F4E88 /* MiniMapLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420272974BD45004F4E88 /* MiniMapLayer.swift */; };
 		5EC4203829860004004F4E88 /* ObjectDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203729860004004F4E88 /* ObjectDetection.swift */; };
-		5EC4203A2986695E004F4E88 /* yolov5-iOS.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */; };
 		5EC4203C29866B4B004F4E88 /* YOLOResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */; };
 		5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203D29866CB6004F4E88 /* BoundingBox.swift */; };
 		5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC420432988628A004F4E88 /* NodeTechnique.plist */; };
@@ -108,13 +108,13 @@
 		5E3FB27528EE418800281359 /* Wireframe_3D_Globe.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Wireframe_3D_Globe.scn; sourceTree = "<group>"; };
 		5E3FB27728EE433F00281359 /* Wireframe_3D_Globe.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Wireframe_3D_Globe.usdz; sourceTree = "<group>"; };
 		5E3FB27C28EEC34500281359 /* RoomPlan.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RoomPlan.framework; path = System/Library/Frameworks/RoomPlan.framework; sourceTree = SDKROOT; };
+		5E960A2A29E608BC004D66B2 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		5EB83FB728C3FB3500263575 /* Rubrics_mini.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Rubrics_mini.json; sourceTree = "<group>"; };
 		5EB83FBC28C72DD800263575 /* PDFCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		5EB83FC028C733C900263575 /* PDFPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewController.swift; sourceTree = "<group>"; };
 		5EC42017294D4420004F4E88 /* PostHocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHocViewController.swift; sourceTree = "<group>"; };
 		5EC420272974BD45004F4E88 /* MiniMapLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniMapLayer.swift; sourceTree = "<group>"; };
 		5EC4203729860004004F4E88 /* ObjectDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetection.swift; sourceTree = "<group>"; };
-		5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = "yolov5-iOS.mlmodel"; path = "../../../../../Downloads/yolov5-iOS.mlmodel"; sourceTree = "<group>"; };
 		5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YOLOResizer.swift; path = "RetroAccess App/YOLOv4/YOLOResizer.swift"; sourceTree = SOURCE_ROOT; };
 		5EC4203D29866CB6004F4E88 /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundingBox.swift; path = "RetroAccess App/YOLOv4/BoundingBox.swift"; sourceTree = SOURCE_ROOT; };
 		5EC420432988628A004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NodeTechnique.plist; sourceTree = "<group>"; };
@@ -232,6 +232,7 @@
 		5E8502F128DFA3EB00FA3F01 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5E960A2A29E608BC004D66B2 /* logo.png */,
 				5ECAEEAC29B9B4EA00631F8D /* export.png */,
 				5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */,
 				5EC420442988628A004F4E88 /* NodeRender.metal */,
@@ -290,7 +291,6 @@
 				5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */,
 				5EC4203D29866CB6004F4E88 /* BoundingBox.swift */,
 				5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */,
-				5EC420392986695E004F4E88 /* yolov5-iOS.mlmodel */,
 				5EC4203729860004004F4E88 /* ObjectDetection.swift */,
 			);
 			path = YOLOv5;
@@ -375,7 +375,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RetroAccess App" */;
+			buildConfigurationList = 5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RASSAR" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -402,6 +402,7 @@
 			files = (
 				5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */,
 				5E3FB27628EE418800281359 /* Wireframe_3D_Globe.scn in Resources */,
+				5E960A2B29E608BC004D66B2 /* logo.png in Resources */,
 				5E1656AF287CD8A4002577D3 /* LaunchScreen.storyboard in Resources */,
 				5E3FB26D28ED58F800281359 /* Globe 3D Model.obj in Resources */,
 				5E3FB26E28ED58F800281359 /* Globe 3D Model.mtl in Resources */,
@@ -459,7 +460,6 @@
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
 				5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */,
 				5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */,
-				5EC4203A2986695E004F4E88 /* yolov5-iOS.mlmodel in Sources */,
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,
 				5EC420462988628A004F4E88 /* NodeRender.metal in Sources */,
 				5E1656D4287CE6AA002577D3 /* RoomObjectSystem.swift in Sources */,
@@ -647,7 +647,7 @@
 				DEVELOPMENT_TEAM = T4GVUZVTFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = RASSAR;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -659,7 +659,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MakeabilityLab.RASSAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -683,7 +683,7 @@
 				DEVELOPMENT_TEAM = T4GVUZVTFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = RASSAR;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -695,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MakeabilityLab.RASSAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -787,7 +787,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RetroAccess App" */ = {
+		5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RASSAR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5E1656C6287CD8A4002577D3 /* Debug */,

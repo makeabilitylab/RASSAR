@@ -72,11 +72,12 @@ class IssueExtendedView:UIView{
         //button1.widthAnchor.constraint(equalToConstant: 171).isActive = true
         //button1.heightAnchor.constraint(equalToConstant: 55).isActive = true
         button1.addTarget(self, action: #selector(didTapReturnButton), for: .touchUpInside)
-        
+        //button1.backgroundColor = .gray
         var button2 = UIButton(frame:CGRect(x: screenSize.width/2-85, y: screenSize.height-200-100, width: 171, height: 55))
         //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
         button2.setTitle("Not An Issue", for: .normal)
         button2.setTitleColor(UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1), for: .normal)
+        //button2.backgroundColor = .red
         self.addSubview(button2)
         button2.translatesAutoresizingMaskIntoConstraints = false
         //button2.widthAnchor.constraint(equalToConstant: 171).isActive = true
@@ -90,6 +91,7 @@ class IssueExtendedView:UIView{
     
     @IBAction func didTapReturnButton(){
         //Remove this view
+        self.accessibilityIssue.cancel()
         self.removeFromSuperview()
     }
     @IBAction func didTapCancelButton(){
