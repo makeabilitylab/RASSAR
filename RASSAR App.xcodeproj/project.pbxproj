@@ -375,7 +375,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RASSAR" */;
+			buildConfigurationList = 5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RASSAR App" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -787,7 +787,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RASSAR" */ = {
+		5E16569A287CD8A2002577D3 /* Build configuration list for PBXProject "RASSAR App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5E1656C6287CD8A4002577D3 /* Debug */,

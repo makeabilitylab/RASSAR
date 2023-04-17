@@ -55,7 +55,7 @@ class OnboardViewController: UIViewController {
         self.view.addSubview(CB_Senior)
         self.view.addSubview(CB_Children)
         // Button
-        var button = UIButton(frame:CGRect(x: 128, y: 788, width: 171, height: 55))
+        var button = UIButton(frame:CGRect(x: (screenSize.width-171)/2, y: 788, width: 171, height: 55))
         //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
         
         //button.backgroundColor = .gray
