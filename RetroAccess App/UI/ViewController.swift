@@ -10,7 +10,7 @@ import RealityKit
 import RoomPlan
 import PDFKit
 
-class ViewController: UIViewController,RoomCaptureViewDelegate {
+public class ViewController: UIViewController,RoomCaptureViewDelegate {
     
     @IBOutlet var arView: ARView!
     private var roomCaptureSession:RoomCaptureSession?
@@ -39,9 +39,10 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
     let roombuilder=RoomBuilder(options: [.beautifyObjects])
     var manager = FileManager.default
     let screenSize: CGRect = UIScreen.main.bounds
+    var extendedViewIsOut:Bool=false
     
     private var bboxOverlay: CALayer! = nil
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         replicator.setView(view:arView)
         Settings.instance.setReplicator(rep: replicator)
         showBbox=true
@@ -114,12 +115,12 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
             self.minimap?.update()
         })
     }
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startSession()
     }
     
-    override func viewWillDisappear(_ flag: Bool) {
+    public override func viewWillDisappear(_ flag: Bool) {
         super.viewWillDisappear(flag)
         stopSession()
     }
@@ -283,66 +284,70 @@ class ViewController: UIViewController,RoomCaptureViewDelegate {
         }
         replicator.addODAnchor(anchors: ODAnchors)
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         super.touchesBegan(touches, with: event)
-
-        if let touch = touches.first{
-            let view = self.view!
-            let touchLocation = touch.location(in: view)
-            let locationInView = view.convert(touchLocation, to: nil)
-            //let transformedLocation=CGPoint(x: locationInView.x-214, y: locationInView.y-463)
-            if let sublayers = detectionOverlay.sublayers{
-                for layer in sublayers{
-                    if layer.contains(locationInView){
-                        if layer is IssueLayer{
-                            let issueLayer = layer as! IssueLayer
-                            //This is where we used to add popping up layer. Now cancel this to use as cancel issue
-                            //rootLayer.addSublayer(issueLayer.getExtendedLayer())
-                            //let issueView=PopupView(issue: issueLayer.issue,controller:self)
-                            //self.view.addSubview(issueView)
-                            self.arView.addSubview(issueLayer.getExtendedView(parent: arView))
-                            //issueLayer.issue.cancel()
-                            //print("Trying to add another layer")
+        if !extendedViewIsOut{
+            if let touch = touches.first{
+                let view = self.view!
+                let touchLocation = touch.location(in: view)
+                let locationInView = view.convert(touchLocation, to: nil)
+                print(locationInView)
+                let transformedLocation=CGPoint(x: locationInView.x+35, y: locationInView.y+35)
+                if let sublayers = detectionOverlay.sublayers{
+                    for layer in sublayers{
+                        if layer.contains(transformedLocation){
+                            if layer is IssueLayer{
+                                let issueLayer = layer as! IssueLayer
+                                //This is where we used to add popping up layer. Now cancel this to use as cancel issue
+                                //rootLayer.addSublayer(issueLayer.getExtendedLayer())
+                                //let issueView=PopupView(issue: issueLayer.issue,controller:self)
+                                //self.view.addSubview(issueView)
+                                self.arView.addSubview(issueLayer.getExtendedView(parent: self))
+                                extendedViewIsOut=true
+                                //issueLayer.issue.cancel()
+                                //print("Trying to add another layer")
+                            }
                         }
-                    }
-                    else{
-                        //print("Layer doesn't contain click")
+                        else{
+                            //print("Layer doesn't contain click")
+                        }
                     }
                 }
             }
         }
+        
     }
 }
 
 extension ViewController: RoomCaptureSessionDelegate {
 
-    func captureSession(_ session: RoomCaptureSession, didAdd room: CapturedRoom) {
+    public func captureSession(_ session: RoomCaptureSession, didAdd room: CapturedRoom) {
         replicator.anchor(objects: room.objects,surfaces: room.walls+room.doors+room.openings+room.windows , in: session)
         minimap?.update()
     }
 
-    func captureSession(_ session: RoomCaptureSession, didChange room: CapturedRoom) {
+    public func captureSession(_ session: RoomCaptureSession, didChange room: CapturedRoom) {
         replicator.anchor(objects: room.objects, surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
         minimap?.update()
     }
 
-    func captureSession(_ session: RoomCaptureSession, didUpdate room: CapturedRoom) {
+    public func captureSession(_ session: RoomCaptureSession, didUpdate room: CapturedRoom) {
         replicator.anchor(objects: room.objects, surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
         minimap?.update()
     }
 
-    func captureSession(_ session: RoomCaptureSession, didRemove room: CapturedRoom) {
+    public func captureSession(_ session: RoomCaptureSession, didRemove room: CapturedRoom) {
         
         replicator.anchor(objects: room.objects,surfaces: room.walls+room.doors+room.openings+room.windows ,in: session)
         minimap?.update()
     }
-    func captureSession(_ session: RoomCaptureSession, didStartWith configuration: RoomCaptureSession.Configuration) {
+    public func captureSession(_ session: RoomCaptureSession, didStartWith configuration: RoomCaptureSession.Configuration) {
         arView.session.pause()
         arView.session = session.arSession
         arView.session.delegate = self
     }
-    func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) {
+    public func captureSession(_ session: RoomCaptureSession, didEndWith data: CapturedRoomData, error: Error?) {
         print("Stop callback called")
         DispatchQueue.main.async {
             // UIView usage
@@ -356,7 +361,7 @@ extension ViewController: RoomCaptureSessionDelegate {
 
 extension ViewController: ARSessionDelegate {
     
-    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+    public func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
         //        for a in anchors{
         //            //session.add(anchor: a)
         //            //arView.scene.addAnchor(NotifyingEntity(anchor:a))
@@ -372,11 +377,11 @@ extension ViewController: ARSessionDelegate {
         
     }
     
-    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
+    public func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
         //arView.scene.updateRoomObjectEntities(for: anchors)
         
     }
-    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+    public func session(_ session: ARSession, didUpdate frame: ARFrame) {
         detectionOverlay.sublayers=nil
         // Show issue layers
         let allIssues=replicator.getAllIssuesToBePresented()
@@ -414,6 +419,7 @@ extension ViewController: ARSessionDelegate {
                 //                print(dot)
                 //if simd_length(vector)<2.5{
                     let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 428, height: 926))
+                //TODO: tell if this cast is from the back!
                     if pos != nil{
                         //TODO: create a new class for the preview layer
                         let shapeLayer=IssueLayer(issue: issue, position: pos!)

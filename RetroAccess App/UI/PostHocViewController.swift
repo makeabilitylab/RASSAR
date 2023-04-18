@@ -23,6 +23,7 @@ class PostHocViewController:UIViewController{
     private var translateX:Float=0
     private var translateY:Float=0
     let screenSize: CGRect = UIScreen.main.bounds
+    private var selectedIssue:AccessibilityIssue?
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView.translatesAutoresizingMaskIntoConstraints = false
@@ -160,6 +161,9 @@ class PostHocViewController:UIViewController{
                     updateInfoView(sourceObject:box,sourceIssue:nil)
                     //box.runAction(SCNAction.levitate(distance: 0.03, duration: 2.0) )
                     box.setHighlighted()
+                    if box.issue != nil{
+                        selectedIssue=box.issue!
+                    }
                 }
                 if let ball = hitTestResult.node as? BallNode{
                     print(ball.getSourceClass())
@@ -167,22 +171,11 @@ class PostHocViewController:UIViewController{
                     updateInfoView(sourceObject:nil,sourceIssue:ball)
                     //ball.runAction(SCNAction.levitate(distance: 0.03, duration: 2.0) )
                     ball.setHighlighted()
+                    selectedIssue=ball.sourceIssue
                 }
             }
         }
     }
-//    @objc func doubleTapGesture(_ gesture: UITapGestureRecognizer){
-//        if(gesture.state == UIGestureRecognizer.State.ended) {
-//            if(gesture.numberOfTouches == 2){
-//                let position=gesture.location(in: sceneView)
-//                guard let hitTestResult = sceneView.hitTest(position, options: nil).first else { return }
-//                guard hitTestResult.node is BoxNode else { return }
-//                print("Double Tap on box!")
-//                print(hitTestResult.geometryIndex)
-//            }
-//        }
-//    }
-    
     @objc func pinchGesture(_ gesture: UIPinchGestureRecognizer){
         let scale = gesture.scale
         scene.geometryNode!.scale.x=Float(scale)*sceneScale
@@ -222,30 +215,43 @@ class PostHocViewController:UIViewController{
             title.text=sourceObject!.getSourceClass()
             description.text=sourceObject!.getSourceDescription()
             if let issue = sourceObject?.issue{
-                description.text! += "\n\n"
-                description.text! += issue.getDetails()
-                let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
-                cancel.textColor = UIColor.black
-                cancel.backgroundColor = UIColor.white
-                cancel.font = UIFont.boldSystemFont(ofSize: 20.0)
-                let underlineAttriString = NSAttributedString(string: "Cancel this issue",
-                                                          attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
-                cancel.attributedText=underlineAttriString
-                infoView.addSubview(cancel)
+                if issue.cancelled == false{
+                    description.text! += "\n\n"
+                    description.text! += issue.getDetails()
+    //                let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
+    //                cancel.textColor = UIColor.black
+    //                cancel.backgroundColor = UIColor.white
+    //                cancel.font = UIFont.boldSystemFont(ofSize: 20.0)
+    //                let underlineAttriString = NSAttributedString(string: "Cancel this issue",
+    //                                                          attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+    //                cancel.attributedText=underlineAttriString
+    //                infoView.addSubview(cancel)
+                    let cancelButton=UIButton(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
+                    cancelButton.setTitle("Cancel this issue", for: .normal)
+                    cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+                    cancelButton.setTitleColor(UIColor(red: 0.957, green: 0.353, blue: 0.322, alpha: 1), for: .normal)
+                    infoView.addSubview(cancelButton)
+                }
+                
             }
         }
         else if (sourceIssue != nil)
         {
             title.text=sourceIssue!.getSourceClass()
             description.text=sourceIssue!.getSourceDescription()
-            let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
-            cancel.textColor = UIColor.black
-            cancel.backgroundColor = UIColor.white
-            cancel.font = UIFont.boldSystemFont(ofSize: 20.0)
-            let underlineAttriString = NSAttributedString(string: "Cancel this issue",
-                                                      attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
-            cancel.attributedText=underlineAttriString
-            infoView.addSubview(cancel)
+//            let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
+//            cancel.textColor = UIColor.black
+//            cancel.backgroundColor = UIColor.white
+//            cancel.font = UIFont.boldSystemFont(ofSize: 20.0)
+//            let underlineAttriString = NSAttributedString(string: "Cancel this issue",
+//                                                      attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+//            cancel.attributedText=underlineAttriString
+//            infoView.addSubview(cancel)
+            let cancelButton=UIButton(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
+            cancelButton.setTitle("Cancel this issue", for: .normal)
+            cancelButton.setTitleColor(UIColor(red: 0.957, green: 0.353, blue: 0.322, alpha: 1), for: .normal)
+            cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+            infoView.addSubview(cancelButton)
         }
         else{
             title.text = "Item Category"
@@ -292,6 +298,39 @@ class PostHocViewController:UIViewController{
         }))
         prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(prompt, animated: true, completion: nil)
+    }
+    @IBAction func didTapCancelButton(){
+        //Remove this view and cancel this issue
+        print("Cancel!")
+        if selectedIssue != nil{
+            selectedIssue!.cancel()
+            selectedIssue!.cancel()
+            selectedIssue!.cancel()
+            //Update model and info view if possible
+            for node in scene.geometryNode!.childNodes{
+                if let box=node as? BoxNode{
+                    if box.issue == selectedIssue{
+                        //Turn box to gray color
+                        box.geometry!.materials = [UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)].map {
+                            let material = SCNMaterial()
+                            material.diffuse.contents = $0
+                            material.isDoubleSided = true
+                            material.transparencyMode = .aOne
+                            return material
+                        }
+                        updateInfoView(sourceObject: box, sourceIssue: nil)
+                    }
+                }
+                else if let ball=node as? BallNode{
+                    if ball.sourceIssue == selectedIssue{
+                        //delete ball
+                        ball.removeFromParentNode()
+                        updateInfoView(sourceObject: nil, sourceIssue: nil)
+                    }
+                }
+            }
+        }
+        
     }
 }
 class RoomScene: SCNScene {

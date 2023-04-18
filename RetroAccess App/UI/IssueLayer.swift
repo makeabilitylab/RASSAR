@@ -45,7 +45,7 @@ public class IssueLayer:CALayer{
         self.bounds = CGRect(x: x, y: y, width:70, height: 70)
         self.position = CGPoint(x: x, y: y)
         self.name = "Issue Preview"
-        //self.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.663, 0.663, 0.663, 0.4])
+        //self.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.663, 0.663, 0.663, 1])
         self.cornerRadius = 7
         
         let iconLayer = CALayer()
@@ -70,6 +70,7 @@ public class IssueLayer:CALayer{
         //iconLayer.contents = UIImage(named: "Furniture")?.cgImage
         iconLayer.bounds = CGRect(x: 0, y: 0, width: 50, height: 50)
         iconLayer.position = CGPoint(x:x+35, y: y+35)
+        //iconLayer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0, 0.663, 0.663, 1])
         self.addSublayer(iconLayer)
 
         let textLayer = CenterCATextLayer()
@@ -241,7 +242,7 @@ public class IssueLayer:CALayer{
     @objc func pressedXBtn(sender: UIButton) {
         print("Pressed the X Button!")
     }
-    public func getExtendedView(parent:ARView)->UIView{
+    public func getExtendedView(parent:ViewController)->UIView{
         let iconCategory=getIconCategoryString()
         var icon:UIImage?=nil
         switch iconCategory{
@@ -260,7 +261,7 @@ public class IssueLayer:CALayer{
         default:
             icon = UIImage(named: "Hazard")
         }
-        return IssueExtendedView(issue: issue, parentView: parent, icon: icon!)
+        return IssueExtendedView(issue: issue, parentController: parent, icon: icon!)
     }
     
 }

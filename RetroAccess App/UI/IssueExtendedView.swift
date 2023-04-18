@@ -12,29 +12,32 @@ import RealityKit
 class IssueExtendedView:UIView{
     let screenSize: CGRect = UIScreen.main.bounds
     let accessibilityIssue:AccessibilityIssue
-    public init(issue:AccessibilityIssue,parentView:ARView,icon:UIImage) {
+    let parent:ViewController
+    public init(issue:AccessibilityIssue,parentController:ViewController,icon:UIImage) {
         print(screenSize)
         self.accessibilityIssue=issue
-        super.init(frame: CGRect(x: 0, y: 200, width:screenSize.width, height: screenSize.height-200))
+        self.parent=parentController
+        super.init(frame: CGRect(x: 0, y: 200, width:screenSize.width, height: screenSize.height-150))
         
         //self.frame=CGRect(x: 0, y: 200, width:screenSize.width, height: screenSize.height-200)
         self.layer.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.91).cgColor
         self.layer.cornerRadius = 9.33
         
         //Add banner
-        let banner=UIView(frame: CGRect(x: 25, y: 50, width: screenSize.width-50, height: 80))
-        let iconView=UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        let banner=UIView(frame: CGRect(x: 25, y: 20, width: screenSize.width-50, height: 60))
+        let iconView=UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         iconView.image=icon
         banner.addSubview(iconView)
-        let titleView=UITextView(frame: CGRect(x: 120, y: 0, width: screenSize.width-170, height: 80))
+        let titleView=UITextView(frame: CGRect(x: 100, y: 0, width: screenSize.width-120, height: 60))
         titleView.text=issue.category.rawValue
-        titleView.font=UIFont.systemFont(ofSize: 32)
+        titleView.font=UIFont.systemFont(ofSize: 30)
         titleView.textColor=UIColor(red: 0.957, green: 0.353, blue: 0.322, alpha: 1)
         titleView.backgroundColor = .clear
+        titleView.isEditable=false
         banner.addSubview(titleView)
         self.addSubview(banner)
         //Add Descriptive Image
-        let imageView=UIImageView(frame: CGRect(x: (screenSize.width-300)/2, y: 120, width:300, height: 300))
+        let imageView=UIImageView(frame: CGRect(x: (screenSize.width-250)/2, y: 80, width:250, height: 250))
         switch issue.category{
         case .Exist:
             imageView.image=UIImage(named: "RiskyItemDiagram")!
@@ -48,13 +51,14 @@ class IssueExtendedView:UIView{
         
         self.addSubview(imageView)
         //Add text
-        let textView=UITextView(frame: CGRect(x: (screenSize.width-350)/2, y: 400, width:350, height: 200))
+        let textView=UITextView(frame: CGRect(x: (screenSize.width-350)/2, y: 330, width:350, height: screenSize.height-150-150-55-330-20))
         textView.text=issue.getDetails()
         textView.font=UIFont.systemFont(ofSize: 15)
         textView.backgroundColor = .clear
-        textView.textColor=UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        textView.textColor=UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1)
+        textView.isEditable=false
         self.addSubview(textView)
-        let button1 = UIButton(frame:CGRect(x: screenSize.width/2-85, y: screenSize.height-200-160, width: 171, height: 55))
+        let button1 = UIButton(frame:CGRect(x: screenSize.width/2-85, y: screenSize.height-150-150-55, width: 171, height: 55))
         //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
         let shapes = UIView()
         shapes.frame = CGRect(x: 0, y: 0, width: 171, height: 55)
@@ -74,7 +78,7 @@ class IssueExtendedView:UIView{
         //button1.heightAnchor.constraint(equalToConstant: 55).isActive = true
         button1.addTarget(self, action: #selector(didTapReturnButton), for: .touchUpInside)
         //button1.backgroundColor = .gray
-        let button2 = UIButton(frame:CGRect(x: screenSize.width/2-85, y: screenSize.height-200-100, width: 171, height: 55))
+        var button2 = UIButton(frame:CGRect(x: screenSize.width/2-85, y: screenSize.height-150-150, width: 171, height: 55))
         //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
         button2.setTitle("Not An Issue", for: .normal)
         button2.setTitleColor(UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1), for: .normal)
@@ -92,11 +96,16 @@ class IssueExtendedView:UIView{
     
     @IBAction func didTapReturnButton(){
         //Remove this view
-        self.accessibilityIssue.cancel()
+        //self.accessibilityIssue.cancel()
+        parent.extendedViewIsOut=false
         self.removeFromSuperview()
     }
     @IBAction func didTapCancelButton(){
         //Remove this view and cancel this issue
+        print("Cancel!")
+        parent.extendedViewIsOut=false
+        self.accessibilityIssue.cancel()
+        self.accessibilityIssue.cancel()
         self.accessibilityIssue.cancel()
         self.removeFromSuperview()
     }

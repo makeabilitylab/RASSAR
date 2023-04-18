@@ -16,8 +16,15 @@ public enum AccessibilityIssueType:String{
     case ObjectPosition="Object Position"
 }
 
-public class AccessibilityIssue
+public class AccessibilityIssue:Equatable
 {
+    public static func == (lhs: AccessibilityIssue, rhs: AccessibilityIssue) -> Bool {
+        if lhs.identifier == rhs.identifier{
+            return true
+        }
+        return false
+    }
+    
     var time:Date
     var identifier:UUID
     var transform:simd_float4x4?

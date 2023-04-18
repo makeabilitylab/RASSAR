@@ -54,6 +54,9 @@ class Filter
                 let result=situ.search(replicator: replicator)
                 issuesFound+=result
             }
+            else{
+                print("Unrelated!")
+            }
         }
         return issuesFound
     }
