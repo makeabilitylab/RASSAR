@@ -26,6 +26,7 @@ class PostHocViewController:UIViewController{
     private var selectedIssue:AccessibilityIssue?
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isIdleTimerDisabled=true
         sceneView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(sceneView)
         view.addSubview(infoView)

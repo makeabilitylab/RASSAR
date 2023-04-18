@@ -43,6 +43,7 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
     
     private var bboxOverlay: CALayer! = nil
     public override func viewDidLoad() {
+        UIApplication.shared.isIdleTimerDisabled=true
         replicator.setView(view:arView)
         Settings.instance.setReplicator(rep: replicator)
         showBbox=true
@@ -353,6 +354,7 @@ extension ViewController: RoomCaptureSessionDelegate {
             // UIView usage
             let storyboard = self.storyboard
             let posthoc = storyboard!.instantiateViewController(identifier: "PostHocView")
+            posthoc.isModalInPresentation=true
             self.show(posthoc, sender: self)
         }
         
@@ -406,6 +408,7 @@ extension ViewController: ARSessionDelegate {
             }
             if trans != nil{
                 let position = SIMD3(x: trans!.columns.3.x, y: trans!.columns.3.y, z: trans!.columns.3.z)
+                let position4 = simd_float4(x: position.x, y: position.y, z: position.z, w: 1)
                 //let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 1920, height: 1440))
                 //let cameraTrans=session.currentFrame?.camera.transform
                 //let cameraPos=SIMD3(x: cameraTrans!.columns.3.x, y: cameraTrans!.columns.3.y, z: cameraTrans!.columns.3.z)
@@ -420,7 +423,11 @@ extension ViewController: ARSessionDelegate {
                 //if simd_length(vector)<2.5{
                     let pos=session.currentFrame?.camera.projectPoint(position, orientation: .portrait, viewportSize: CGSize(width: 428, height: 926))
                 //TODO: tell if this cast is from the back!
-                    if pos != nil{
+                let projectionMatrix = frame.camera.projectionMatrix(for: .portrait, viewportSize: CGSize(width: 428, height: 926), zNear: 0.001, zFar: 1000.0)
+                let viewMatrix = frame.camera.viewMatrix(for: .portrait)
+                let clipSpacePosition = projectionMatrix * viewMatrix * position4
+                //print("Clip Space Position is \(clipSpacePosition)")
+                if pos != nil && clipSpacePosition.z > 0 && clipSpacePosition.w > 0{
                         //TODO: create a new class for the preview layer
                         let shapeLayer=IssueLayer(issue: issue, position: pos!)
                         detectionOverlay.addSublayer(shapeLayer)

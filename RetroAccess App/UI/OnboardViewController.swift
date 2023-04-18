@@ -19,6 +19,7 @@ class OnboardViewController: UIViewController {
     let screenSize: CGRect = UIScreen.main.bounds
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.isIdleTimerDisabled=true
         //Add the 4 checkboxes to view
 //        var view = CALayer()
 //        view.frame = CGRect(x:  (screenSize.width-230)/2, y: 376, width: 230, height: 340)
