@@ -30,7 +30,7 @@ class IssueExtendedView:UIView{
         banner.addSubview(iconView)
         let titleView=UITextView(frame: CGRect(x: 100, y: 0, width: screenSize.width-120, height: 60))
         titleView.text=issue.category.rawValue
-        titleView.font=UIFont.systemFont(ofSize: 30)
+        titleView.font=UIFont.systemFont(ofSize: 28)
         titleView.textColor=UIColor(red: 0.957, green: 0.353, blue: 0.322, alpha: 1)
         titleView.backgroundColor = .clear
         titleView.isEditable=false
@@ -52,8 +52,24 @@ class IssueExtendedView:UIView{
         self.addSubview(imageView)
         //Add text
         let textView=UITextView(frame: CGRect(x: (screenSize.width-350)/2, y: 330, width:350, height: screenSize.height-150-150-55-330-20))
-        textView.text=issue.getDetails()
-        textView.font=UIFont.systemFont(ofSize: 15)
+        let details=issue.getDetails()
+        let keywordsToBold = ["Warning", "Possible Fix"]
+
+                // Create a mutable attributed string
+                let attributedString = NSMutableAttributedString(string: details)
+            attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14), range: NSRange(location: 0, length: details.count))
+                // Loop through the keywords and apply bold style to each occurrence
+                for keyword in keywordsToBold {
+                    let range = (details as NSString).range(of: keyword)
+                    if range.location != NSNotFound {
+                        attributedString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 16), range: range)
+                    }
+                }
+
+                // Set the attributed string to the UITextView
+                textView.attributedText = attributedString
+        //textView.text=issue.getDetails()
+        //textView.font=UIFont.systemFont(ofSize: 15)
         textView.backgroundColor = .clear
         textView.textColor=UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1)
         textView.isEditable=false
@@ -70,7 +86,7 @@ class IssueExtendedView:UIView{
         layer1.position = shapes.center
         shapes.layer.addSublayer(layer1)
         shapes.layer.cornerRadius = 27
-        button1.setTitle("Keep Issue", for: .normal)
+        button1.setTitle("Confirm Issue", for: .normal)
         shapes.isUserInteractionEnabled=false
         self.addSubview(button1)
         button1.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +96,7 @@ class IssueExtendedView:UIView{
         //button1.backgroundColor = .gray
         var button2 = UIButton(frame:CGRect(x: screenSize.width/2-85, y: screenSize.height-150-150, width: 171, height: 55))
         //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
-        button2.setTitle("Not An Issue", for: .normal)
+        button2.setTitle("Remove Issue", for: .normal)
         button2.setTitleColor(UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1), for: .normal)
         //button2.backgroundColor = .red
         self.addSubview(button2)

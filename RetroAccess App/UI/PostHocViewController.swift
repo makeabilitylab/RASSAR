@@ -217,8 +217,9 @@ class PostHocViewController:UIViewController{
             description.text=sourceObject!.getSourceDescription()
             if let issue = sourceObject?.issue{
                 if issue.cancelled == false{
-                    description.text! += "\n\n"
+                    description.text! += "\n"
                     description.text! += issue.getDetails()
+                    
     //                let cancel = UILabel(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
     //                cancel.textColor = UIColor.black
     //                cancel.backgroundColor = UIColor.white
@@ -228,7 +229,7 @@ class PostHocViewController:UIViewController{
     //                cancel.attributedText=underlineAttriString
     //                infoView.addSubview(cancel)
                     let cancelButton=UIButton(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
-                    cancelButton.setTitle("Cancel this issue", for: .normal)
+                    cancelButton.setTitle("Remove this issue", for: .normal)
                     cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
                     cancelButton.setTitleColor(UIColor(red: 0.957, green: 0.353, blue: 0.322, alpha: 1), for: .normal)
                     infoView.addSubview(cancelButton)
@@ -249,7 +250,7 @@ class PostHocViewController:UIViewController{
 //            cancel.attributedText=underlineAttriString
 //            infoView.addSubview(cancel)
             let cancelButton=UIButton(frame: CGRect(x: 20, y: 300, width: 400, height: 100))
-            cancelButton.setTitle("Cancel this issue", for: .normal)
+            cancelButton.setTitle("Remove this issue", for: .normal)
             cancelButton.setTitleColor(UIColor(red: 0.957, green: 0.353, blue: 0.322, alpha: 1), for: .normal)
             cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
             infoView.addSubview(cancelButton)
@@ -260,6 +261,22 @@ class PostHocViewController:UIViewController{
         }
         title.sizeToFit()
         description.sizeToFit()
+        let fullText = description.text!
+        let keywordsToBold = ["Warning", "Possible Fix"]
+
+                // Create a mutable attributed string
+                let attributedString = NSMutableAttributedString(string: fullText)
+            attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 14), range: NSRange(location: 0, length: fullText.count))
+                // Loop through the keywords and apply bold style to each occurrence
+                for keyword in keywordsToBold {
+                    let range = (fullText as NSString).range(of: keyword)
+                    if range.location != NSNotFound {
+                        attributedString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 16), range: range)
+                    }
+                }
+
+                // Set the attributed string to the UITextView
+                description.attributedText = attributedString
         //stack.addArrangedSubview(title)
         
         //stack.addArrangedSubview(description)

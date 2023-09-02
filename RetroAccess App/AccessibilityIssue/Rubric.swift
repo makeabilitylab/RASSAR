@@ -80,6 +80,12 @@ public class Rubric{
             fatalError("Error occurred in reading json situations")
         }
     }
+    func roundFloatToOneSignificantDigit(_ number: Float) -> Float {
+        let power = floor(log10(abs(number)))
+        let scale = pow(10, power - 1)
+        let roundedValue = round(number * scale) / scale
+        return Float(roundedValue)
+    }
     public func get_description()->String{
         if var msg=message{
             switch requirement{
@@ -87,21 +93,21 @@ public class Rubric{
                 let value=dimension!.value!
                 var valueincm:[Float]=[]
                 for v in value{
-                    valueincm.append(Float(v)*2.54)
+                    valueincm.append(roundFloatToOneSignificantDigit(Float(v)*2.54) )
                 }
                 msg += " \nThe ADA design guideline requires a height of \(valueincm) cm"
             case "Depth":
                 let value=dimension!.value!
                 var valueincm:[Float]=[]
                 for v in value{
-                    valueincm.append(Float(v)*2.54)
+                    valueincm.append(roundFloatToOneSignificantDigit(Float(v)*2.54) )
                 }
                 msg += " \nThe ADA design guideline requires a depth of \(valueincm) cm"
             case "Radius":
                 let value=dimension!.value!
                 var valueincm:[Float]=[]
                 for v in value{
-                    valueincm.append(Float(v)*2.54)
+                    valueincm.append(roundFloatToOneSignificantDigit(Float(v)*2.54) )
                 }
                 msg += " \nThe ADA design guideline requires a radius more than \(valueincm) cm"
             case "ExistenceOrNot":
@@ -110,7 +116,7 @@ public class Rubric{
                 let value=dimension!.value!
                 var valueincm:[Float]=[]
                 for v in value{
-                    valueincm.append(Float(v)*2.54)
+                    valueincm.append(roundFloatToOneSignificantDigit(Float(v)*2.54) )
                 }
                 msg += " \nThe ADA design guideline requires height of \(valueincm) cm"
             default:

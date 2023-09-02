@@ -957,8 +957,8 @@
             filePath = "RetroAccess App/UI/IssueExtendedView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "init(issue:parentController:icon:)"
             landmarkType = "7">
          </BreakpointContent>
