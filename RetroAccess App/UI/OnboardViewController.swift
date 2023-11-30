@@ -55,7 +55,7 @@ class OnboardViewController: UIViewController {
         self.view.addSubview(CB_Senior)
         self.view.addSubview(CB_Children)
         // Button
-        var button = UIButton(frame:CGRect(x: (screenSize.width-171)/2, y: 788, width: 171, height: 55))
+        var button = UIButton(frame:CGRect(x: (screenSize.width-171)/2, y: (screenSize.height-100), width: 171, height: 55))
         //button.layer.position=CGPoint(x: (screenSize.width-230)/2, y: 788)
         
         //button.backgroundColor = .gray
@@ -93,8 +93,8 @@ class OnboardViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.widthAnchor.constraint(equalToConstant: 171).isActive = true
         button.heightAnchor.constraint(equalToConstant: 55).isActive = true
-        button.leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 128).isActive = true
-        button.topAnchor.constraint(equalTo: parent.topAnchor, constant: 788).isActive = true
+        button.leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: (screenSize.width-171)/2).isActive = true
+        button.topAnchor.constraint(equalTo: parent.topAnchor, constant: (screenSize.height-100)).isActive = true
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
