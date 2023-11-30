@@ -47,6 +47,9 @@ public class AccessibilityIssue:Equatable
         self.problem=problem
     }
     public func cancel(){
+        if self.cancelled{
+            print("Already cancelled!")
+        }
         self.cancelled=true
     }
     public func getSuggestion()->String{
@@ -64,6 +67,9 @@ public class AccessibilityIssue:Equatable
             return replaced
         }
         return details
+    }
+    public func getShortDescription()->String{
+        return rubric.message!.replacingOccurrences(of: "Warning:\n", with: "").replacingOccurrences(of: "XXX", with: problem)
     }
     public func getAnchor()->RoomObjectAnchor{
         if sourceObject != nil{

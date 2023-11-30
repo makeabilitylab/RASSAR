@@ -129,6 +129,24 @@ public class Rubric{
                     msg+=s
                 }
             }
+            if !community.isEmpty{
+                msg+="\nRelevant Communities:\n"
+                for c in community{
+                    msg+=" "
+                    if c == "Wheelchair"{
+                        msg+="Wheelchair Users"
+                    }
+                    else if c == "Elder"{
+                        msg+="Older Adults"
+                    }
+                    else if c == "BLV"{
+                        msg+="Blind or Low Vision"
+                    }
+                    else if c == "Children"{
+                        msg+="Children"
+                    }
+                }
+            }
             return msg
         }
         return ""
@@ -188,7 +206,7 @@ public class Rubric{
             }
         }
         else{
-            print("Failed to find any object with this keyword: "+keywordMainPart)
+            //print("Failed to find any object with this keyword: "+keywordMainPart)
         }
         
         return issuesFound
@@ -205,7 +223,7 @@ public class Rubric{
             if count_dep==0{
                 //Then just tell if there is any retrieved object existing
                 if count == 0{
-                    issuesFound.append(AccessibilityIssue(time: Date.now, identifier: UUID(), transform: nil, type: .NonExist, description: "", rubric: self,problem: ""))
+                    issuesFound.append(AccessibilityIssue(time: Date.now, identifier: Settings.instance.noSmokeAlarmUUID, transform: nil, type: .NonExist, description: "", rubric: self,problem: ""))
                 }
             }
             else{
@@ -259,8 +277,8 @@ public class Rubric{
             if obj.valid != true{
                 continue
             }
-            print(obj.detectedObjectCategory.rawValue)
-            print(obj.position)
+            //print(obj.detectedObjectCategory.rawValue)
+            //print(obj.position)
             let problem=compareValues(target: obj.getPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
             if  problem.count>0{
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
@@ -272,10 +290,10 @@ public class Rubric{
         for obj in retrieveResults.foundRoomplanObjects{
             let problem=compareValues(target: obj.getSpecificPosition(measurement: measurement), comparison: self.dimension!.comparison!, values: self.dimension!.value!)
             if  problem.count>0{
-                print("Found obj position issue")
-                print(obj.category)
-                print(obj.getSpecificPosition(measurement: measurement))
-                print(obj.transform.columns.3)
+                //print("Found obj position issue")
+                //print(obj.category)
+                //print(obj.getSpecificPosition(measurement: measurement))
+                //print(obj.transform.columns.3)
                 let issue=AccessibilityIssue(time: Date.now,identifier:obj.identifier,transform: obj.transform,
                                              type: AccessibilityIssueType.ObjectPosition, description: "", rubric: self,problem: problem)
                 issue.setSourceRPObject(source: obj)

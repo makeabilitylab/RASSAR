@@ -1,7 +1,7 @@
 import ARKit
 import RoomPlan
 import RealityKit
-
+import AudioToolbox
 //This class replicates the detected room. All items, including Roomplan objects, surfaces, and Object Detection objects, will be stored here.
 //So any issue detector will take this replicator class as input since it contains all information we have.
 public class RoomObjectReplicator{
@@ -45,10 +45,20 @@ public class RoomObjectReplicator{
             if let existingAnchor = trackedObjectAnchorsByIdentifier[object.identifier] {
                 existingAnchor.update(object)
                 inflightObjectAnchors.insert(existingAnchor)
+//                if Settings.instance.BLVAssistance{
+//                    Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: existingAnchor.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
+//                }
                 //session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
             } else {
                 let anchor = RoomObjectAnchor(object)
                 inflightObjectAnchors.insert(anchor)
+                if Settings.instance.BLVAssistance{
+                    if !Settings.instance.existedUUID.contains(anchor.identifier){
+                        Settings.instance.existedUUID.append(anchor.identifier)
+                        Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: anchor.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
+                        print(anchor.identifier)
+                    }
+                }
                 //session.arSession.add(anchor: anchor)
             }
         }
@@ -56,10 +66,20 @@ public class RoomObjectReplicator{
             if let existingAnchor = trackedSurfaceAnchorsByIdentifier[surface.identifier] {
                 //existingAnchor.update(surface)
                 inflightSurfaceAnchors.insert(existingAnchor)
+//                if Settings.instance.BLVAssistance && existingAnchor.category != .wall{
+//                    Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: existingAnchor.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
+//                }
                 //session.arSession.delegate?.session?(session.arSession, didUpdate: [existingAnchor])
             } else {
                 let anchor = RoomSurfaceAnchor(surface)
                 inflightSurfaceAnchors.insert(anchor)
+                if Settings.instance.BLVAssistance && anchor.category != .wall{
+                    if !Settings.instance.existedUUID.contains(anchor.identifier){
+                        Settings.instance.existedUUID.append(anchor.identifier)
+                        Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: anchor.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
+                        print(anchor.identifier)
+                    }
+                }
                 //session.arSession.add(anchor: anchor)
             }
         }
@@ -68,6 +88,17 @@ public class RoomObjectReplicator{
     }
 
     private func trackInflightAnchors(in session: RoomCaptureSession) {
+        //var new_objects:String=""
+//        if Settings.instance.BLVAssistance{
+//            for inflight in inflightObjectAnchors{
+//                Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: inflight.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
+//            }
+//            for inflight in inflightSurfaceAnchors{
+//                if inflight.category != .wall{
+//                    Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: inflight.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
+//                }
+//            }
+//        }
         trackedObjectAnchors.subtracting(inflightObjectAnchors).forEach(session.arSession.remove)
         trackedObjectAnchors.removeAll(keepingCapacity: true)
         trackedObjectAnchors.formUnion(inflightObjectAnchors)
@@ -188,7 +219,7 @@ public class RoomObjectReplicator{
                 for obj in trackedSurfaceAnchors{
                     if obj.category==cat3{
                         foundRoomplanSurfaces.append(obj)
-                        print("Found door!")
+                        //print("Found door!")
                     }
                 }
             }
@@ -205,12 +236,12 @@ public class RoomObjectReplicator{
 //            }
 //        }
         for obj in trackedObjectAnchors{
-            if obj.transform.columns.3.z-obj.dimensions.z/2<minHeight{
+            if obj.transform.columns.3.y-obj.dimensions.y/2<minHeight{
                 minHeight=obj.transform.columns.3.y-obj.dimensions.y/2
             }
         }
         for srf in trackedSurfaceAnchors{
-            if srf.transform.columns.3.z-srf.dimensions.z/2<minHeight{
+            if srf.transform.columns.3.y-srf.dimensions.y/2<minHeight{
                 minHeight=srf.transform.columns.3.y-srf.dimensions.y/2
             }
         }
@@ -234,7 +265,7 @@ public class RoomObjectReplicator{
         for (_,issue) in detectedIssues{
             issue.updated=false
         }
-        //Try to compare and merge these current issues with existing ones. Notice that all incoming accessibility issues are new instances even thought content might be exactly same
+        //Try to compare and merge these current issues with existing ones. Notice that all incoming accessibility issues are new instances even though content might be exactly same
         for issue in currentIssues{
             issue.updated=true
             if detectedIssues[issue.identifier] != nil{
@@ -246,6 +277,8 @@ public class RoomObjectReplicator{
             }
             else{
                 detectedIssues[issue.identifier]=issue
+                //AudioServicesPlaySystemSound (1057);
+                Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: issue.getShortDescription(), type: .detectedIssue, uploadTime: Date(), issue: issue))
             }
         }
         for (id,issue) in detectedIssues{
@@ -254,6 +287,29 @@ public class RoomObjectReplicator{
                 detectedIssues[id]=nil
 //                print("Issue with type "+issue.category.rawValue+" is deleted")
             }
+        }
+    }
+    public func getIssueSummary()->String{
+        //TODO: Return a text summary of all issues
+        var dimCount=0,posCount=0,risCount=0,assCount=0
+        for (id,issue) in detectedIssues{
+            switch issue.category{
+            case .Exist:
+                risCount+=1
+            case .NonExist:
+                assCount+=1
+            case .ObjectDimension:
+                dimCount+=1
+            case .ObjectPosition:
+                posCount+=1
+            }
+        }
+        var message="Scan finished! We detected \(detectedIssues.count) issues in total. Among which \(dimCount) are object dimension issues, \(posCount) are object position issues,\(risCount) are risky items, \(assCount) are lack of assistive items"
+        return message
+    }
+    public func cancel(id:UUID){
+        if detectedIssues[id] != nil{
+            detectedIssues[id]?.cancel()
         }
     }
     public func getAllIssuesToBePresented()->[AccessibilityIssue]{

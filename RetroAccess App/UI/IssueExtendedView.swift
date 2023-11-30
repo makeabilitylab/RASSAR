@@ -14,7 +14,7 @@ class IssueExtendedView:UIView{
     let accessibilityIssue:AccessibilityIssue
     let parent:ViewController
     public init(issue:AccessibilityIssue,parentController:ViewController,icon:UIImage) {
-        print(screenSize)
+        //print(screenSize)
         self.accessibilityIssue=issue
         self.parent=parentController
         super.init(frame: CGRect(x: 0, y: 200, width:screenSize.width, height: screenSize.height-150))
@@ -53,7 +53,7 @@ class IssueExtendedView:UIView{
         //Add text
         let textView=UITextView(frame: CGRect(x: (screenSize.width-350)/2, y: 330, width:350, height: screenSize.height-150-150-55-330-20))
         let details=issue.getDetails()
-        let keywordsToBold = ["Warning", "Possible Fix"]
+        let keywordsToBold = ["Warning", "Possible Fix","Relevant Communities"]
 
                 // Create a mutable attributed string
                 let attributedString = NSMutableAttributedString(string: details)
@@ -118,11 +118,12 @@ class IssueExtendedView:UIView{
     }
     @IBAction func didTapCancelButton(){
         //Remove this view and cancel this issue
-        print("Cancel!")
+        //print("Cancel!")
         parent.extendedViewIsOut=false
-        self.accessibilityIssue.cancel()
-        self.accessibilityIssue.cancel()
-        self.accessibilityIssue.cancel()
+        //self.accessibilityIssue.cancel()
+        parent.replicator.cancel(id:self.accessibilityIssue.identifier)
+        //self.accessibilityIssue.cancel()
+        //self.accessibilityIssue.cancel()
         self.removeFromSuperview()
     }
 }

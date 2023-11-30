@@ -34,13 +34,17 @@ class Settings{
     var dimension_tolerance=0
     var near_tolerance:Float=1 //The threshold in meter for determining how close is considered close to an object. For example, if a grab bar is not within 0.5 meter to a toilet, it is not considered as close
     var detectedObjectMergeThreshold=Float(0.3)
-    var detectedObjectAnchorCountThreshold=5
+    var detectedObjectAnchorCountThreshold=3
     var raycastEnabled=true
     var modelURL:URL?
     var miniMap:MiniMapLayer?
     var yoloInputWidth:Int=640
     var yoloInputHeight:Int=640
-    var yoloConfidenceThreshold:Float = 0.65
+    var yoloConfidenceThreshold:Float = 0.7
+    var BLVAssistance:Bool=false
+    var viewcontroller:ViewController?
+    var noSmokeAlarmUUID=UUID()
+    var existedUUID:[UUID]=[UUID]()
     //var globeAsset:MDLAsset
     //var globeEntity:Entity
 }

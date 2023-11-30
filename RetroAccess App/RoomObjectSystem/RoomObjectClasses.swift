@@ -112,7 +112,7 @@ public class DetectedObject{
         let x=centerPos.x-transform.columns.3.x
         let y=centerPos.y-transform.columns.3.y
         let z=centerPos.z-transform.columns.3.z
-        print("Distance is \(sqrt(x*x+y*y+z*z))m")
+        //print("Distance is \(sqrt(x*x+y*y+z*z))m")
         return sqrt(x*x+y*y+z*z)
     }
     public func calculateCenterPosition()->simd_float3{

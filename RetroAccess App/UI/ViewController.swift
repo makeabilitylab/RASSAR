@@ -9,7 +9,7 @@ import UIKit
 import RealityKit
 import RoomPlan
 import PDFKit
-
+//import Speech
 public class ViewController: UIViewController,RoomCaptureViewDelegate {
     
     @IBOutlet var arView: ARView!
@@ -40,9 +40,19 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
     var manager = FileManager.default
     let screenSize: CGRect = UIScreen.main.bounds
     var extendedViewIsOut:Bool=false
-    
     private var bboxOverlay: CALayer! = nil
+    
+    var voiceSynthesizer:AVSpeechSynthesizer?
+    var assistiveVoice:AVSpeechSynthesisVoice?
+    //let speechRecognizer = SFSpeechRecognizer()
+    let audioEngine = AVAudioEngine()
+    //var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    //var recognitionTask: SFSpeechRecognitionTask?
+    var speechAuthorized:Bool=false
+    var audioQueue = [AudioFeedback]()
+    
     public override func viewDidLoad() {
+        Settings.instance.viewcontroller=self
         UIApplication.shared.isIdleTimerDisabled=true
         replicator.setView(view:arView)
         Settings.instance.setReplicator(rep: replicator)
@@ -90,17 +100,26 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
         self.view.addSubview(stopButton)
         minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/2,y:screenSize.height-200))
         rootLayer.addSublayer(minimap!)
+        if Settings.instance.BLVAssistance{
+            voiceSynthesizer=AVSpeechSynthesizer()
+            assistiveVoice=AVSpeechSynthesisVoice(language: "en-GB")
+            //speak(content: "Please point camera at top and bottom of wall to initialize.")
+            enqueueAudio(audioFeedback: AudioFeedback(content: "Please point camera at top and bottom of wall to initialize..", type: .scanSuggestion, uploadTime: Date(), issue: nil))
+            //requestSpeechAuthorization()
+        }
     }
     @objc func stop(sender: UIButton!) {
         //Stop the scan, export result as file, and call the QL Preview
         Settings.instance.miniMap=minimap
         roomCaptureSession!.stop()
+        speak(content: replicator.getIssueSummary())
         //Export scanned data
         //let jsonData = try! JSONEncoder().encode(replicator)
         //let jsonString = String(data: jsonData, encoding: .utf8)!
         //let data = jsonString.data(using: .utf8)!
         //print(jsonString)
     }
+    
     private func setupRoomCapture() {
         roomCaptureSession = RoomCaptureSession()
         roomCaptureSession?.delegate = self
@@ -108,10 +127,10 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
         rootLayer=view.layer
         bufferSize=CGSize(width: rootLayer.bounds.width, height: rootLayer.bounds.height)
         
-        self.timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
             self.replicator.updateAccessibilityIssue(in:self.roomCaptureSession!)
-            print("Successfully updated issues")
-            print(self.replicator.getAllIssuesToBePresented())
+            //print("Successfully updated issues")
+            //print(self.replicator.getAllIssuesToBePresented())
             
             self.minimap?.update()
         })
@@ -293,7 +312,7 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
                 let view = self.view!
                 let touchLocation = touch.location(in: view)
                 let locationInView = view.convert(touchLocation, to: nil)
-                print(locationInView)
+                //print(locationInView)
                 let transformedLocation=CGPoint(x: locationInView.x+35, y: locationInView.y+35)
                 if let sublayers = detectionOverlay.sublayers{
                     for layer in sublayers{
@@ -319,6 +338,8 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
         }
         
     }
+    
+    
 }
 
 extension ViewController: RoomCaptureSessionDelegate {
@@ -358,6 +379,33 @@ extension ViewController: RoomCaptureSessionDelegate {
             self.show(posthoc, sender: self)
         }
         
+    }
+    public func captureSession(_ session: RoomCaptureSession, didProvide instruction: RoomCaptureSession.Instruction) {
+        switch instruction{
+        case .moveCloseToWall:
+            //speak(content: "Please move closer to wall")
+            enqueueAudio(audioFeedback: AudioFeedback(content: "Please move closer to wall.", type: .scanSuggestion, uploadTime: Date(), issue: nil))
+            //print("Please move closer to wall")
+        case .moveAwayFromWall:
+            //speak(content: "Please move away from wall")
+            enqueueAudio(audioFeedback: AudioFeedback(content: "Please move away from wall.", type: .scanSuggestion, uploadTime: Date(), issue: nil))
+            //print("Please move away from wall")
+        case .slowDown:
+            //speak(content: "Please slow down")
+            enqueueAudio(audioFeedback: AudioFeedback(content: "Please slow down.", type: .scanSuggestion, uploadTime: Date(), issue: nil))
+            //print("Please slow down")
+        case .turnOnLight:
+            //speak(content: "Please turn on the light")
+            enqueueAudio(audioFeedback: AudioFeedback(content: "Please turn on the light.", type: .scanSuggestion, uploadTime: Date(), issue: nil))
+            //print("Please turn on the light")
+        case .normal:
+            print("Normal")
+        case .lowTexture:
+            //speak(content: "Failed to detect edge of wall. Please try to include edge of walls.")
+            enqueueAudio(audioFeedback: AudioFeedback(content: "Failed to detect edge of wall. Please try to include edge of walls.", type: .scanSuggestion, uploadTime: Date(), issue: nil))
+        @unknown default:
+            print("Default")
+        }
     }
 }
 
@@ -445,11 +493,11 @@ extension ViewController: ARSessionDelegate {
             if angle<0{
                 angle += .pi*2
             }
-            let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)
+            //let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)
             if let map=minimap{
                 if map.isDrawn(){
                     //print("Rotating minimap with angle \(angle)")
-                    map.set_rotation(rotation:rotation)
+                    map.set_rotation(angle:angle)
                 }
             }
         }

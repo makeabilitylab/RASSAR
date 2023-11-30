@@ -4,9 +4,7 @@
 //
 //  Created by Xia Su on 7/26/22.
 //
-
 import UIKit
-
 class OnboardViewController: UIViewController {
 
     //@IBOutlet var communityPicker:UIPickerView!
@@ -15,6 +13,7 @@ class OnboardViewController: UIViewController {
     var CB_Senior: CheckBox!
     var CB_Children: CheckBox!
     var selected:String="null"
+    @IBOutlet weak var BLVAssistanceToggle: UISwitch!
     let communities=["Please select one community","Blind or Low Vision People","Children","Older Adults","Wheelchair Users"]
     let screenSize: CGRect = UIScreen.main.bounds
     override func viewDidLoad() {
@@ -88,6 +87,7 @@ class OnboardViewController: UIViewController {
         shapes.layer.addSublayer(layer1)
         shapes.layer.cornerRadius = 27
         button.setTitle("Start Scanning", for: .normal)
+        button.accessibilityLabel="Start Scanning"
         shapes.isUserInteractionEnabled=false
         self.view.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -97,7 +97,6 @@ class OnboardViewController: UIViewController {
         button.topAnchor.constraint(equalTo: parent.topAnchor, constant: 788).isActive = true
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
-    
 
     /*
     // MARK: - Navigation
@@ -136,6 +135,9 @@ class OnboardViewController: UIViewController {
             }
             if CB_Children.isChecked{
                 Settings.instance.community.append(.children)
+            }
+            if BLVAssistanceToggle.isOn{
+                Settings.instance.BLVAssistance=true
             }
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)

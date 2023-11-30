@@ -399,6 +399,10 @@ class RoomScene: SCNScene {
             case .door(isOpen:false):
                 let surfaceNode=BoxNode(type: .opening, sourceObject: nil, sourceSurface: surface)
                 rootNode.addChildNode(surfaceNode)
+            case .floor:
+                print("Do nothing now")
+            @unknown default:
+                print("Do nothing now")
             }
             
         }

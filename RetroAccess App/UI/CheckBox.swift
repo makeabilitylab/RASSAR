@@ -121,6 +121,7 @@ class CheckBox: UIButton {
         self.name=name
         self.img_name=img_name
         self.position=position
+        self.accessibilityLabel=name
         show()
         //parent.addSubview(self)
         self.isUserInteractionEnabled=true

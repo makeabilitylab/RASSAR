@@ -27,6 +27,8 @@
 		5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */; };
 		5E16572928AC62CE002577D3 /* RoomObjectClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */; };
 		5E16572B28ACBDD8002577D3 /* IssueLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E16572A28ACBDD8002577D3 /* IssueLayer.swift */; };
+		5E2B2C312B166F31001A11F1 /* AudioFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2B2C302B166F31001A11F1 /* AudioFeedback.swift */; };
+		5E3929C42B08A5EE003A24E6 /* yolov5-Medium.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5E3929C32B08A5EE003A24E6 /* yolov5-Medium.mlmodel */; };
 		5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FB25E28ECEA8100281359 /* CheckBox.swift */; };
 		5E3FB26128ECF03C00281359 /* Living Room.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26028ECF03C00281359 /* Living Room.jpg */; };
 		5E3FB26328ED0A1900281359 /* Children.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E3FB26228ED0A1900281359 /* Children.png */; };
@@ -49,7 +51,6 @@
 		5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4203D29866CB6004F4E88 /* BoundingBox.swift */; };
 		5EC420452988628A004F4E88 /* NodeTechnique.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EC420432988628A004F4E88 /* NodeTechnique.plist */; };
 		5EC420462988628A004F4E88 /* NodeRender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5EC420442988628A004F4E88 /* NodeRender.metal */; };
-		5EC4204829886647004F4E88 /* yolov5-Medium.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */; };
 		5ECAEEAB29B7FF0D00631F8D /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */; };
 		5ECAEEAD29B9B4EA00631F8D /* export.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ECAEEAC29B9B4EA00631F8D /* export.png */; };
 		5ECAEEB129BBC66B00631F8D /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECAEEB029BBC66B00631F8D /* PopupView.swift */; };
@@ -97,6 +98,8 @@
 		5E1656E9289B8E13002577D3 /* NotifyingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingEntity.swift; sourceTree = "<group>"; };
 		5E16572828AC62CE002577D3 /* RoomObjectClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomObjectClasses.swift; sourceTree = "<group>"; };
 		5E16572A28ACBDD8002577D3 /* IssueLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLayer.swift; sourceTree = "<group>"; };
+		5E2B2C302B166F31001A11F1 /* AudioFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFeedback.swift; sourceTree = "<group>"; };
+		5E3929C32B08A5EE003A24E6 /* yolov5-Medium.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "yolov5-Medium.mlmodel"; sourceTree = "<group>"; };
 		5E3FB25E28ECEA8100281359 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		5E3FB26028ECF03C00281359 /* Living Room.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Living Room.jpg"; sourceTree = "<group>"; };
 		5E3FB26228ED0A1900281359 /* Children.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Children.png; sourceTree = "<group>"; };
@@ -119,7 +122,6 @@
 		5EC4203D29866CB6004F4E88 /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoundingBox.swift; path = "RetroAccess App/YOLOv4/BoundingBox.swift"; sourceTree = SOURCE_ROOT; };
 		5EC420432988628A004F4E88 /* NodeTechnique.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NodeTechnique.plist; sourceTree = "<group>"; };
 		5EC420442988628A004F4E88 /* NodeRender.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = NodeRender.metal; sourceTree = "<group>"; };
-		5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "yolov5-Medium.mlmodel"; sourceTree = "<group>"; };
 		5ECAEEAA29B7FF0D00631F8D /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 		5ECAEEAC29B9B4EA00631F8D /* export.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export.png; sourceTree = "<group>"; };
 		5ECAEEB029BBC66B00631F8D /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				5EC420272974BD45004F4E88 /* MiniMapLayer.swift */,
 				5ECAEEB029BBC66B00631F8D /* PopupView.swift */,
 				5ECEE2DE29DCAE5E00DE46F8 /* IssueExtendedView.swift */,
+				5E2B2C302B166F31001A11F1 /* AudioFeedback.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -288,7 +291,7 @@
 		5EC420332985FFB6004F4E88 /* YOLOv5 */ = {
 			isa = PBXGroup;
 			children = (
-				5EC4204729886647004F4E88 /* yolov5-Medium.mlmodel */,
+				5E3929C32B08A5EE003A24E6 /* yolov5-Medium.mlmodel */,
 				5EC4203D29866CB6004F4E88 /* BoundingBox.swift */,
 				5EC4203B29866B4B004F4E88 /* YOLOResizer.swift */,
 				5EC4203729860004004F4E88 /* ObjectDetection.swift */,
@@ -443,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E1656EA289B8E13002577D3 /* NotifyingEntity.swift in Sources */,
+				5E3929C42B08A5EE003A24E6 /* yolov5-Medium.mlmodel in Sources */,
 				5EB83FBD28C72DD800263575 /* PDFCreator.swift in Sources */,
 				5E16572928AC62CE002577D3 /* RoomObjectClasses.swift in Sources */,
 				5EC4203C29866B4B004F4E88 /* YOLOResizer.swift in Sources */,
@@ -455,10 +459,10 @@
 				5E1656D6287CE901002577D3 /* Filter.swift in Sources */,
 				5E1656A5287CD8A2002577D3 /* ViewController.swift in Sources */,
 				5E3FB25F28ECEA8100281359 /* CheckBox.swift in Sources */,
-				5EC4204829886647004F4E88 /* yolov5-Medium.mlmodel in Sources */,
 				5E1656DF2888D514002577D3 /* Rubric.swift in Sources */,
 				5E1656A3287CD8A2002577D3 /* AppDelegate.swift in Sources */,
 				5EC42018294D4420004F4E88 /* PostHocViewController.swift in Sources */,
+				5E2B2C312B166F31001A11F1 /* AudioFeedback.swift in Sources */,
 				5EC4203E29866CB6004F4E88 /* BoundingBox.swift in Sources */,
 				5E1656D3287CE6AA002577D3 /* RoomObjectReplicator.swift in Sources */,
 				5EC420462988628A004F4E88 /* NodeRender.metal in Sources */,
@@ -572,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -626,7 +630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -659,7 +663,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MakeabilityLab.RASSAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -695,7 +699,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MakeabilityLab.RASSAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

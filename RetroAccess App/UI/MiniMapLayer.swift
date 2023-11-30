@@ -13,6 +13,7 @@ public class MiniMapLayer:CALayer{
     public var replicator:RoomObjectReplicator
     public var session:RoomCaptureSession
     var rootLayer:CALayer
+    var selfLayer:CALayer?
     var radius:Float
     var trans:Transform2D?
     var outlineLayer:CALayer?
@@ -51,6 +52,7 @@ public class MiniMapLayer:CALayer{
         draw_surfaces()
         draw_furnitures()
         draw_issues()
+        draw_self()
     }
     func generate_outline(){
         //Generate the floor layer, which is a rectangular outline for all detected walls. Leave some reasonable edge
@@ -213,6 +215,24 @@ public class MiniMapLayer:CALayer{
             self.rootLayer.addSublayer(circleLayer)
         }
     }
+    func draw_self(){
+        //Draw a little triangle showing the position of scanner and its facing direction
+        let triangleLayer=CAShapeLayer()
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 6, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: -4))
+        path.addLine(to: CGPoint(x: -6, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: 0))
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.position = trans!.transform(pos:  CGPoint(x: CGFloat(session.arSession.currentFrame!.camera.transform.columns.3.x), y: CGFloat(session.arSession.currentFrame!.camera.transform.columns.3.z)))
+        shapeLayer.path = path.cgPath
+        shapeLayer.fillColor = UIColor.orange.cgColor
+        
+        self.rootLayer.addSublayer(shapeLayer)
+        selfLayer=shapeLayer
+    }
     public func update(){
         draw()
     }
@@ -224,10 +244,15 @@ public class MiniMapLayer:CALayer{
         }
         return false
     }
-    public func set_rotation(rotation:CATransform3D){
+    public func set_rotation(angle:Float){
+        let rotation = CATransform3DMakeRotation(CGFloat(angle), 0, 0, 1)
+        let rotation_self = CATransform3DMakeRotation(CGFloat(-angle), 0, 0, 1)
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         rootLayer.transform=rotation
+        if let selfIndicator=selfLayer{
+            selfIndicator.transform=rotation_self
+        }
         CATransaction.commit()
     }
 }
