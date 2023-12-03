@@ -89,7 +89,7 @@ class IssueExtendedView:UIView{
         button1.setTitle("Confirm Issue", for: .normal)
         shapes.isUserInteractionEnabled=false
         self.addSubview(button1)
-        button1.translatesAutoresizingMaskIntoConstraints = false
+        //button1.translatesAutoresizingMaskIntoConstraints = false
         //button1.widthAnchor.constraint(equalToConstant: 171).isActive = true
         //button1.heightAnchor.constraint(equalToConstant: 55).isActive = true
         button1.addTarget(self, action: #selector(didTapReturnButton), for: .touchUpInside)
@@ -100,10 +100,17 @@ class IssueExtendedView:UIView{
         button2.setTitleColor(UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1), for: .normal)
         //button2.backgroundColor = .red
         self.addSubview(button2)
-        button2.translatesAutoresizingMaskIntoConstraints = false
+        //button2.translatesAutoresizingMaskIntoConstraints = false
         //button2.widthAnchor.constraint(equalToConstant: 171).isActive = true
         //button2.heightAnchor.constraint(equalToConstant: 55).isActive = true
         button2.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+        
+        //let buttons=UIView(frame: CGRect(x: screenSize.width/2-85, y: screenSize.height-150-200, width: 171, height: 200))
+        //buttons.backgroundColor=UIColor.lightGray
+        //buttons.addSubview(button1)
+        //buttons.addSubview(button2)
+        //self.addSubview(buttons)
+        
     }
     
     required init?(coder: NSCoder) {

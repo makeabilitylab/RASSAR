@@ -77,7 +77,7 @@ public class RoomObjectReplicator{
                     if !Settings.instance.existedUUID.contains(anchor.identifier){
                         Settings.instance.existedUUID.append(anchor.identifier)
                         Settings.instance.viewcontroller?.enqueueAudio(audioFeedback: AudioFeedback(content: anchor.getCategoryName(), type: .detectedObject, uploadTime: Date(), issue: nil))
-                        print(anchor.identifier)
+                        //print(anchor.identifier)
                     }
                 }
                 //session.arSession.add(anchor: anchor)

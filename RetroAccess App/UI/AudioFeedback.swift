@@ -64,14 +64,19 @@ extension ViewController{
     
     func enqueueAudio(audioFeedback:AudioFeedback){
         //Queue the audio at end of queue
-        audioQueue.append(audioFeedback)
-        print("Enqueued "+audioFeedback.content)
-        processNextUtterance()
+        if Settings.instance.BLVAssistance{
+            audioQueue.append(audioFeedback)
+            print("Enqueued "+audioFeedback.content)
+            processNextUtterance()
+        }
+        
     }
     func enqueueAudioAsNext(audioFeedback:AudioFeedback){
         //Queue the audio next
-        audioQueue.insert(audioFeedback, at: 0)
-        processNextUtterance()
+        if Settings.instance.BLVAssistance{
+            audioQueue.insert(audioFeedback, at: 0)
+            processNextUtterance()
+        }
     }
     public func speak(content:String){
         if Settings.instance.BLVAssistance{

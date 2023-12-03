@@ -12,7 +12,7 @@
         <!--ARView-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MainView" id="BYZ-38-t0r" userLabel="ARView" customClass="ViewController" customModule="RetroAccess_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="ARView" customClass="ViewController" customModule="RetroAccess_App" customModuleProvider="target" sceneMemberID="viewController">
                     <arView key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="cEz-yP-Vy3">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -47,6 +47,45 @@
             </objects>
             <point key="canvasLocation" x="630.43478260869574" y="126.5625"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="UZb-2k-zU4">
+            <objects>
+                <viewController storyboardIdentifier="MainView" id="gMf-A7-5yg" customClass="ViewController" customModule="RetroAccess_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0tJ-rR-aEt">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dUL-Nm-FdW">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </arView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fj2-yy-GaP">
+                                <rect key="frame" x="274" y="109" width="69" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Finish"/>
+                                <connections>
+                                    <action selector="stopScan:" destination="gMf-A7-5yg" eventType="touchUpInside" id="F0q-Mv-Igs"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="clf-zP-aJy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dUL-Nm-FdW" firstAttribute="top" secondItem="0tJ-rR-aEt" secondAttribute="top" id="LEa-Z6-owu"/>
+                            <constraint firstItem="dUL-Nm-FdW" firstAttribute="leading" secondItem="clf-zP-aJy" secondAttribute="leading" id="Lwl-xw-K52"/>
+                            <constraint firstItem="clf-zP-aJy" firstAttribute="trailing" secondItem="fj2-yy-GaP" secondAttribute="trailing" constant="50" id="NZ6-7S-JPz"/>
+                            <constraint firstItem="dUL-Nm-FdW" firstAttribute="trailing" secondItem="clf-zP-aJy" secondAttribute="trailing" id="Ofd-5T-iR4"/>
+                            <constraint firstItem="fj2-yy-GaP" firstAttribute="top" secondItem="clf-zP-aJy" secondAttribute="top" constant="50" id="QRd-7A-Bl7"/>
+                            <constraint firstAttribute="bottom" secondItem="dUL-Nm-FdW" secondAttribute="bottom" id="fTY-Em-kdB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="arView" destination="dUL-Nm-FdW" id="bqG-uH-oig"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QGO-ci-Jzz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1339.6946564885495" y="125.35211267605635"/>
+        </scene>
         <!--Onboard View Controller-->
         <scene sceneID="OsD-gb-ReK">
             <objects>
@@ -76,7 +115,7 @@
                                 <color key="textColor" red="0.5372559428" green="0.60045880080000003" blue="0.62841808799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HGh-rK-uTK">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HGh-rK-uTK">
                                 <rect key="frame" x="49" y="180" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="onTintColor" systemColor="tintColor"/>

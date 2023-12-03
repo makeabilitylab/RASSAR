@@ -41,8 +41,8 @@ class Filter
     public func filter()->[AccessibilityIssue]{
         //Go through the entire accessbility issue table to find potential issues
         var issuesFound:[AccessibilityIssue]=[]
-        var related:Bool=false
         for situ in self.rubrics{
+            var related:Bool=false
             for community in Settings.instance.community{
                 if situ.community.contains(community.rawValue){
                     related=true
@@ -53,9 +53,11 @@ class Filter
                 //Use this situ to find if any issue exist in replicator
                 let result=situ.search(replicator: replicator)
                 issuesFound+=result
+                //print("Found one related issue. The selected communities are\(Settings.instance.community), while this issue is about \(situ.community)")
+                
             }
             else{
-                print("Unrelated!")
+                //print("Unrelated!")
             }
         }
         return issuesFound

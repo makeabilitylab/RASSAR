@@ -39,7 +39,16 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
     let roombuilder=RoomBuilder(options: [.beautifyObjects])
     var manager = FileManager.default
     let screenSize: CGRect = UIScreen.main.bounds
-    var extendedViewIsOut:Bool=false
+    var extendedViewIsOut:Bool=false{
+        didSet{
+            if extendedViewIsOut{
+                minimap?.isHidden=true
+            }
+            else{
+                minimap?.isHidden=false
+            }
+        }
+    }
     private var bboxOverlay: CALayer! = nil
     
     var voiceSynthesizer:AVSpeechSynthesizer?
@@ -75,29 +84,32 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
         })
         
         //Add button for ending scanning process and export pdf report
-        let rect1 = CGRect(x: screenSize.width/4*3, y: 50, width: 56, height: 56)
+        let rect1 = CGRect(x: screenSize.width/4*3, y: 100, width: 56, height: 56)
         // STOP BUTTON
-        let stopButton = UIButton(frame: rect1)
-        //stopButton.setTitle("Export Results", for: .normal)
-        stopButton.addTarget(self, action: #selector(stop), for: .touchUpInside)
-        //stopButton.setTitleColor(.white, for: .normal)
-        //stopButton.backgroundColor = .blue
-        let buttonShapeView=UIView()
-        buttonShapeView.isUserInteractionEnabled=false
-        buttonShapeView.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
-        let circleLayer = CAShapeLayer()
-        let radius: CGFloat = 28
-        circleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2.0 * radius, height: 2.0 * radius), cornerRadius: radius).cgPath
-        circleLayer.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
-        //circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
-        circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 0).cgColor
-        buttonShapeView.layer.addSublayer(circleLayer)
-        let exportIcon=UIImage(named: "export")!.resizeImage(newSize: CGSize(width: 40, height: 40))
-        let iconView=UIImageView(image: exportIcon)
-        iconView.frame=CGRect(x: 8, y: 8, width: 40, height: 40)
-        buttonShapeView.addSubview(iconView)
-        stopButton.addSubview(buttonShapeView)
-        self.view.addSubview(stopButton)
+//        let stopButton = UIButton(frame: rect1)
+//        stopButton.accessibilityLabel="Finish Scan"
+//        //stopButton.setTitle("Export Results", for: .normal)
+//        stopButton.addTarget(self, action: #selector(stop), for: .touchUpInside)
+//        //stopButton.setTitleColor(.white, for: .normal)
+//        //stopButton.backgroundColor = .blue
+//        let buttonShapeView=UIView()
+//        buttonShapeView.isUserInteractionEnabled=false
+//        buttonShapeView.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
+//        let circleLayer = CAShapeLayer()
+//        let radius: CGFloat = 28
+//        circleLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2.0 * radius, height: 2.0 * radius), cornerRadius: radius).cgPath
+//        circleLayer.frame=CGRect(x: 0, y: 0, width: 56, height: 56)
+//        //circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 1).cgColor
+//        circleLayer.fillColor = UIColor(red: 0.122, green: 0.216, blue: 0.267, alpha: 0).cgColor
+//        buttonShapeView.layer.addSublayer(circleLayer)
+//        let exportIcon=UIImage(named: "export")!.resizeImage(newSize: CGSize(width: 40, height: 40))
+//        let iconView=UIImageView(image: exportIcon)
+//        iconView.frame=CGRect(x: 8, y: 8, width: 40, height: 40)
+//        buttonShapeView.addSubview(iconView)
+//        stopButton.addSubview(buttonShapeView)
+//        stopButton.isAccessibilityElement=true
+//        self.arView.addSubview(stopButton)
+        self.arView.isAccessibilityElement=true
         minimap=MiniMapLayer(replicator: replicator, session: roomCaptureSession!, radius: 100, center: CGPoint(x:screenSize.width/2,y:screenSize.height-200))
         rootLayer.addSublayer(minimap!)
         if Settings.instance.BLVAssistance{
@@ -107,6 +119,8 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
             enqueueAudio(audioFeedback: AudioFeedback(content: "Please point camera at top and bottom of wall to initialize..", type: .scanSuggestion, uploadTime: Date(), issue: nil))
             //requestSpeechAuthorization()
         }
+        let customAction = UIAccessibilityCustomAction(name: "Stop Scan", target: self, selector: #selector(stop))
+        arView.accessibilityCustomActions = [customAction]
     }
     @objc func stop(sender: UIButton!) {
         //Stop the scan, export result as file, and call the QL Preview
@@ -120,6 +134,11 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
         //print(jsonString)
     }
     
+    @IBAction func stopScan(_ sender: Any) {
+        Settings.instance.miniMap=minimap
+        roomCaptureSession!.stop()
+        speak(content: replicator.getIssueSummary())
+    }
     private func setupRoomCapture() {
         roomCaptureSession = RoomCaptureSession()
         roomCaptureSession?.delegate = self
@@ -248,6 +267,7 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
     
     func show(predictions: [Prediction]){
         //var centers:[CGPoint]=[CGPoint]()
+        
         var ODAnchors=[DetectedObjectAnchor]()
         for i in 0..<boundingBoxes.count {
             if i < predictions.count {
@@ -257,7 +277,7 @@ public class ViewController: UIViewController,RoomCaptureViewDelegate {
                 // Show the bounding box.
                 let label = String(format: "%@ %.1f", detector.names[prediction.classIndex] ?? "<unknown>", prediction.score)
                 let color = colors[prediction.classIndex]
-                if showBbox{
+                if showBbox && !extendedViewIsOut{
                     //print("showing result")
                     //print(label)
                     //print(rect.origin)
@@ -475,7 +495,7 @@ extension ViewController: ARSessionDelegate {
                 let viewMatrix = frame.camera.viewMatrix(for: .portrait)
                 let clipSpacePosition = projectionMatrix * viewMatrix * position4
                 //print("Clip Space Position is \(clipSpacePosition)")
-                if pos != nil && clipSpacePosition.z > 0 && clipSpacePosition.w > 0{
+                if pos != nil && clipSpacePosition.z > 0 && clipSpacePosition.w > 0 && !extendedViewIsOut{
                         //TODO: create a new class for the preview layer
                         let shapeLayer=IssueLayer(issue: issue, position: pos!)
                         detectionOverlay.addSublayer(shapeLayer)

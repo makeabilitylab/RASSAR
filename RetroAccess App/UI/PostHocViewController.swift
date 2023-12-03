@@ -94,6 +94,7 @@ class PostHocViewController:UIViewController{
         iconView.frame=CGRect(x: 8, y: 8, width: 40, height: 40)
         buttonShapeView.addSubview(iconView)
         exportButton.addSubview(buttonShapeView)
+        exportButton.accessibilityLabel="Export scan results"
         self.view.addSubview(exportButton)
     }
     @objc func panGesture(_ gesture: UIPanGestureRecognizer){
