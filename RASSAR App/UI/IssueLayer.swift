@@ -24,6 +24,7 @@ class CenterCATextLayer : CATextLayer {
 }
 
 public class IssueLayer:CALayer{
+//This layer includes detailed information of a detected access/safety issue. It also provides botton for removing issues.
     public var issue:AccessibilityIssue
     public var pos:CGPoint
     public init(issue:AccessibilityIssue,position:CGPoint){

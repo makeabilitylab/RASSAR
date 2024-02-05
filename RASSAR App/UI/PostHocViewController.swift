@@ -15,6 +15,7 @@ import SceneKit
 import SwiftUI
 
 class PostHocViewController:UIViewController{
+//This VC shows 3D model and detailed information of scanned room.
     private let sceneView: SCNView = .init(frame: .zero) //This view is the container for 3D model viewing
     private let infoView:UIView = .init(frame: .zero) //This view is the container for info details
     private let scene = RoomScene(room: Settings.instance.replicator!)

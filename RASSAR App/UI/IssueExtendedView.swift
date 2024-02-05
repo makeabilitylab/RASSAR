@@ -10,6 +10,7 @@ import UIKit
 import ARKit
 import RealityKit
 class IssueExtendedView:UIView{
+//Deprecated. Using IssueLayer now
     let screenSize: CGRect = UIScreen.main.bounds
     let accessibilityIssue:AccessibilityIssue
     let parent:ViewController

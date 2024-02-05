@@ -6,7 +6,7 @@
 //
 import UIKit
 class OnboardViewController: UIViewController {
-
+//This VC includes buttons and options for user to customize their scan experience.
     //@IBOutlet var communityPicker:UIPickerView!
     var CB_WheelChair: CheckBox!
     var CB_BLV: CheckBox!
