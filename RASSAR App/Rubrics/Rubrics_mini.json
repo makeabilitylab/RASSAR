@@ -7,7 +7,10 @@
                 "Comparison":"Between",
                 "Value":[20,23]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":null,
             "Message":"Warning:\nThe bed is too XXX!",
@@ -30,7 +33,10 @@
                 "Comparison":"Between",
                 "Value":[28,34]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":null,
             "Message":"Warning:\nThe table is too XXX!",
@@ -53,7 +59,10 @@
                 "Comparison":"Between",
                 "Value":[28,34]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":"replace XXX to either 'short' or 'tall' depends on the actual height of the counter.",
             "Message":"Warning:\nCounter is too XXX.",
@@ -76,7 +85,10 @@
                 "Comparison":"LessThan",
                 "Value":[27]
             },
-            "RelativePosition":null,
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":null,
             "Message":"Warning:\nThe cabinet is too tall!",
@@ -99,7 +111,10 @@
                 "Comparison":"NoLessThan",
                 "Value":[32]
             },
-            "RelativePosition":null,
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":null,
             "Message":"Warning:\nToo narrow door opening is detected!",
@@ -122,7 +137,10 @@
                 "Comparison":"NoLessThan",
                 "Value":[32]
             },
-            "RelativePosition":null,
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":null,
             "Message":"Warning:\nToo narrow door opening is detected!",
@@ -144,7 +162,10 @@
                 "Comparison":"LessThan",
                 "Value":[17]
             },
-            "RelativePosition":null,
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":null,
             "Message":"Warning:\nThe sink is too tall!",
@@ -167,7 +188,10 @@
                 "Comparison":"Between",
                 "Value":[34,48]
             },
-            "RelativePosition":null,
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
             "Message":"Warning:\nThe knob is too XXX the floor!",
@@ -190,7 +214,10 @@
                 "Comparison":"Between",
                 "Value":[34,48]
             },
-            "RelativePosition":null,
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
             "Message":"Warning:\nThe door handle is too XXX the floor!",
@@ -213,7 +240,10 @@
                 "Comparison":"Between",
                 "Value":[15,48]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":true,
             "Note":"replace XXX to either 'close to' or 'far away from'.",
             "Message":"Warning:\nThe lighting switch is too XXX to the floor!",
@@ -237,7 +267,10 @@
                 "Comparison":"Between",
                 "Value":[33,36]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":true,
             "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
             "Message":"Warning:\nThe grab bar is too XXX above the finished floor!",
@@ -260,7 +293,10 @@
                 "Comparison":"Between",
                 "Value":[18,27]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":true,
             "Note":"Calculate from the bottom of the bathtub. Replace XXX to either 'high' or 'low'.",
             "Message":"Warning:\nThe grab bar is too XXX above the finished floor!",
@@ -283,7 +319,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Near",
+            "RelativePosition":{
+                "Comparison":"LessThan",
+                "Value":[27]
+            },
             "Existence":true,
             "Note":null,
             "Message":"Warning:\nNo grab bar detected near toilet!",
@@ -306,7 +345,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":"LessThan",
+                "Value":[27]
+            },
             "Existence":true,
             "Note":null,
             "Message":"Warning:\nNo grab bar detected near tub!",
@@ -329,7 +371,10 @@
                 "Comparison":"Between",
                 "Value":[15,48]
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":null,
             "Note":"replace XXX to either 'floor' or 'stairs'.",
             "Message":"Warning:\nOutlets detected is too XXX!",
@@ -352,7 +397,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":false,
             "Note":"replace XXX to either 'floor' or 'stairs'.",
             "Message":"Warning:\nDetected throw rug! It's a tripping hazard!",
@@ -376,7 +424,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":false,
             "Note":"replace XXX to one of the dependent objects above.",
             "Message":"Warning:\nScissors have been detected in a dangerous place!",
@@ -399,7 +450,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":false,
             "Note":"replace XXX to one of the dependent objects above.",
             "Message":"Warning:\nKnives have been detected in a dangerous place!",
@@ -422,7 +476,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Upon",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":false,
             "Note":"replace XXX to one of the dependent objects above.",
             "Message":"Warning:\nMedicines have been detected in a dangerous place!",
@@ -446,7 +503,10 @@
                 "Comparison":null,
                 "Value":null
             },
-            "RelativePosition":"Ceiling",
+            "RelativePosition":{
+                "Comparison":null,
+                "Value":null
+            },
             "Existence":true,
             "Note":null,
             "Message":"Warning:\nNo fire alarm detected!",
