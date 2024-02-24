@@ -15,5 +15,9 @@ To detect smaller indoor items related to accessibility and safety, we trained a
 
 The dataset used for training this model can be downloaded from here: [[Dataset](https://drive.google.com/file/d/1JCkIIQWrFTTWDGzP_-3FhKjh091DB8TV/view?usp=sharing)].
 
+Please cite this dataset as:
+
+> Xia Su, Kaiming Cheng, Han Zhang, Jaewook Lee, Wyatt Olson, and Jon E. Froehlich. 2023. A Demonstration of RASSAR: Room Accessibility and Safety Scanning in Augmented Reality. In Proceedings of the 25th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS '23). Association for Computing Machinery, New York, NY, USA, Article 90, 1–4. https://doi.org/10.1145/3597638.3614504
+
 ## Related Work ##
 - [RASSAR](https://makeabilitylab.cs.washington.edu/project/rassar/): RASSAR: Room Accessibility and Safety Scanning in Augmented Reality 
