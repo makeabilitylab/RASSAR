@@ -13,7 +13,7 @@ The app can run on iphones with iOS version >=16.0. Please notify that the RASSA
 ## YOLOV5 model and dataset ##
 To detect smaller indoor items related to accessibility and safety, we trained an object detection model based on the architecture of YOLOV4. The model weights, in the format of Apple's coreml model, can be found in RASSAR App/YOLOv5/yolov5-Medium.mlmodel
 
-The dataset used for training this model can be downloaded from here: [[Dataset](https://drive.google.com/file/d/1JCkIIQWrFTTWDGzP_-3FhKjh091DB8TV/view?usp=sharing)].
+The dataset used for training this model can be downloaded from here: [[Dataset]([https://drive.google.com/file/d/1JCkIIQWrFTTWDGzP_-3FhKjh091DB8TV/view?usp=sharing](https://drive.google.com/file/d/1IMEa5GH5M82UBWOR-2Q8ihsYvRx2itmY/view?usp=sharing))].
 
 Please cite this dataset as:
 
