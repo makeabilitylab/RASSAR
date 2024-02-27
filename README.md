@@ -1,4 +1,4 @@
-# RetroAccess-App #
+# RASSAR #
 
 This repo contains source code for the RASSAR app.
 
