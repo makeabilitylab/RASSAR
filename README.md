@@ -5,7 +5,7 @@ This repo contains source code for the RASSAR app.
 ## Introduction ##
 RASSAR is an iOS app that scans indoor spaces and detect accessibility and safety issues in real time. The app is built upon ARKit and RoomPlan API, and relies on a YOLOV5 model to detect smaller indoor items that's related to accessibility and safety.
 [[Website](https://makeabilitylab.cs.washington.edu/project/rassar/)] 
-## How to use RASSAR##
+## How to use RASSAR ##
 To build RASSAR, simply clone this repo and open it with XCode ( >= 14.0). Then update the signing and build the app with destination selected as your iPhone.
 
 The app can run on iphones with iOS version >=16.0. Please notify that the RASSAR app requires LiDAR scanners on phone thus only iPhone Pro/ProMax lineup from 12 on can successfully run this app.
